@@ -1,0 +1,68 @@
+version: "1.0.0"
+repository:
+  name: jervis
+  owner: ioriimasu
+  description: "Local-first runtime and context operating system for AI agents."
+  visibility: public
+  features:
+    discussions: true
+    wiki: true
+    projects: true
+  settings:
+    delete_branch_on_merge: true
+    allow_squash_merge: true
+    allow_merge_commit: false
+    allow_rebase_merge: false
+    auto_merge: false
+
+branches:
+  main:
+    protection:
+      required_status_checks:
+        strict: true
+        contexts: ["test", "lint", "security", "governance"]
+      enforce_admins: true
+      required_pull_request_reviews:
+        dismiss_stale_reviews: true
+        require_code_owner_reviews: true
+        required_approving_review_count: 1
+      required_linear_history: true
+      allow_force_pushes: false
+      allow_deletions: false
+      required_conversation_resolution: true
+
+  develop:
+    protection:
+      required_status_checks:
+        strict: true
+        contexts: ["test"]
+      enforce_admins: false
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+      required_linear_history: true
+      allow_force_pushes: true
+      allow_deletions: false
+
+labels:
+  - { name: "kind/bug", color: "d73a4a" }
+  - { name: "kind/feature", color: "0075ca" }
+  - { name: "kind/refactor", color: "e99695" }
+  - { name: "kind/docs", color: "008672" }
+  - { name: "kind/security", color: "cfd3d7" }
+  - { name: "kind/performance", color: "a2eeef" }
+  - { name: "kind/test", color: "fef2c0" }
+  - { name: "kind/architecture", color: "7057ff" }
+  - { name: "priority/high", color: "d93f0b" }
+  - { name: "priority/medium", color: "fbca04" }
+  - { name: "priority/low", color: "0e8a16" }
+  - { name: "status/blocked", color: "000000" }
+  - { name: "status/in-review", color: "cc317c" }
+  - { name: "status/needs-info", color: "5319e7" }
+
+milestones:
+  - "v0.1.0 Runtime"
+  - "v0.2.0 Memory"
+  - "v0.3.0 Services"
+  - "v0.4.0 Providers"
+  - "v0.5.0 Interfaces"
+  - "v1.0.0 Stable"

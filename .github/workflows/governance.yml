@@ -6,34 +6,43 @@ on:
     branches: [ "main", "develop" ]
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0' # Weekly on Sundays
+    - cron: '0 0 * * 0' # Weekly
 
 jobs:
-  audit:
-    name: Verify Governance
+  lint:
+    name: Lint Governance
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: Setup GitHub CLI
+      - name: ShellCheck
+        run: shellcheck scripts/*.sh
+
+      - name: Actionlint
         run: |
-          gh auth status || echo "Using GITHUB_TOKEN"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          bash <(curl -s https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint
 
-      - name: Run Governance Audit
+  audit:
+    name: Verify Compliance
+    needs: lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Run Audit
         run: ./scripts/verify_github.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit Updated Audit Snapshot
-        if: github.event_name != 'pull_request'
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add GITHUB_AUDIT.md
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update governance audit snapshot [skip ci]"
-          git push || echo "Push failed, likely due to branch protection"
+      - name: Upload Audit Evidence
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        with:
+          name: governance-audit
+          path: |
+            GITHUB_AUDIT.md
+            governance-report.json

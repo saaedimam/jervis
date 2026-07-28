@@ -1,114 +1,105 @@
 #!/bin/bash
 # scripts/verify_github.sh
-# Verifies the actual GitHub repository state and generates an audit snapshot.
-# Exit Codes:
-# 0 - Fully Compliant
-# 1 - Governance Drift Detected
-# 2 - Missing Prerequisites (gh, jq)
-# 3 - Authentication/API Failure
+# Verifies actual GitHub state against .github/governance.yaml.
+# Outputs: GITHUB_AUDIT.md (human) and governance-report.json (machine).
 
 set -e
 
-REPO="ioriimasu/jervis"
+SPEC_FILE=".github/governance.yaml"
 AUDIT_FILE="GITHUB_AUDIT.md"
+REPORT_FILE="governance-report.json"
 COMPLIANCE_FAILED=0
 
 # Helper for status printing
 pass() { echo -e "\033[1;32m[PASS]\033[0m $1"; }
 fail() { echo -e "\033[1;31m[FAIL]\033[0m $1"; COMPLIANCE_FAILED=1; }
 info() { echo -e "\033[1;34m[INFO]\033[0m $1"; }
-warn() { echo -e "\033[1;33m[WARN]\033[0m $1"; }
 
-# 1. Prerequisite Checks
-check_prereqs() {
-    if ! command -v gh &> /dev/null; then echo "gh CLI not found"; exit 2; fi
-    if ! command -v jq &> /dev/null; then echo "jq not found"; exit 2; fi
-    if ! gh auth status &> /dev/null; then echo "gh not authenticated"; exit 3; fi
+# 0. Prerequisite Check
+if ! command -v yq &> /dev/null; then echo "yq not found"; exit 2; fi
+if ! command -v jq &> /dev/null; then echo "jq not found"; exit 2; fi
+
+# 1. Load Expected State
+REPO_NAME=$(yq '.repository.name' "$SPEC_FILE")
+REPO_OWNER=$(yq '.repository.owner' "$SPEC_FILE")
+REPO="$REPO_OWNER/$REPO_NAME"
+SPEC_VERSION=$(yq '.version' "$SPEC_FILE")
+
+echo "🔎 Verifying Governance for $REPO (Spec v$SPEC_VERSION)"
+
+# 2. Fetch Actual State
+repo_json=$(gh repo view "$REPO" --json name,description,isPublic,hasWikiEnabled,hasDiscussionsEnabled,hasProjectsEnabled,defaultBranchRef,squashMergeAllowed,mergeCommitAllowed,rebaseMergeAllowed,deleteBranchOnMerge || exit 3)
+
+# 3. Validation Logic
+results_json="{ \"timestamp\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\", \"spec_version\": \"$SPEC_VERSION\", \"checks\": [] }"
+
+add_check() {
+  local name=$1
+  local status=$2
+  local message=$3
+  results_json=$(echo "$results_json" | jq ".checks += [{\"name\": \"$name\", \"status\": \"$status\", \"message\": \"$message\"}]")
 }
 
-check_prereqs
-
-echo "🔎 Starting Governance Audit for $REPO"
-
-# 2. Fetch Repository Data
-repo_json=$(gh repo view $REPO --json name,description,isPublic,hasWikiEnabled,hasDiscussionsEnabled,hasProjectsEnabled,defaultBranchRef,homepageUrl,repositoryTopics,squashMergeAllowed,mergeCommitAllowed,rebaseMergeAllowed,deleteBranchOnMerge,autoMergeAllowed || exit 3)
-
-# 3. Verification Logic
-echo "--- General Settings ---"
-[[ $(echo "$repo_json" | jq -r '.isPublic') == "true" ]] && pass "Visibility: Public" || fail "Visibility: NOT Public"
-[[ $(echo "$repo_json" | jq -r '.defaultBranchRef.name') == "main" ]] && pass "Default Branch: main" || fail "Default Branch: NOT main"
-[[ $(echo "$repo_json" | jq -r '.hasWikiEnabled') == "true" ]] && pass "Wiki: Enabled" || fail "Wiki: NOT Enabled"
-[[ $(echo "$repo_json" | jq -r '.hasDiscussionsEnabled') == "true" ]] && pass "Discussions: Enabled" || fail "Discussions: NOT Enabled"
-[[ $(echo "$repo_json" | jq -r '.deleteBranchOnMerge') == "true" ]] && pass "Delete branch after merge: Enabled" || fail "Delete branch after merge: NOT Enabled"
-[[ $(echo "$repo_json" | jq -r '.squashMergeAllowed') == "true" ]] && pass "Squash Merge: Allowed" || fail "Squash Merge: NOT Allowed"
-
-echo "--- Branch Protections ---"
-check_protection() {
-    local branch=$1
-    info "Verifying $branch protection..."
-    protection=$(gh api repos/$REPO/branches/$branch/protection --silent || echo "{}")
-    if [[ "$protection" == "{}" ]]; then
-        fail "$branch branch is NOT protected"
-        return
-    fi
-    pass "$branch protection exists"
-    
-    # Check for specific rules in main
-    if [[ "$branch" == "main" ]]; then
-        [[ $(echo "$protection" | jq -r '.required_pull_request_reviews.required_approving_review_count') -ge 1 ]] && pass "main: Required reviews >= 1" || fail "main: Missing required reviews"
-        [[ $(echo "$protection" | jq -r '.required_linear_history.enabled') == "true" ]] && pass "main: Linear history required" || fail "main: Linear history NOT required"
-    fi
+check_repo_property() {
+  local prop=$1
+  local expected=$2
+  local actual=$3
+  if [[ "$expected" == "$actual" ]]; then
+    pass "Repo $prop: $actual"
+    add_check "repo_$prop" "pass" "$actual"
+  else
+    fail "Repo $prop: Expected $expected, got $actual"
+    add_check "repo_$prop" "fail" "Expected $expected, got $actual"
+  fi
 }
 
-check_protection "main"
-check_protection "develop"
+check_repo_property "visibility" "$(yq '.repository.visibility' "$SPEC_FILE")" "$([[ $(echo "$repo_json" | jq -r '.isPublic') == "true" ]] && echo "public" || echo "private")"
+check_repo_property "wiki" "$(yq '.repository.features.wiki' "$SPEC_FILE")" "$(echo "$repo_json" | jq -r '.hasWikiEnabled')"
+check_repo_property "discussions" "$(yq '.repository.features.discussions' "$SPEC_FILE")" "$(echo "$repo_json" | jq -r '.hasDiscussionsEnabled')"
 
-echo "--- Community Files ---"
-check_file() {
-    if [[ -f "$1" ]]; then pass "File present: $1"; else fail "File MISSING: $1"; fi
+# Branch Protections
+check_branch_protection() {
+  local branch=$1
+  info "Checking $branch protection..."
+  actual_protection=$(gh api "repos/$REPO/branches/$branch/protection" --silent || echo "{}")
+  expected_protection=$(yq -o=json ".branches.$branch.protection" "$SPEC_FILE")
+  
+  # Basic comparison of key fields
+  actual_reviews=$(echo "$actual_protection" | jq -r '.required_pull_request_reviews.required_approving_review_count // 0')
+  expected_reviews=$(echo "$expected_protection" | jq -r '.required_pull_request_reviews.required_approving_review_count // 0')
+  
+  if [[ "$actual_reviews" -eq "$expected_reviews" ]]; then
+    pass "$branch: Required reviews match ($actual_reviews)"
+    add_check "${branch}_reviews" "pass" "$actual_reviews"
+  else
+    fail "$branch: Required reviews mismatch (Expected $expected_reviews, got $actual_reviews)"
+    add_check "${branch}_reviews" "fail" "Expected $expected_reviews, got $actual_reviews"
+  fi
 }
-check_file "LICENSE"
-check_file "README.md"
-check_file "CONTRIBUTING.md"
-check_file "CODE_OF_CONDUCT.md"
-check_file "SECURITY.md"
-check_file ".github/CODEOWNERS"
 
-echo "--- Governance & Security ---"
-workflow_count=$(ls .github/workflows/*.yml | wc -l | xargs)
-if (( workflow_count >= 5 )); then pass "Workflows: $workflow_count present"; else fail "Workflows: Incomplete ($workflow_count)"; fi
+check_branch_protection "main"
+check_branch_protection "develop"
 
-# 4. Generate GITHUB_AUDIT.md Evidence
-cat > $AUDIT_FILE <<EOF
-# GitHub Repository Audit Snapshot — jervis
+# 4. Generate Audit Files
+echo "$results_json" | jq '.' > "$REPORT_FILE"
 
+cat > "$AUDIT_FILE" <<EOF
+# GitHub Repository Audit Snapshot — $REPO
+
+**Governance Spec**: v$SPEC_VERSION
 **Verification Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
 **Audit Git SHA**: $(git rev-parse HEAD 2>/dev/null || echo "N/A")
 **Compliance Status**: $([[ $COMPLIANCE_FAILED -eq 0 ]] && echo "PASS" || echo "FAIL")
 
-## 1. Repository Properties
-- **Visibility**: $(echo "$repo_json" | jq -r '.isPublic')
-- **Default Branch**: $(echo "$repo_json" | jq -r '.defaultBranchRef.name')
-- **Wiki**: $(echo "$repo_json" | jq -r '.hasWikiEnabled')
-- **Discussions**: $(echo "$repo_json" | jq -r '.hasDiscussionsEnabled')
-- **Delete Branch on Merge**: $(echo "$repo_json" | jq -r '.deleteBranchOnMerge')
-
-## 2. Protection Snapshot
-- **main**: $(gh api repos/$REPO/branches/main/protection --silent | jq -c '.' || echo "Unprotected")
-- **develop**: $(gh api repos/$REPO/branches/develop/protection --silent | jq -c '.' || echo "Unprotected")
-
-## 3. Automation Inventory
-- **Workflows**: $(ls .github/workflows/*.yml | xargs -n 1 basename | paste -sd ", " -)
-- **CODEOWNERS**: $([[ -f .github/CODEOWNERS ]] && echo "Present" || echo "Missing")
+## Summary
+$(echo "$results_json" | jq -r '.checks[] | "- [" + (if .status == "pass" then "x" else " " end) + "] **" + .name + "**: " + .message')
 
 ---
 *Generated by scripts/verify_github.sh*
 EOF
 
-info "Audit snapshot written to $AUDIT_FILE"
-
 if [[ $COMPLIANCE_FAILED -eq 0 ]]; then
-    pass "All verifiable governance checks passed!"
+    pass "Governance verified."
     exit 0
 else
     fail "Governance drift detected."

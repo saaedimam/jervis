@@ -4,7 +4,7 @@
 - **What this project is**: Jervis, a local-first personal OS and service platform designed for developer productivity and workflow automation.
 - **Primary goal**: Build a deterministic runtime-owned system that manages events, memory, domain services (planner, projects, habits, meetings), and security permissions, with optional AI provider integrations.
 - **Long-term vision**: A multi-interface platform (CLI, MCP Server, REST API, Desktop, Menu Bar) where the Jervis Runtime owns system execution and memory, and replaceable AI providers act strictly as context processing tools.
-- **Current development stage**: Phase 1.1 Foundation **COMPLETED** (100% test coverage). Phase 1.2.1 Event Bus Foundation **COMPLETED** (100% test coverage). Canonical tech stack: **Go (Golang 1.22+)**.
+- **Current development stage**: Phase 1.1 Foundation **COMPLETED** (100% test coverage). Phase 1.2.1 Event Bus Foundation & Refactor **COMPLETED** (100% test coverage). Canonical tech stack: **Go (Golang 1.22+)**.
 
 ## 2. Architecture Baseline
 - **Canonical 5-Tier Hierarchy (`OS -> Runtime -> Memory Engine -> Service Layer -> AI Provider Layer -> Interfaces`)**:
@@ -15,7 +15,7 @@
   - Prevents vendor lock-in; treats OpenAI, Claude, Gemini, Ollama, and local models as replaceable utility engines.
 - **Canonical Language Selection**: Go (Golang 1.22+).
 - **Runtime Foundation Concurrency Rule**: Phase 1 primitives use pure synchronous value semantics and deterministic state transitions without channels or background goroutines.
-- **Event Bus Architecture**: In-process synchronous routing pipeline with priority execution, panic recovery isolation, zero AI awareness, and zero persistence.
+- **Event Bus Architecture**: In-process synchronous routing pipeline with `Priority uint8` (`PriorityLow`, `PriorityNormal`, `PriorityHigh`, `PriorityCritical`), zero `context.Context` dependency in Event Bus public API, `Builder` returning `*Envelope`, `Envelope.Clone()`, panic recovery isolation, zero AI awareness, and zero persistence.
 
 ## 3. Repository Structure
 - `cmd/`: Entrypoints for Interfaces (`jervis` CLI, `mcp` server, `daemon` for desktop/menubar).
