@@ -52,16 +52,32 @@
 
 ---
 
-## Phase 1.2.5 Specifications: Event Bus Middleware Architecture
+## Phase 1.2.6: Event Bus Middleware Package
+- **Packages**:
+  - `internal/runtime/eventbus/middleware` (`Chain`, `NewChain()`, `Use()`, `Middlewares()`, `Count()`, `Execute()`, `Func`)
+- **Status**: Frozen
+- **Design Invariants**:
+  - FIFO registration sequence execution order (FIFO entering, LIFO exiting).
+  - Explicit `next()` closure semantics with short-circuit error return support.
+  - Panic recovery isolation per middleware block converting panics into `errs.ErrHandlerFailure`.
+  - Dispatcher remains sole owner of subscriber handler execution.
+- **Breaking Changes**: Formal ADR required before modifying public exported middleware interfaces.
+
+---
+
+## Phase 1.2 Specifications: Event Bus Core Architecture
 - **Specs**:
+  - `EVENT_BUS_SPECIFICATION.md`
+  - `EVENT_MODEL.md`
+  - `EVENT_CONTRACTS.md`
+  - `EVENT_IMPLEMENTATION_PLAN.md`
+  - `DISPATCHER_SPECIFICATION.md`
+  - `DISPATCHER_CONTRACTS.md`
+  - `DISPATCH_PIPELINE.md`
+  - `DISPATCH_SEQUENCE.md`
   - `MIDDLEWARE_SPECIFICATION.md`
   - `MIDDLEWARE_CONTRACTS.md`
   - `MIDDLEWARE_PIPELINE.md`
   - `MIDDLEWARE_ORDERING.md`
-- **Status**: Specification Frozen (Zero Runtime Implementation Code)
-- **Design Invariants**:
-  - Canonical FIFO registration order.
-  - Explicit `next()` closure semantics with short-circuit authorization support.
-  - Panic recovery isolation per middleware block.
-  - Dispatcher remains sole owner of subscriber handler execution.
-- **Breaking Changes**: Formal ADR required for contract or middleware pipeline modifications.
+- **Status**: Specification Frozen
+- **Breaking Changes**: Formal ADR required for contract or pipeline schema modifications.

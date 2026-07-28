@@ -5,7 +5,7 @@ metadata:
 
 repository:
   name: jervis
-  owner: ioriimasu
+  owner: saaedimam
   description: "Local-first runtime and context operating system for AI agents."
   visibility: public
   features:
