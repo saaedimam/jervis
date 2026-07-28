@@ -24,6 +24,8 @@ func TestValidatePattern(t *testing.T) {
 		"runtime.started",
 		"runtime.*",
 		"memory.timeline.*",
+		"runtime*",
+		"runtime.*",
 		"a.b",
 	}
 	for _, p := range validPatterns {
@@ -32,16 +34,20 @@ func TestValidatePattern(t *testing.T) {
 		}
 	}
 
-	invalidPatterns := []string{
-		"",
-		"INVALID",
-		"runtime started",
-		"runtime..started",
-		".runtime.started",
+	invalidPatterns := []struct {
+		pattern string
+		desc    string
+	}{
+		{"", "empty"},
+		{"INVALID", "uppercase"},
+		{"runtime started", "spaces"},
+		{"runtime..started", "double dots"},
+		{".runtime.started", "leading dot"},
+		{"runtime.b.", "trailing empty segment"},
 	}
-	for _, p := range invalidPatterns {
-		if err := registry.ValidatePattern(p); !errors.Is(err, errs.ErrValidationFailed) {
-			t.Errorf("expected ErrValidationFailed for pattern %q, got %v", p, err)
+	for _, tt := range invalidPatterns {
+		if err := registry.ValidatePattern(tt.pattern); !errors.Is(err, errs.ErrValidationFailed) {
+			t.Errorf("expected ErrValidationFailed for pattern %q (%s), got %v", tt.pattern, tt.desc, err)
 		}
 	}
 }
@@ -143,6 +149,12 @@ func TestRegistryDuplicateDetectionsAndValidation(t *testing.T) {
 	reg := registry.NewRegistry()
 	h1 := &mockHandler{id: "h-1"}
 
+	// Unvalidated subscription directly constructed
+	subInvalid := subscription.Subscription{}
+	if err := reg.Register(subInvalid); !errors.Is(err, errs.ErrValidationFailed) {
+		t.Fatalf("expected ErrValidationFailed for zero subscription")
+	}
+
 	sub1, _ := subscription.New("sub-1", "runtime.started", events.PriorityNormal, h1)
 	if err := reg.Register(sub1); err != nil {
 		t.Fatalf("initial register failed: %v", err)
@@ -161,9 +173,9 @@ func TestRegistryDuplicateDetectionsAndValidation(t *testing.T) {
 	}
 
 	// Invalid pattern in sub
-	subInvalidPattern, _ := subscription.New("sub-invalid", "INVALID PATTERN", events.PriorityNormal, h1)
+	subInvalidPattern, _ := subscription.NewWithSeq("sub-invalid", "INVALID PATTERN", events.PriorityNormal, h1, 99)
 	if err := reg.Register(subInvalidPattern); !errors.Is(err, errs.ErrValidationFailed) {
-		t.Fatalf("expected ErrValidationFailed for invalid pattern")
+		t.Fatalf("expected ErrValidationFailed for invalid pattern in sub")
 	}
 }
 

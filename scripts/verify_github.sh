@@ -10,9 +10,15 @@ AUDIT_FILE="GITHUB_AUDIT.md"
 REPORT_FILE="governance-report.json"
 COMPLIANCE_FAILED=0
 
+# Drift Classification Levels
+LEVEL_INFO="INFO"
+LEVEL_WARN="WARN"
+LEVEL_ERROR="ERROR"
+
 # Helper for status printing
 pass() { echo -e "\033[1;32m[PASS]\033[0m $1"; }
 fail() { echo -e "\033[1;31m[FAIL]\033[0m $1"; COMPLIANCE_FAILED=1; }
+warn() { echo -e "\033[1;33m[WARN]\033[0m $1"; }
 info() { echo -e "\033[1;34m[INFO]\033[0m $1"; }
 
 # 0. Prerequisite Check
@@ -23,7 +29,7 @@ if ! command -v jq &> /dev/null; then echo "jq not found"; exit 2; fi
 REPO_NAME=$(yq '.repository.name' "$SPEC_FILE")
 REPO_OWNER=$(yq '.repository.owner' "$SPEC_FILE")
 REPO="$REPO_OWNER/$REPO_NAME"
-SPEC_VERSION=$(yq '.version' "$SPEC_FILE")
+SPEC_VERSION=$(yq '.metadata.version' "$SPEC_FILE")
 
 echo "🔎 Verifying Governance for $REPO (Spec v$SPEC_VERSION)"
 
@@ -31,49 +37,54 @@ echo "🔎 Verifying Governance for $REPO (Spec v$SPEC_VERSION)"
 repo_json=$(gh repo view "$REPO" --json name,description,isPublic,hasWikiEnabled,hasDiscussionsEnabled,hasProjectsEnabled,defaultBranchRef,squashMergeAllowed,mergeCommitAllowed,rebaseMergeAllowed,deleteBranchOnMerge || exit 3)
 
 # 3. Validation Logic
-results_json="{ \"timestamp\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\", \"spec_version\": \"$SPEC_VERSION\", \"checks\": [] }"
+results_json="{ \"schemaVersion\": \"1\", \"generatedAt\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\", \"spec_version\": \"$SPEC_VERSION\", \"checks\": [] }"
 
 add_check() {
-  local name=$1
+  local id=$1
   local status=$2
-  local message=$3
-  results_json=$(echo "$results_json" | jq ".checks += [{\"name\": \"$name\", \"status\": \"$status\", \"message\": \"$message\"}]")
-}
-
-check_repo_property() {
-  local prop=$1
-  local expected=$2
-  local actual=$3
-  if [[ "$expected" == "$actual" ]]; then
-    pass "Repo $prop: $actual"
-    add_check "repo_$prop" "pass" "$actual"
+  local level=$3
+  local message=$4
+  results_json=$(echo "$results_json" | jq ".checks += [{\"id\": \"$id\", \"status\": \"$status\", \"level\": \"$level\", \"message\": \"$message\"}]")
+  
+  if [[ "$status" == "FAIL" ]]; then
+    if [[ "$level" == "$LEVEL_ERROR" ]]; then fail "$id: $message"; 
+    elif [[ "$level" == "$LEVEL_WARN" ]]; then warn "$id: $message";
+    else info "$id: $message"; fi
   else
-    fail "Repo $prop: Expected $expected, got $actual"
-    add_check "repo_$prop" "fail" "Expected $expected, got $actual"
+    pass "$id: $message"
   fi
 }
 
-check_repo_property "visibility" "$(yq '.repository.visibility' "$SPEC_FILE")" "$([[ $(echo "$repo_json" | jq -r '.isPublic') == "true" ]] && echo "public" || echo "private")"
-check_repo_property "wiki" "$(yq '.repository.features.wiki' "$SPEC_FILE")" "$(echo "$repo_json" | jq -r '.hasWikiEnabled')"
-check_repo_property "discussions" "$(yq '.repository.features.discussions' "$SPEC_FILE")" "$(echo "$repo_json" | jq -r '.hasDiscussionsEnabled')"
+# Critical Checks (ERROR on fail)
+check_repo_property() {
+  local id=$1
+  local expected=$2
+  local actual=$3
+  local level=$4
+  if [[ "$expected" == "$actual" ]]; then
+    add_check "$id" "PASS" "$LEVEL_INFO" "$actual"
+  else
+    add_check "$id" "FAIL" "$level" "Expected $expected, got $actual"
+  fi
+}
 
-# Branch Protections
+check_repo_property "repo.visibility" "$(yq '.repository.visibility' "$SPEC_FILE")" "$([[ $(echo "$repo_json" | jq -r '.isPublic') == "true" ]] && echo "public" || echo "private")" "$LEVEL_ERROR"
+check_repo_property "repo.description" "$(yq '.repository.description' "$SPEC_FILE")" "$(echo "$repo_json" | jq -r '.description')" "$LEVEL_WARN"
+check_repo_property "repo.wiki" "$(yq '.repository.features.wiki' "$SPEC_FILE")" "$(echo "$repo_json" | jq -r '.hasWikiEnabled')" "$LEVEL_WARN"
+
+# Branch Protections (ERROR on fail)
 check_branch_protection() {
   local branch=$1
-  info "Checking $branch protection..."
   actual_protection=$(gh api "repos/$REPO/branches/$branch/protection" --silent || echo "{}")
   expected_protection=$(yq -o=json ".branches.$branch.protection" "$SPEC_FILE")
   
-  # Basic comparison of key fields
   actual_reviews=$(echo "$actual_protection" | jq -r '.required_pull_request_reviews.required_approving_review_count // 0')
   expected_reviews=$(echo "$expected_protection" | jq -r '.required_pull_request_reviews.required_approving_review_count // 0')
   
   if [[ "$actual_reviews" -eq "$expected_reviews" ]]; then
-    pass "$branch: Required reviews match ($actual_reviews)"
-    add_check "${branch}_reviews" "pass" "$actual_reviews"
+    add_check "branch.$branch.reviews" "PASS" "$LEVEL_INFO" "$actual_reviews"
   else
-    fail "$branch: Required reviews mismatch (Expected $expected_reviews, got $actual_reviews)"
-    add_check "${branch}_reviews" "fail" "Expected $expected_reviews, got $actual_reviews"
+    add_check "branch.$branch.reviews" "FAIL" "$LEVEL_ERROR" "Expected $expected_reviews reviews, got $actual_reviews"
   fi
 }
 
@@ -92,7 +103,7 @@ cat > "$AUDIT_FILE" <<EOF
 **Compliance Status**: $([[ $COMPLIANCE_FAILED -eq 0 ]] && echo "PASS" || echo "FAIL")
 
 ## Summary
-$(echo "$results_json" | jq -r '.checks[] | "- [" + (if .status == "pass" then "x" else " " end) + "] **" + .name + "**: " + .message')
+$(echo "$results_json" | jq -r '.checks[] | "- [" + (if .status == "PASS" then "x" else " " end) + "] **" + .id + "** (" + .level + "): " + .message')
 
 ---
 *Generated by scripts/verify_github.sh*
@@ -102,6 +113,6 @@ if [[ $COMPLIANCE_FAILED -eq 0 ]]; then
     pass "Governance verified."
     exit 0
 else
-    fail "Governance drift detected."
+    fail "Governance drift detected (ERROR level)."
     exit 1
 fi

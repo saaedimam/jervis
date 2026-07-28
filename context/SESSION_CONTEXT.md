@@ -1,40 +1,36 @@
 # Active Session Context
 
 ## 1. Session Information
-- **Session ID**: `2026-07-29-session-03`
+- **Session ID**: `2026-07-29-session-04`
 - **Date**: 2026-07-29
-- **Current Phase**: Phase 1.2.1 Final Refactor Complete / Phase 1.2.2 Ready
-- **Current Objective**: Completed approved architectural refactors for Phase 1.2.1 Event Bus Foundation. Stopped prior to Phase 1.2.2.
+- **Current Phase**: Phase 1.2.3 (Event Bus Synchronous Dispatcher & Bus Facade Implementation)
+- **Current Objective**: Implement Phase 1.2.3 Event Bus Dispatcher & Bus Facade (`internal/runtime/eventbus/{dispatcher, bus.go}`).
 
 ---
 
 ## 2. Work Completed in Active Session
-- Performed approved architectural refactors on Phase 1.2.1 packages:
-  1. Removed `context.Context` from all Event Bus public interface contracts (`contracts.go`).
-  2. Defined `type EventType string` with `String()` method in `events.go`.
-  3. Replaced integer priority model with `type Priority uint8` and constants (`PriorityLow`, `PriorityNormal`, `PriorityHigh`, `PriorityCritical`).
-  4. Updated `Builder.Build()` to return `(*Envelope, error)` instead of `contracts.Event`.
-  5. Implemented defensive copies for `Envelope.Metadata()` to guarantee header immutability.
-  6. Implemented `Envelope.Clone() *Envelope`.
-  7. Updated all unit tests across `contracts`, `events`, and `errors` to maintain **100.0% statement coverage**.
+- Phase 1.2.2 Event Bus Subscription Registry implementation complete with **100.0% statement coverage**.
+- All tests pass with race detector enabled (`go test -race`).
+- All quality gates satisfied (`go fmt`, `go vet`, AST import boundary verification).
+- Context synchronized across `PROJECT_CONTEXT.md`, `MILESTONES.md`, `API_FREEZE.md`, and session archived in `context/sessions/2026-07-29-session-03.md`.
 
 ---
 
 ## 3. Decisions Made
-- `contracts` API surface is completely free of `context.Context` dependencies for lightweight synchronous routing.
-- `Priority` is represented as an explicit `uint8` type with `iota`-based level constants.
-- `Builder.Build()` returns concrete pointer `*Envelope` for direct type convenience while implementing `contracts.Event`.
+- `subscription.Subscription` uses value semantics and sequence counter `seq` to enforce stable, deterministic FIFO ordering for handlers with identical priority.
+- Pattern matching (`ValidatePattern`, `MatchesPattern`) uses pure Go string operations (`strings.HasPrefix`, `strings.HasSuffix`) without external regex or glob dependencies.
+- `Registry` lookup methods return defensive copy slices.
 
 ---
 
 ## 4. Validation Performed
-- `go fmt ./...`: PASS (All files formatted cleanly).
-- `go vet ./...`: PASS (Zero static analysis warnings).
-- `go test -v -cover -race ./internal/runtime/eventbus/...`: PASS (**100.0% statement coverage**).
+- `go fmt ./...`: PASS (100% formatted).
+- `go vet ./...`: PASS (Zero warnings).
+- `go test -v -cover -race ./internal/runtime/eventbus/...`: PASS (**100.0% coverage**).
 
 ---
 
 ## 5. Current Status & Next Immediate Task
-- **Current Status**: Phase 1.2.1 Final Refactor is **100% Complete**, tested, and frozen.
+- **Current Status**: Phase 1.2.2 is 100% complete, tested, and frozen. Stopped before Phase 1.2.3.
 - **Risks / Blockers**: None.
-- **Next Immediate Task**: Await instruction to begin Phase 1.2.2: Subscription Registry & Synchronous Dispatcher (`internal/runtime/eventbus/registry`, `internal/runtime/eventbus/dispatcher`).
+- **Next Immediate Task**: Await instruction to begin Phase 1.2.3: Synchronous Dispatcher & Bus Facade (`internal/runtime/eventbus/dispatcher`, `internal/runtime/eventbus/bus.go`).

@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Jervis Repository Governance Schema",
+  "type": "object",
+  "required": ["apiVersion", "kind", "metadata", "repository", "branches", "labels", "milestones"],
+  "properties": {
+    "apiVersion": { "type": "string", "enum": ["governance.jervis.io/v1"] },
+    "kind": { "type": "string", "enum": ["RepositoryGovernance"] },
+    "metadata": {
+      "type": "object",
+      "required": ["version"],
+      "properties": {
+        "version": { "type": "string" }
+      }
+    },
+    "repository": {
+      "type": "object",
+      "required": ["name", "owner", "visibility"],
+      "properties": {
+        "name": { "type": "string" },
+        "owner": { "type": "string" },
+        "description": { "type": "string" },
+        "visibility": { "type": "string", "enum": ["public", "private"] },
+        "features": {
+          "type": "object",
+          "properties": {
+            "discussions": { "type": "boolean" },
+            "wiki": { "type": "boolean" },
+            "projects": { "type": "boolean" }
+          }
+        },
+        "settings": {
+          "type": "object",
+          "properties": {
+            "delete_branch_on_merge": { "type": "boolean" },
+            "allow_squash_merge": { "type": "boolean" },
+            "allow_merge_commit": { "type": "boolean" },
+            "allow_rebase_merge": { "type": "boolean" },
+            "auto_merge": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "branches": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "protection": { "type": "object" }
+        }
+      }
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "color"],
+        "properties": {
+          "name": { "type": "string" },
+          "color": { "type": "string", "pattern": "^[0-9a-fA-F]{6}$" }
+        }
+      }
+    },
+    "milestones": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

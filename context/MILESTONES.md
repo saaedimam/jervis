@@ -7,7 +7,7 @@
 - [x] Phase 1.1 Core Runtime Foundation Complete (100% Test Coverage)
 - [x] Phase 1.2 Event Bus Specification Frozen
 - [x] Phase 1.2.1 Event Bus Foundation Packages Complete (100% Test Coverage)
-- [ ] Phase 1.2.2 Event Bus Registry & Synchronous Dispatcher Complete
+- [x] Phase 1.2.2 Event Bus Subscription Registry Complete (100% Test Coverage)
 - [ ] Phase 1.2.3 Event Bus Validator, Middleware Chain & Bus Facade Complete
 - [ ] Phase 1.3 Observer Component Complete
 - [ ] Phase 1.4 Scheduler Component Complete

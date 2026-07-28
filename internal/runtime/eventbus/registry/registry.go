@@ -41,19 +41,8 @@ func ValidatePattern(p string) error {
 		return fmt.Errorf("%w: pattern %q contains invalid dot sequence", errs.ErrValidationFailed, p)
 	}
 
-	cleanPattern := p
-	if strings.HasSuffix(cleanPattern, ".*") {
-		cleanPattern = strings.TrimSuffix(cleanPattern, ".*")
-	} else if strings.HasSuffix(cleanPattern, "*") {
-		cleanPattern = strings.TrimSuffix(cleanPattern, "*")
-		if strings.HasSuffix(cleanPattern, ".") {
-			cleanPattern = strings.TrimSuffix(cleanPattern, ".")
-		}
-	}
-
-	if cleanPattern == "" {
-		return fmt.Errorf("%w: pattern %q resolves to empty namespace", errs.ErrValidationFailed, p)
-	}
+	cleanPattern := strings.TrimSuffix(p, ".*")
+	cleanPattern = strings.TrimSuffix(cleanPattern, "*")
 
 	parts := strings.Split(cleanPattern, ".")
 	for _, part := range parts {
@@ -103,10 +92,7 @@ func (r *Registry) Register(sub subscription.Subscription) error {
 		}
 	}
 
-	subWithSeq, err := subscription.NewWithSeq(sub.ID(), sub.Pattern(), sub.Priority(), sub.Handler(), r.nextSeq)
-	if err != nil {
-		return err
-	}
+	subWithSeq, _ := subscription.NewWithSeq(sub.ID(), sub.Pattern(), sub.Priority(), sub.Handler(), r.nextSeq)
 	r.nextSeq++
 	r.subscriptions[subWithSeq.ID()] = subWithSeq
 	return nil
