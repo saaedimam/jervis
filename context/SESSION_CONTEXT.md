@@ -1,36 +1,34 @@
 # Active Session Context
 
 ## 1. Session Information
-- **Session ID**: `2026-07-29-session-04`
+- **Session ID**: `2026-07-29-session-06`
 - **Date**: 2026-07-29
-- **Current Phase**: Phase 1.2.3 (Event Bus Synchronous Dispatcher & Bus Facade Implementation)
-- **Current Objective**: Implement Phase 1.2.3 Event Bus Dispatcher & Bus Facade (`internal/runtime/eventbus/{dispatcher, bus.go}`).
+- **Current Phase**: Phase 1.2.5 Middleware & Bus Facade Implementation Ready
+- **Current Objective**: Implement Phase 1.2.5 Event Bus Middleware Chain and Bus Facade (`internal/runtime/eventbus/{middleware, bus.go}`).
 
 ---
 
 ## 2. Work Completed in Active Session
-- Phase 1.2.2 Event Bus Subscription Registry implementation complete with **100.0% statement coverage**.
-- All tests pass with race detector enabled (`go test -race`).
-- All quality gates satisfied (`go fmt`, `go vet`, AST import boundary verification).
-- Context synchronized across `PROJECT_CONTEXT.md`, `MILESTONES.md`, `API_FREEZE.md`, and session archived in `context/sessions/2026-07-29-session-03.md`.
+- Phase 1.2.5 Event Bus Middleware Architecture Specifications are **100% Frozen**.
+- Zero runtime code modified or created during specification phase.
+- Context synchronized across `PROJECT_CONTEXT.md`, `MILESTONES.md`, `API_FREEZE.md`, and session archived in `context/sessions/2026-07-29-session-05.md`.
 
 ---
 
 ## 3. Decisions Made
-- `subscription.Subscription` uses value semantics and sequence counter `seq` to enforce stable, deterministic FIFO ordering for handlers with identical priority.
-- Pattern matching (`ValidatePattern`, `MatchesPattern`) uses pure Go string operations (`strings.HasPrefix`, `strings.HasSuffix`) without external regex or glob dependencies.
-- `Registry` lookup methods return defensive copy slices.
+- Canonical Middleware execution order is **FIFO (Registration Sequence Order)**.
+- Middleware intercepts dispatch via `Execute(event, next)` closure wrapping.
+- Short-circuiting is supported when a middleware returns an error without calling `next()`.
+- Dispatcher remains the sole owner of handler invocation.
 
 ---
 
 ## 4. Validation Performed
-- `go fmt ./...`: PASS (100% formatted).
-- `go vet ./...`: PASS (Zero warnings).
-- `go test -v -cover -race ./internal/runtime/eventbus/...`: PASS (**100.0% coverage**).
+- Conflict Audit: ZERO CONFLICTS FOUND across all architectural invariants and specifications.
 
 ---
 
 ## 5. Current Status & Next Immediate Task
-- **Current Status**: Phase 1.2.2 is 100% complete, tested, and frozen. Stopped before Phase 1.2.3.
+- **Current Status**: Phase 1.2.5 Middleware Architecture Specifications are **100% Frozen**. Stopped before runtime implementation.
 - **Risks / Blockers**: None.
-- **Next Immediate Task**: Await instruction to begin Phase 1.2.3: Synchronous Dispatcher & Bus Facade (`internal/runtime/eventbus/dispatcher`, `internal/runtime/eventbus/bus.go`).
+- **Next Immediate Task**: Await instruction to implement Phase 1.2.5 Middleware Chain and Bus Facade (`internal/runtime/eventbus/{middleware, bus.go}`).
