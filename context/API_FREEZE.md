@@ -65,19 +65,15 @@
 
 ---
 
-## Phase 1.2 Specifications: Event Bus Core Architecture
+## Phase 1.2.7 Specifications: Event Bus Facade Architecture
 - **Specs**:
-  - `EVENT_BUS_SPECIFICATION.md`
-  - `EVENT_MODEL.md`
-  - `EVENT_CONTRACTS.md`
-  - `EVENT_IMPLEMENTATION_PLAN.md`
-  - `DISPATCHER_SPECIFICATION.md`
-  - `DISPATCHER_CONTRACTS.md`
-  - `DISPATCH_PIPELINE.md`
-  - `DISPATCH_SEQUENCE.md`
-  - `MIDDLEWARE_SPECIFICATION.md`
-  - `MIDDLEWARE_CONTRACTS.md`
-  - `MIDDLEWARE_PIPELINE.md`
-  - `MIDDLEWARE_ORDERING.md`
-- **Status**: Specification Frozen
-- **Breaking Changes**: Formal ADR required for contract or pipeline schema modifications.
+  - `BUS_SPECIFICATION.md`
+  - `BUS_CONTRACTS.md`
+  - `BUS_PIPELINE.md`
+  - `BUS_SEQUENCE.md`
+- **Status**: Specification Frozen (Zero Runtime Implementation Code)
+- **Design Invariants**:
+  - Event Bus Facade (`internal/runtime/eventbus`) is the sole canonical entry point.
+  - Orchestrates validation, registry lookup, middleware chain, and dispatcher execution.
+  - Zero `context.Context` parameters in public facade methods.
+- **Breaking Changes**: Formal ADR required before modifying public facade contracts.

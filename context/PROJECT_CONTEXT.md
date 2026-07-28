@@ -4,7 +4,7 @@
 - **What this project is**: Jervis, a local-first personal OS and service platform designed for developer productivity and workflow automation.
 - **Primary goal**: Build a deterministic runtime-owned system that manages events, memory, domain services (planner, projects, habits, meetings), and security permissions, with optional AI provider integrations.
 - **Long-term vision**: A multi-interface platform (CLI, MCP Server, REST API, Desktop, Menu Bar) where the Jervis Runtime owns system execution and memory, and replaceable AI providers act strictly as context processing tools.
-- **Current development stage**: Phase 1.1 Foundation **COMPLETED** (100% test coverage). Phase 1.2.1 Event Bus Foundation **COMPLETED** (100% test coverage). Phase 1.2.2 Event Bus Subscription Registry **COMPLETED** (100% test coverage). Phase 1.2.4 Synchronous Dispatcher **COMPLETED** (100% test coverage). Phase 1.2.6 Synchronous Middleware **COMPLETED** (100% test coverage). Canonical tech stack: **Go (Golang 1.22+)**.
+- **Current development stage**: Phase 1.1 Foundation **COMPLETED** (100% test coverage). Phase 1.2.1 Event Bus Foundation **COMPLETED** (100% test coverage). Phase 1.2.2 Event Bus Subscription Registry **COMPLETED** (100% test coverage). Phase 1.2.4 Synchronous Dispatcher **COMPLETED** (100% test coverage). Phase 1.2.6 Synchronous Middleware **COMPLETED** (100% test coverage). Phase 1.2.7 Event Bus Facade Specifications **FROZEN**. Canonical tech stack: **Go (Golang 1.22+)**.
 
 ## 2. Architecture Baseline
 - **Canonical 5-Tier Hierarchy (`OS -> Runtime -> Memory Engine -> Service Layer -> AI Provider Layer -> Interfaces`)**:
@@ -32,10 +32,10 @@
 ## 4. Key Documents
 - `VISION.md`, `ARCHITECTURE.md`, `PRINCIPLES.md`, `ROADMAP.md`, `PROJECT_STRUCTURE.md`, `DECISIONS.md`.
 - Governance: `CONSTITUTION.md`, `ARCHITECTURE_INVARIANTS.md`, `ADR_GUIDE.md`, `QUALITY_GATES.md`, `CI_CD_SPECIFICATION.md`, `PROJECT_METRICS.md`.
-- Specifications: `EVENT_BUS_SPECIFICATION.md`, `EVENT_MODEL.md`, `EVENT_CONTRACTS.md`, `EVENT_IMPLEMENTATION_PLAN.md`, `DISPATCHER_SPECIFICATION.md`, `DISPATCHER_CONTRACTS.md`, `DISPATCH_PIPELINE.md`, `DISPATCH_SEQUENCE.md`, `MIDDLEWARE_SPECIFICATION.md`, `MIDDLEWARE_CONTRACTS.md`, `MIDDLEWARE_PIPELINE.md`, `MIDDLEWARE_ORDERING.md`.
+- Specifications: `EVENT_BUS_SPECIFICATION.md`, `EVENT_MODEL.md`, `EVENT_CONTRACTS.md`, `EVENT_IMPLEMENTATION_PLAN.md`, `DISPATCHER_SPECIFICATION.md`, `DISPATCHER_CONTRACTS.md`, `DISPATCH_PIPELINE.md`, `DISPATCH_SEQUENCE.md`, `MIDDLEWARE_SPECIFICATION.md`, `MIDDLEWARE_CONTRACTS.md`, `MIDDLEWARE_PIPELINE.md`, `MIDDLEWARE_ORDERING.md`, `BUS_SPECIFICATION.md`, `BUS_CONTRACTS.md`, `BUS_PIPELINE.md`, `BUS_SEQUENCE.md`.
 
 ## 5. Pending Tasks
-1. Implement Phase 1.2.7: Event Bus Facade Specification & Implementation (`internal/runtime/eventbus/bus.go`).
+1. Implement Phase 1.2.8: Event Bus Facade Implementation & End-to-End Integration Suite (`internal/runtime/eventbus/bus.go`).
 2. Implement Phase 1.3: Observer Component (`internal/runtime/observer`).
 3. Implement Phase 1.4: Scheduler Component (`internal/runtime/scheduler`).
 4. Implement Phase 1.5: Session & Permissions Engine (`internal/runtime/{session, permissions}`).

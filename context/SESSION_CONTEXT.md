@@ -1,36 +1,33 @@
 # Active Session Context
 
 ## 1. Session Information
-- **Session ID**: `2026-07-29-session-07`
+- **Session ID**: `2026-07-29-session-08`
 - **Date**: 2026-07-29
-- **Current Phase**: Phase 1.2.7 (Event Bus Facade Specification & Implementation Ready)
-- **Current Objective**: Design and implement Phase 1.2.7 Event Bus Facade (`internal/runtime/eventbus/bus.go`).
+- **Current Phase**: Phase 1.2.8 (Event Bus Facade Implementation Ready)
+- **Current Objective**: Implement Phase 1.2.8 Event Bus Facade (`internal/runtime/eventbus/bus.go`) and end-to-end integration test suite.
 
 ---
 
 ## 2. Work Completed in Active Session
-- Phase 1.2.6 Event Bus Synchronous Middleware implementation complete with **100.0% statement coverage**.
-- All tests pass with race detector enabled (`go test -race`).
-- All quality gates satisfied (`go fmt`, `go vet`, AST import boundary verification).
-- Context synchronized across `PROJECT_CONTEXT.md`, `MILESTONES.md`, `API_FREEZE.md`, and session archived in `context/sessions/2026-07-29-session-06.md`.
+- Phase 1.2.7 Event Bus Facade Architecture Specifications are **100% Frozen**.
+- Zero runtime code modified or created during specification phase.
+- Context synchronized across `PROJECT_CONTEXT.md`, `MILESTONES.md`, `API_FREEZE.md`, and session archived in `context/sessions/2026-07-29-session-07.md`.
 
 ---
 
 ## 3. Decisions Made
-- `Chain` constructs a recursive closure stack executing middleware in FIFO registration order for pre-hooks and LIFO order for post-hooks.
-- Short-circuiting is supported by returning an error without calling `next()`.
-- Panic recovery isolation wraps every middleware invocation in a `defer recover()` block converting panics to `errs.ErrHandlerFailure`.
+- `EventBus` facade orchestrates `registry.Registry`, `dispatcher.Dispatcher`, and `middleware.Chain`.
+- Public methods receive parameters directly with zero `context.Context`.
+- Event publication delegates handler invocation to `dispatcher.Dispatcher` wrapped inside `middleware.Chain`.
 
 ---
 
 ## 4. Validation Performed
-- `go fmt ./...`: PASS (100% formatted).
-- `go vet ./...`: PASS (Zero warnings).
-- `go test -v -cover -race ./internal/runtime/eventbus/...`: PASS (**100.0% coverage across all 7 packages**).
+- Conflict Audit: ZERO CONFLICTS FOUND across all architectural invariants and specifications.
 
 ---
 
 ## 5. Current Status & Next Immediate Task
-- **Current Status**: Phase 1.2.6 is 100% complete, tested, and frozen. Stopped before Phase 1.2.7.
+- **Current Status**: Phase 1.2.7 Event Bus Facade Specifications are **100% Frozen**. Stopped before runtime implementation.
 - **Risks / Blockers**: None.
-- **Next Immediate Task**: Await instruction to begin Phase 1.2.7: Event Bus Facade (`internal/runtime/eventbus/bus.go`).
+- **Next Immediate Task**: Await instruction to implement Phase 1.2.8 Event Bus Facade (`internal/runtime/eventbus/bus.go`) and end-to-end integration tests.

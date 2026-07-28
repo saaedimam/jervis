@@ -76,28 +76,24 @@ else
         --enable-wiki="$(yq '.repository.features.wiki' "$SPEC_FILE")" \
         --enable-projects="$(yq '.repository.features.projects' "$SPEC_FILE")" \
         --delete-branch-on-merge="$DELETE_BRANCH" \
-        --allow-squash-merge="$ALLOW_SQUASH" \
-        --allow-merge-commit="$ALLOW_MERGE" \
-        --allow-rebase-merge="$ALLOW_REBASE"
+        --enable-squash-merge="$ALLOW_SQUASH" \
+        --enable-merge-commit="$ALLOW_MERGE" \
+        --enable-rebase-merge="$ALLOW_REBASE"
 fi
 
 # 5. Labels
 print_step "Synchronizing Labels..."
-existing_labels=""
-if [[ "$DRY_RUN" == "false" ]] || gh repo view "$REPO" &>/dev/null; then
-    existing_labels=$(gh label list --repo "$REPO" --limit 100 2>/dev/null | awk '{print $1}' || echo "")
-fi
-
-yq -c '.labels[]' "$SPEC_FILE" | while read -r label; do
+existing_labels=$(gh label list --repo "$REPO" --limit 100 | awk '{print $1}')
+yq -o=json '.labels[]' "$SPEC_FILE" | jq -c '.' | while read -r label; do
   name=$(echo "$label" | jq -r '.name')
   color=$(echo "$label" | jq -r '.color')
   if echo "$existing_labels" | grep -q "^$name$"; then
     if [[ "$DRY_RUN" == "true" ]]; then print_plan "Edit label: $name ($color)"; else
-        gh label edit "$name" --color "$color" --repo "$REPO" --silent
+        gh label edit "$name" --color "$color" --repo "$REPO"
     fi
   else
     if [[ "$DRY_RUN" == "true" ]]; then print_plan "Create label: $name ($color)"; else
-        gh label create "$name" --color "$color" --repo "$REPO" --silent
+        gh label create "$name" --color "$color" --repo "$REPO"
     fi
   fi
 done
