@@ -34,7 +34,7 @@ SPEC_VERSION=$(yq '.metadata.version' "$SPEC_FILE")
 echo "🔎 Verifying Governance for $REPO (Spec v$SPEC_VERSION)"
 
 # 2. Fetch Actual State
-repo_json=$(gh repo view "$REPO" --json name,description,isPublic,hasWikiEnabled,hasDiscussionsEnabled,hasProjectsEnabled,defaultBranchRef,squashMergeAllowed,mergeCommitAllowed,rebaseMergeAllowed,deleteBranchOnMerge || exit 3)
+repo_json=$(gh repo view "$REPO" --json name,description,isPrivate,hasWikiEnabled,hasDiscussionsEnabled,hasProjectsEnabled,defaultBranchRef,squashMergeAllowed,mergeCommitAllowed,rebaseMergeAllowed,deleteBranchOnMerge || exit 3)
 
 # 3. Validation Logic
 results_json="{ \"schemaVersion\": \"1\", \"generatedAt\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\", \"spec_version\": \"$SPEC_VERSION\", \"checks\": [] }"
@@ -68,14 +68,15 @@ check_repo_property() {
   fi
 }
 
-check_repo_property "repo.visibility" "$(yq '.repository.visibility' "$SPEC_FILE")" "$([[ $(echo "$repo_json" | jq -r '.isPublic') == "true" ]] && echo "public" || echo "private")" "$LEVEL_ERROR"
+check_repo_property "repo.visibility" "$(yq '.repository.visibility' "$SPEC_FILE")" "$([[ $(echo "$repo_json" | jq -r '.isPrivate') == "false" ]] && echo "public" || echo "private")" "$LEVEL_ERROR"
 check_repo_property "repo.description" "$(yq '.repository.description' "$SPEC_FILE")" "$(echo "$repo_json" | jq -r '.description')" "$LEVEL_WARN"
 check_repo_property "repo.wiki" "$(yq '.repository.features.wiki' "$SPEC_FILE")" "$(echo "$repo_json" | jq -r '.hasWikiEnabled')" "$LEVEL_WARN"
 
 # Branch Protections (ERROR on fail)
 check_branch_protection() {
   local branch=$1
-  actual_protection=$(gh api "repos/$REPO/branches/$branch/protection" --silent || echo "{}")
+  info "Checking $branch protection..."
+  actual_protection=$(gh api "repos/$REPO/branches/$branch/protection" || echo "{}")
   expected_protection=$(yq -o=json ".branches.$branch.protection" "$SPEC_FILE")
   
   actual_reviews=$(echo "$actual_protection" | jq -r '.required_pull_request_reviews.required_approving_review_count // 0')
