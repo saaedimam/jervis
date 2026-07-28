@@ -11,13 +11,7 @@ import (
 )
 
 func TestValidatePriority(t *testing.T) {
-	priorities := []int{
-		events.MinPriority,
-		events.MaxPriority,
-		events.Low,
-		events.Normal,
-		events.High,
-		events.Critical,
+	priorities := []events.Priority{
 		events.PriorityLow,
 		events.PriorityNormal,
 		events.PriorityHigh,
@@ -30,24 +24,24 @@ func TestValidatePriority(t *testing.T) {
 		}
 	}
 
-	if err := events.ValidatePriority(-101); !errors.Is(err, errs.ErrInvalidPriority) {
-		t.Fatalf("expected ErrInvalidPriority for -101")
-	}
-	if err := events.ValidatePriority(101); !errors.Is(err, errs.ErrInvalidPriority) {
-		t.Fatalf("expected ErrInvalidPriority for 101")
+	if err := events.ValidatePriority(events.PriorityCritical + 1); !errors.Is(err, errs.ErrInvalidPriority) {
+		t.Fatalf("expected ErrInvalidPriority for PriorityCritical + 1")
 	}
 }
 
 func TestValidateEventType(t *testing.T) {
-	validTypes := []string{"runtime.lifecycle.booted", "memory.timeline.appended", "a.b"}
+	validTypes := []events.EventType{"runtime.lifecycle.booted", "memory.timeline.appended", "a.b"}
 	for _, vt := range validTypes {
 		if err := events.ValidateEventType(vt); err != nil {
 			t.Errorf("expected event type %q to be valid: %v", vt, err)
 		}
+		if vt.String() != string(vt) {
+			t.Errorf("String() mismatch for %q", vt)
+		}
 	}
 
 	invalidTypes := []struct {
-		eventType string
+		eventType events.EventType
 		desc      string
 	}{
 		{"", "empty"},
@@ -68,21 +62,21 @@ func TestValidateEventType(t *testing.T) {
 	}
 }
 
-func TestEventBuilderSuccessfulBuild(t *testing.T) {
+func TestEventBuilderAndClone(t *testing.T) {
 	evtID, err := types.NewEventID("evt-001")
 	if err != nil {
 		t.Fatalf("unexpected error creating EventID: %v", err)
 	}
 
 	now := types.NewTimestamp(time.Now())
-	evt, err := events.NewBuilder().
+	env, err := events.NewBuilder().
 		SetID(evtID).
 		SetType("runtime.lifecycle.booted").
 		SetSource("internal/runtime/lifecycle").
 		SetTimestamp(now).
 		SetCorrelationID("corr-001").
 		SetCausationID("cause-001").
-		SetPriority(events.High).
+		SetPriority(events.PriorityHigh).
 		SetPayload("payload-data").
 		SetMetadata("key1", "val1").
 		SetVersion("1.0.0").
@@ -92,42 +86,53 @@ func TestEventBuilderSuccessfulBuild(t *testing.T) {
 		t.Fatalf("unexpected error building event: %v", err)
 	}
 
-	if evt.ID() != evtID {
-		t.Errorf("expected ID %v, got %v", evtID, evt.ID())
+	if env.ID() != evtID {
+		t.Errorf("expected ID %v, got %v", evtID, env.ID())
 	}
-	if evt.Type() != "runtime.lifecycle.booted" {
-		t.Errorf("expected Type runtime.lifecycle.booted, got %s", evt.Type())
+	if env.Type() != "runtime.lifecycle.booted" {
+		t.Errorf("expected Type runtime.lifecycle.booted, got %s", env.Type())
 	}
-	if evt.Source() != "internal/runtime/lifecycle" {
-		t.Errorf("expected Source internal/runtime/lifecycle, got %s", evt.Source())
+	if env.Source() != "internal/runtime/lifecycle" {
+		t.Errorf("expected Source internal/runtime/lifecycle, got %s", env.Source())
 	}
-	if evt.Timestamp() != now {
-		t.Errorf("expected Timestamp %v, got %v", now, evt.Timestamp())
+	if env.Timestamp() != now {
+		t.Errorf("expected Timestamp %v, got %v", now, env.Timestamp())
 	}
-	if evt.CorrelationID() != "corr-001" {
-		t.Errorf("expected CorrelationID corr-001, got %s", evt.CorrelationID())
+	if env.CorrelationID() != "corr-001" {
+		t.Errorf("expected CorrelationID corr-001, got %s", env.CorrelationID())
 	}
-	if evt.CausationID() != "cause-001" {
-		t.Errorf("expected CausationID cause-001, got %s", evt.CausationID())
+	if env.CausationID() != "cause-001" {
+		t.Errorf("expected CausationID cause-001, got %s", env.CausationID())
 	}
-	if evt.Priority() != events.High {
-		t.Errorf("expected Priority High (%d), got %d", events.High, evt.Priority())
+	if env.Priority() != uint8(events.PriorityHigh) {
+		t.Errorf("expected Priority High (%d), got %d", uint8(events.PriorityHigh), env.Priority())
 	}
-	if evt.Payload() != "payload-data" {
-		t.Errorf("expected Payload payload-data, got %v", evt.Payload())
+	if env.Payload() != "payload-data" {
+		t.Errorf("expected Payload payload-data, got %v", env.Payload())
 	}
-	if evt.Version() != "1.0.0" {
-		t.Errorf("expected Version 1.0.0, got %s", evt.Version())
+	if env.Version() != "1.0.0" {
+		t.Errorf("expected Version 1.0.0, got %s", env.Version())
 	}
 
-	meta := evt.Metadata()
-	if meta["key1"] != "val1" {
-		t.Errorf("expected metadata key1=val1, got %s", meta["key1"])
+	// Test Clone
+	cloned := env.Clone()
+	if cloned == nil {
+		t.Fatalf("expected non-nil cloned envelope")
+	}
+	if cloned.ID() != env.ID() || cloned.Type() != env.Type() || cloned.Payload() != env.Payload() {
+		t.Fatalf("cloned envelope mismatch")
+	}
+
+	// Test nil Clone
+	var nilEnv *events.Envelope
+	if nilEnv.Clone() != nil {
+		t.Fatalf("expected nil for nil envelope Clone()")
 	}
 
 	// Test metadata immutability copy
+	meta := env.Metadata()
 	meta["key1"] = "mutated"
-	if evt.Metadata()["key1"] != "val1" {
+	if env.Metadata()["key1"] != "val1" {
 		t.Errorf("metadata was mutated directly, defensive copy failed")
 	}
 }
@@ -135,7 +140,7 @@ func TestEventBuilderSuccessfulBuild(t *testing.T) {
 func TestEventBuilderDefaultsAndAutoPopulate(t *testing.T) {
 	evtID, _ := types.NewEventID("evt-auto")
 
-	evt, err := events.NewBuilder().
+	env, err := events.NewBuilder().
 		SetID(evtID).
 		SetType("runtime.test.event").
 		SetSource("test").
@@ -146,20 +151,20 @@ func TestEventBuilderDefaultsAndAutoPopulate(t *testing.T) {
 		t.Fatalf("unexpected build error: %v", err)
 	}
 
-	if evt.Timestamp().IsZero() {
+	if env.Timestamp().IsZero() {
 		t.Errorf("expected auto-populated timestamp")
 	}
-	if evt.CorrelationID() != "evt-auto" {
-		t.Errorf("expected correlation ID auto-populated from EventID, got %s", evt.CorrelationID())
+	if env.CorrelationID() != "evt-auto" {
+		t.Errorf("expected correlation ID auto-populated from EventID, got %s", env.CorrelationID())
 	}
-	if evt.CausationID() != "evt-auto" {
-		t.Errorf("expected causation ID auto-populated from EventID, got %s", evt.CausationID())
+	if env.CausationID() != "evt-auto" {
+		t.Errorf("expected causation ID auto-populated from EventID, got %s", env.CausationID())
 	}
-	if evt.Priority() != events.DefaultPriority {
-		t.Errorf("expected default priority 0, got %d", evt.Priority())
+	if env.Priority() != uint8(events.DefaultPriority) {
+		t.Errorf("expected default priority %d, got %d", events.DefaultPriority, env.Priority())
 	}
-	if evt.Version() != events.DefaultVersion {
-		t.Errorf("expected default version 1.0.0, got %s", evt.Version())
+	if env.Version() != events.DefaultVersion {
+		t.Errorf("expected default version 1.0.0, got %s", env.Version())
 	}
 }
 
@@ -201,9 +206,9 @@ func TestValidateEventValidationFailures(t *testing.T) {
 	}
 
 	// Out of range Priority
-	builderPriority := events.NewBuilder().SetID(evtID).SetType("runtime.test.event").SetSource("test").SetPayload("p").SetPriority(200)
+	builderPriority := events.NewBuilder().SetID(evtID).SetType("runtime.test.event").SetSource("test").SetPayload("p").SetPriority(events.PriorityCritical + 1)
 	if _, err := builderPriority.Build(); !errors.Is(err, errs.ErrInvalidPriority) {
-		t.Fatalf("expected ErrInvalidPriority for priority 200, got %v", err)
+		t.Fatalf("expected ErrInvalidPriority for priority out of bounds, got %v", err)
 	}
 
 	// Empty Version
@@ -219,11 +224,11 @@ func TestUninitializedBuilderAndNilMetadata(t *testing.T) {
 
 	evtID, _ := types.NewEventID("evt-uninit")
 	uninitBuilder.SetID(evtID).SetType("runtime.test.event").SetSource("test").SetPayload("data")
-	evt, err := uninitBuilder.Build()
+	env, err := uninitBuilder.Build()
 	if err != nil {
 		t.Fatalf("unexpected error building uninit builder: %v", err)
 	}
-	if evt.Metadata()["k"] != "v" {
+	if env.Metadata()["k"] != "v" {
 		t.Fatalf("expected metadata k=v")
 	}
 }
@@ -238,7 +243,7 @@ func (m *mockEventInvalidTS) Source() string              { return "test" }
 func (m *mockEventInvalidTS) Timestamp() types.Timestamp  { return types.Timestamp{} }
 func (m *mockEventInvalidTS) CorrelationID() string       { return "corr" }
 func (m *mockEventInvalidTS) CausationID() string         { return "cause" }
-func (m *mockEventInvalidTS) Priority() int               { return 0 }
+func (m *mockEventInvalidTS) Priority() uint8             { return uint8(events.PriorityNormal) }
 func (m *mockEventInvalidTS) Payload() any                { return "payload" }
 func (m *mockEventInvalidTS) Metadata() map[string]string { return nil }
 func (m *mockEventInvalidTS) Version() string             { return "1.0.0" }

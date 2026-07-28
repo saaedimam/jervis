@@ -1,7 +1,6 @@
 package contracts_test
 
 import (
-	"context"
 	"testing"
 
 	"github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
@@ -13,19 +12,19 @@ type dummyHandler struct {
 }
 
 func (d *dummyHandler) ID() string { return d.id }
-func (d *dummyHandler) Handle(ctx context.Context, event contracts.Event) error {
+func (d *dummyHandler) Handle(event contracts.Event) error {
 	return nil
 }
 
 type dummyPublisher struct{}
 
-func (d *dummyPublisher) Publish(ctx context.Context, event contracts.Event) error {
+func (d *dummyPublisher) Publish(event contracts.Event) error {
 	return nil
 }
 
 type dummySubscriber struct{}
 
-func (d *dummySubscriber) Subscribe(eventType string, handler contracts.Handler, priority int) error {
+func (d *dummySubscriber) Subscribe(eventType string, handler contracts.Handler, priority uint8) error {
 	return nil
 }
 
@@ -35,7 +34,7 @@ func (d *dummySubscriber) Unsubscribe(eventType string, handlerID string) error 
 
 type dummyDispatcher struct{}
 
-func (d *dummyDispatcher) Dispatch(ctx context.Context, event contracts.Event, handlers []contracts.Handler) error {
+func (d *dummyDispatcher) Dispatch(event contracts.Event, handlers []contracts.Handler) error {
 	return nil
 }
 
@@ -47,8 +46,8 @@ func (d *dummyValidator) Validate(event contracts.Event) error {
 
 type dummyMiddleware struct{}
 
-func (d *dummyMiddleware) Execute(ctx context.Context, event contracts.Event, next func(context.Context, contracts.Event) error) error {
-	return next(ctx, event)
+func (d *dummyMiddleware) Execute(event contracts.Event, next func(contracts.Event) error) error {
+	return next(event)
 }
 
 type dummyEventFilter struct{}
@@ -64,7 +63,7 @@ type dummyEvent struct {
 	timestamp     types.Timestamp
 	correlationID string
 	causationID   string
-	priority      int
+	priority      uint8
 	payload       any
 	metadata      map[string]string
 	version       string
@@ -76,7 +75,7 @@ func (d *dummyEvent) Source() string              { return d.source }
 func (d *dummyEvent) Timestamp() types.Timestamp  { return d.timestamp }
 func (d *dummyEvent) CorrelationID() string       { return d.correlationID }
 func (d *dummyEvent) CausationID() string         { return d.causationID }
-func (d *dummyEvent) Priority() int               { return d.priority }
+func (d *dummyEvent) Priority() uint8             { return d.priority }
 func (d *dummyEvent) Payload() any                { return d.payload }
 func (d *dummyEvent) Metadata() map[string]string { return d.metadata }
 func (d *dummyEvent) Version() string             { return d.version }
@@ -87,7 +86,7 @@ func TestContractsInterfaces(t *testing.T) {
 	if h.ID() != "h1" {
 		t.Errorf("ID() = %s, want h1", h.ID())
 	}
-	if err := h.Handle(context.Background(), nil); err != nil {
+	if err := h.Handle(nil); err != nil {
 		t.Errorf("Handle() err = %v", err)
 	}
 
@@ -112,7 +111,7 @@ func TestContractsInterfaces(t *testing.T) {
 		timestamp:     now,
 		correlationID: "corr-1",
 		causationID:   "cause-1",
-		priority:      10,
+		priority:      1,
 		payload:       "data",
 		metadata:      map[string]string{"k": "v"},
 		version:       "1.0.0",
@@ -120,7 +119,7 @@ func TestContractsInterfaces(t *testing.T) {
 
 	if evt.ID() != evtID || evt.Type() != "test.event" || evt.Source() != "test.source" ||
 		evt.Timestamp() != now || evt.CorrelationID() != "corr-1" || evt.CausationID() != "cause-1" ||
-		evt.Priority() != 10 || evt.Payload() != "data" || evt.Metadata()["k"] != "v" || evt.Version() != "1.0.0" {
+		evt.Priority() != 1 || evt.Payload() != "data" || evt.Metadata()["k"] != "v" || evt.Version() != "1.0.0" {
 		t.Errorf("dummyEvent accessor mismatch")
 	}
 }

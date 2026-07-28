@@ -1,0 +1,39 @@
+name: Governance Audit
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0' # Weekly on Sundays
+
+jobs:
+  audit:
+    name: Verify Governance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup GitHub CLI
+        run: |
+          gh auth status || echo "Using GITHUB_TOKEN"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Governance Audit
+        run: ./scripts/verify_github.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit Updated Audit Snapshot
+        if: github.event_name != 'pull_request'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add GITHUB_AUDIT.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update governance audit snapshot [skip ci]"
+          git push || echo "Push failed, likely due to branch protection"

@@ -10,40 +10,44 @@ import (
 	"github.com/ioriimasu/jervis/internal/runtime/types"
 )
 
-// Named priority level constants
+// Priority represents event processing priority as a byte.
+type Priority uint8
+
 const (
-	MinPriority      = -100
-	MaxPriority      = 100
-	PriorityLow      = -50
-	Low              = PriorityLow
-	PriorityNormal   = 0
-	Normal           = PriorityNormal
-	PriorityHigh     = 50
-	High             = PriorityHigh
-	PriorityCritical = 100
-	Critical         = PriorityCritical
-	DefaultPriority  = PriorityNormal
-	DefaultVersion   = "1.0.0"
+	// PriorityLow is for low priority background events.
+	PriorityLow Priority = iota
+	// PriorityNormal is the standard default priority.
+	PriorityNormal
+	// PriorityHigh is for high priority urgent events.
+	PriorityHigh
+	// PriorityCritical is for critical system events.
+	PriorityCritical
+)
+
+const (
+	DefaultPriority = PriorityNormal
+	DefaultVersion  = "1.0.0"
 )
 
 // EventID represents a canonical event instance identifier.
 type EventID = types.EventID
 
 // EventType represents a namespaced event type classification.
-type EventType = string
+type EventType string
 
-// Priority represents event processing priority integer (-100 to +100).
-type Priority = int
+func (t EventType) String() string {
+	return string(t)
+}
 
 // Header holds header metadata for an event envelope.
 type Header struct {
 	ID            types.EventID
-	Type          string
+	Type          EventType
 	Source        string
 	Timestamp     types.Timestamp
 	CorrelationID string
 	CausationID   string
-	Priority      int
+	Priority      Priority
 	Version       string
 }
 
@@ -78,7 +82,7 @@ func (e *Envelope) ID() types.EventID {
 
 // Type returns the namespaced event type string.
 func (e *Envelope) Type() string {
-	return e.header.Type
+	return e.header.Type.String()
 }
 
 // Source returns the originating subsystem or component path.
@@ -101,9 +105,9 @@ func (e *Envelope) CausationID() string {
 	return e.header.CausationID
 }
 
-// Priority returns the handler execution priority integer.
-func (e *Envelope) Priority() int {
-	return e.header.Priority
+// Priority returns the handler execution priority byte.
+func (e *Envelope) Priority() uint8 {
+	return uint8(e.header.Priority)
 }
 
 // Payload returns the event payload object.
@@ -126,31 +130,44 @@ func (e *Envelope) Header() Header {
 	return e.header
 }
 
-// ValidatePriority checks if priority falls within permitted bounds [-100, 100].
-func ValidatePriority(p int) error {
-	if p < MinPriority || p > MaxPriority {
-		return fmt.Errorf("%w: priority %d must be between %d and %d", errs.ErrInvalidPriority, p, MinPriority, MaxPriority)
+// Clone creates and returns a deep defensive copy of the Envelope.
+func (e *Envelope) Clone() *Envelope {
+	if e == nil {
+		return nil
+	}
+	return &Envelope{
+		header:   e.header,
+		payload:  e.payload,
+		metadata: e.metadata.Clone(),
+	}
+}
+
+// ValidatePriority checks if priority falls within permitted bounds [PriorityLow, PriorityCritical].
+func ValidatePriority(p Priority) error {
+	if p > PriorityCritical {
+		return fmt.Errorf("%w: priority %d must be between %d and %d", errs.ErrInvalidPriority, p, PriorityLow, PriorityCritical)
 	}
 	return nil
 }
 
 // ValidateEventType verifies that event type complies with lowercase dot-separated format (<layer>.<component>.<verb>).
-func ValidateEventType(t string) error {
-	if t == "" {
+func ValidateEventType(t EventType) error {
+	str := t.String()
+	if str == "" {
 		return fmt.Errorf("%w: event type cannot be empty", errs.ErrValidationFailed)
 	}
-	for _, r := range t {
+	for _, r := range str {
 		if unicode.IsUpper(r) || unicode.IsSpace(r) {
-			return fmt.Errorf("%w: event type %q must be lowercase and contain no spaces", errs.ErrValidationFailed, t)
+			return fmt.Errorf("%w: event type %q must be lowercase and contain no spaces", errs.ErrValidationFailed, str)
 		}
 	}
-	parts := strings.Split(t, ".")
+	parts := strings.Split(str, ".")
 	if len(parts) < 2 {
-		return fmt.Errorf("%w: event type %q must contain at least one namespace separator '.'", errs.ErrValidationFailed, t)
+		return fmt.Errorf("%w: event type %q must contain at least one namespace separator '.'", errs.ErrValidationFailed, str)
 	}
 	for _, part := range parts {
 		if part == "" {
-			return fmt.Errorf("%w: event type %q contains empty namespace segment", errs.ErrValidationFailed, t)
+			return fmt.Errorf("%w: event type %q contains empty namespace segment", errs.ErrValidationFailed, str)
 		}
 	}
 	return nil
@@ -164,7 +181,7 @@ func ValidateEvent(e contracts.Event) error {
 	if e.ID().IsZero() {
 		return fmt.Errorf("%w: event ID cannot be empty", errs.ErrValidationFailed)
 	}
-	if err := ValidateEventType(e.Type()); err != nil {
+	if err := ValidateEventType(EventType(e.Type())); err != nil {
 		return err
 	}
 	if e.Source() == "" {
@@ -173,7 +190,7 @@ func ValidateEvent(e contracts.Event) error {
 	if e.Timestamp().IsZero() {
 		return fmt.Errorf("%w: event timestamp cannot be zero", errs.ErrValidationFailed)
 	}
-	if err := ValidatePriority(e.Priority()); err != nil {
+	if err := ValidatePriority(Priority(e.Priority())); err != nil {
 		return err
 	}
 	if e.Payload() == nil {
@@ -210,7 +227,7 @@ func (b *Builder) SetID(id types.EventID) *Builder {
 }
 
 // SetType sets the event type string.
-func (b *Builder) SetType(t string) *Builder {
+func (b *Builder) SetType(t EventType) *Builder {
 	b.header.Type = t
 	return b
 }
@@ -239,8 +256,8 @@ func (b *Builder) SetCausationID(id string) *Builder {
 	return b
 }
 
-// SetPriority sets the event processing priority integer.
-func (b *Builder) SetPriority(p int) *Builder {
+// SetPriority sets the event processing priority.
+func (b *Builder) SetPriority(p Priority) *Builder {
 	b.header.Priority = p
 	return b
 }
@@ -266,8 +283,8 @@ func (b *Builder) SetVersion(ver string) *Builder {
 	return b
 }
 
-// Build validates and constructs an immutable contracts.Event envelope instance.
-func (b *Builder) Build() (contracts.Event, error) {
+// Build validates and constructs an immutable *Envelope instance.
+func (b *Builder) Build() (*Envelope, error) {
 	if b.header.Timestamp.IsZero() {
 		b.header.Timestamp = types.Now()
 	}
