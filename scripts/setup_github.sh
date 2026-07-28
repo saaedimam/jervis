@@ -3,24 +3,24 @@ set -e
 
 REPO="ioriimasu/jervis"
 
-echo "🚀 Starting GitHub Ecosystem Setup for $REPO"
+echo "🚀 Starting Idempotent GitHub Ecosystem Setup for $REPO"
+
+# Helper for status printing
+print_step() { echo -e "\033[1;34m[STEP]\033[0m $1"; }
+print_ok() { echo -e "\033[1;32m[OK]\033[0m $1"; }
+print_warn() { echo -e "\033[1;33m[WARN]\033[0m $1"; }
 
 # 1. Enable Core Features
-echo "🔹 Enabling Discussions, Wiki, and Projects..."
-gh repo edit $REPO --enable-discussions --enable-wiki --enable-projects
+print_step "Configuring Repository Features..."
+gh repo edit $REPO --enable-discussions --enable-wiki --enable-projects --description "Local-first runtime and context operating system for AI agents."
 
-# 2. Configure Discussions Categories
-echo "🔹 Configuring Discussion Categories..."
-# Note: Categories can't be fully managed via CLI yet, but enabling discussions is a start.
+# 2. Security Configuration
+print_step "Configuring Security Features..."
+gh api -X PATCH repos/$REPO/import/settings -f private_vulnerability_reporting=enabled --silent || print_warn "Private Vulnerability Reporting already enabled or unsupported."
+gh repo edit $REPO --enable-github-actions=true
 
-# 3. Security Configuration
-echo "🔹 Enabling Security Features..."
-gh api -X PATCH repos/$REPO/import/settings -f private_vulnerability_reporting=enabled || true
-# Dependabot and Secret Scanning usually require UI or specific API flags if not default
-gh api -X PATCH repos/$REPO -f security_and_analysis='{"secret_scanning":{"status":"enabled"},"secret_scanning_push_protection":{"status":"enabled"}}' || true
-
-# 4. Labels Taxonomy
-echo "🔹 Creating Labels..."
+# 3. Labels Taxonomy
+print_step "Synchronizing Labels..."
 labels=(
   "kind/bug:#d73a4a"
   "kind/feature:#0075ca"
@@ -43,13 +43,19 @@ labels=(
   "phase/interfaces:#f9d0c4"
 )
 
+existing_labels=$(gh label list --repo $REPO --limit 100 | awk '{print $1}')
+
 for label in "${labels[@]}"; do
   IFS=":" read -r name color <<< "$label"
-  gh label create "$name" --color "$color" --force || true
+  if echo "$existing_labels" | grep -q "^$name$"; then
+    gh label edit "$name" --color "$color" --repo $REPO --silent
+  else
+    gh label create "$name" --color "$color" --repo $REPO --silent
+  fi
 done
 
-# 5. Version-based Milestones
-echo "🔹 Creating Milestones..."
+# 4. Version-based Milestones
+print_step "Synchronizing Milestones..."
 milestones=(
   "v0.1.0 Runtime"
   "v0.2.0 Memory"
@@ -59,36 +65,67 @@ milestones=(
   "v1.0.0 Stable"
 )
 
+existing_milestones=$(gh api repos/$REPO/milestones --jq '.[].title')
+
 for m in "${milestones[@]}"; do
-  gh api -X POST repos/$REPO/milestones -f title="$m" || true
+  if echo "$existing_milestones" | grep -q "^$m$"; then
+    print_ok "Milestone '$m' exists."
+  else
+    gh api -X POST repos/$REPO/milestones -f title="$m" --silent
+  fi
 done
 
-# 6. Branch Protection (main)
-echo "🔹 Setting Branch Protection for main..."
+# 5. Branch Protection (main)
+print_step "Applying Branch Protection: main..."
 gh api -X PUT repos/$REPO/branches/main/protection \
   -H "Accept: application/vnd.github+json" \
-  -F "required_status_checks[strict]=true" \
-  -F "required_status_checks[contexts][]=test" \
-  -F "required_status_checks[contexts][]=lint" \
-  -F "enforce_admins=true" \
-  -F "required_pull_request_reviews[required_approving_review_count]=1" \
-  -F "required_pull_request_reviews[dismiss_stale_reviews]=true" \
-  -F "required_pull_request_reviews[require_code_owner_reviews]=true" \
-  -F "restrictions=null" \
-  -F "required_linear_history=true" \
-  -F "allow_force_pushes=false" \
-  -F "allow_deletions=false" || true
+  --input - <<EOF
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": ["test", "lint", "security"]
+  },
+  "enforce_admins": true,
+  "required_pull_request_reviews": {
+    "dismiss_stale_reviews": true,
+    "require_code_owner_reviews": true,
+    "required_approving_review_count": 1
+  },
+  "restrictions": null,
+  "required_linear_history": true,
+  "allow_force_pushes": false,
+  "allow_deletions": false,
+  "required_conversation_resolution": true
+}
+EOF
 
-# 7. Branch Protection (develop)
-echo "🔹 Setting Branch Protection for develop..."
+# 6. Branch Protection (develop)
+print_step "Applying Branch Protection: develop..."
 gh api -X PUT repos/$REPO/branches/develop/protection \
   -H "Accept: application/vnd.github+json" \
-  -F "required_status_checks[strict]=true" \
-  -F "required_status_checks[contexts][]=test" \
-  -F "enforce_admins=false" \
-  -F "required_pull_request_reviews[required_approving_review_count]=1" \
-  -F "required_linear_history=true" \
-  -F "allow_force_pushes=true" \
-  -F "allow_deletions=false" || true
+  --input - <<EOF
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": ["test"]
+  },
+  "enforce_admins": false,
+  "required_pull_request_reviews": {
+    "required_approving_review_count": 1
+  },
+  "restrictions": null,
+  "required_linear_history": true,
+  "allow_force_pushes": true,
+  "allow_deletions": false
+}
+EOF
 
-echo "✅ GitHub Ecosystem Setup Complete!"
+print_step "Final Audit Summary"
+echo "------------------------------------------------"
+echo "Repository: $REPO"
+echo "Wiki:       Enabled"
+echo "Discussions: Enabled"
+echo "Labels:     $(gh label list --repo $REPO | wc -l | xargs) created"
+echo "Milestones: $(gh api repos/$REPO/milestones --jq '. | length') created"
+echo "------------------------------------------------"
+print_ok "GitHub Ecosystem Setup Complete!"

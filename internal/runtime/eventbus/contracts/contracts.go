@@ -1,17 +1,19 @@
 package contracts
 
-import (
-	"context"
+import "context"
 
-	"github.com/ioriimasu/jervis/internal/runtime/types"
-)
+// EventID is a unique identifier for an event.
+type EventID string
+
+// Timestamp represents a timestamp in nanoseconds since epoch.
+type Timestamp int64
 
 // Event represents the canonical immutable event envelope interface.
 type Event interface {
-	ID() types.EventID
+	ID() EventID
 	Type() string
 	Source() string
-	Timestamp() types.Timestamp
+	Timestamp() Timestamp
 	CorrelationID() string
 	CausationID() string
 	Priority() int
