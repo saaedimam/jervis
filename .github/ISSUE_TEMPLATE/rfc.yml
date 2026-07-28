@@ -1,0 +1,30 @@
+name: 💬 RFC (Request for Comments)
+description: Formal request for comments on a major change or addition.
+labels: ["rfc", "triage"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Brief explanation of the proposed change.
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why are we doing this?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Detailed Proposal
+      description: Explain the change in detail.
+    validations:
+      required: true
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Requested Feedback
+      description: Specific areas where you need community input.

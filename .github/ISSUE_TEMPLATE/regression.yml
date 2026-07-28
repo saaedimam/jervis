@@ -1,0 +1,30 @@
+name: 📉 Regression
+description: Report a feature that worked in a previous version but is now broken.
+labels: ["bug", "regression", "critical", "triage"]
+body:
+  - type: input
+    id: last-working-version
+    attributes:
+      label: Last Working Version
+      placeholder: "e.g., v0.1.0"
+    validations:
+      required: true
+  - type: textarea
+    id: current-behavior
+    attributes:
+      label: Current Behavior
+      description: What is happening now?
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What was the behavior in the last working version?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Log Output
+      render: shell

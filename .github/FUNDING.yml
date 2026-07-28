@@ -1,0 +1,7 @@
+# GitHub Funding Configuration
+# Use this to specify funding platforms for the project.
+
+github: [ioriimasu]
+# patreon: ioriimasu
+# open_collective: jervis
+# custom: ["https://example.com/donate"]

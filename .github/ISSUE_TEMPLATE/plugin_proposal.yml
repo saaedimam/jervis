@@ -1,0 +1,30 @@
+name: 🔌 Plugin Proposal
+description: Propose a new plugin for the jervis ecosystem.
+labels: ["plugin", "triage"]
+body:
+  - type: input
+    id: plugin-name
+    attributes:
+      label: Plugin Name
+      placeholder: "e.g., Slack Integration"
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose
+      description: What problem does this plugin solve?
+    validations:
+      required: true
+  - type: textarea
+    id: features
+    attributes:
+      label: Proposed Features
+      description: List the core capabilities of the plugin.
+    validations:
+      required: true
+  - type: textarea
+    id: architecture
+    attributes:
+      label: Architecture Impact
+      description: How does this interact with the core runtime?

@@ -1,0 +1,16 @@
+name: ❓ Question
+description: Ask a question or seek clarification.
+labels: ["question", "triage"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What would you like to know?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Provide any background context that might help us answer your question.

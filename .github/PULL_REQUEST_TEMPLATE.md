@@ -16,16 +16,18 @@
 - [ ] build: Changes that affect the build system or external dependencies
 - [ ] ci: Changes to CI configuration files and scripts
 
-## Architecture Impact
-- [ ] No architectural changes.
-- [ ] This change introduces a new architectural component.
-- [ ] This change modifies an existing architectural invariant.
-- [ ] This change requires an ADR (Architecture Decision Record).
+## Mandatory Checklist
+- [ ] **Architecture Impact**: I have evaluated the impact on the system architecture.
+- [ ] **ADR Required**: I have checked if this change requires a new ADR.
+- [ ] **Context Synced**: I have updated the relevant files in `context/`.
+- [ ] **API Freeze Updated**: I have checked if `context/API_FREEZE.md` needs an update.
+- [ ] **Tests**: Unit tests and/or integration tests are included.
+- [ ] **Coverage**: I have verified that test coverage has not regressed.
+- [ ] **Security**: I have checked for potential security vulnerabilities.
+- [ ] **Performance**: I have verified that this change does not introduce performance regressions.
 
-## Checklist
+## Additional Checklist
 - [ ] I have followed the [Coding Standards](file:///Users/ioriimasu/dev/jervis/04_CODING_STANDARD.md).
-- [ ] I have added tests that prove my fix is effective or that my feature works.
-- [ ] New and existing unit tests pass locally with my changes.
 - [ ] I have commented my code, particularly in hard-to-understand areas.
 - [ ] I have updated the documentation accordingly.
 - [ ] My changes generate no new warnings.

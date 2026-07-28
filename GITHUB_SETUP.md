@@ -21,79 +21,72 @@ This document defines the canonical repository standards, governance policies, a
 
 ## 3. Commit Conventions
 All commits must follow the **Conventional Commits** specification:
-
-```text
-<type>[optional scope]: <description>
-
-[optional body]
-
-[optional footer(s)]
-```
-
-**Types:**
-- `feat`: A new feature (correlates with MINOR in SemVer).
-- `fix`: A bug fix (correlates with PATCH in SemVer).
+- `feat`: A new feature (MINOR).
+- `fix`: A bug fix (PATCH).
 - `docs`: Documentation only changes.
-- `style`: Changes that do not affect the meaning of the code.
 - `refactor`: A code change that neither fixes a bug nor adds a feature.
 - `perf`: A code change that improves performance.
 - `test`: Adding missing tests or correcting existing tests.
-- `build`: Changes that affect the build system or external dependencies.
-- `ci`: Changes to CI configuration files and scripts.
-- `chore`: Other changes that don't modify src or test files.
+- `build`: Changes to build system or deps.
+- `ci`: Changes to CI configuration.
+- `chore`: Maintenance tasks.
 
-## 4. Pull Request (PR) Rules
-1. **Linear History**: Rebase feature branches before merging.
-2. **Squash and Merge**: Use for all `feature/*` and `fix/*` PRs into `develop`.
-3. **Atomic PRs**: One PR per logical change.
-4. **Mandatory Review**: At least one approval from a CODEOWNER.
-5. **CI Compliance**: All status checks must pass (Lint, Test, Security).
+## 4. Git Tagging Strategy
+Tags must be used for all releases and significant milestones:
+- `v0.1.0-alpha.1` (Initial exploration)
+- `v0.1.0-beta.1` (Feature complete for milestone)
+- `v0.1.0-rc.1` (Release candidate)
+- `v0.1.0` (Stable release)
 
-## 5. Issue Templates
-Standardized forms are available in `.github/ISSUE_TEMPLATE/`:
-- `Bug Report`: For defects and regressions.
-- `Feature Request`: For new capabilities.
-- `Architecture Proposal`: For structural changes.
-- `ADR Proposal`: For formal decision records.
-- `Performance`: For optimization tasks.
-- `Security`: For vulnerability reporting.
+## 5. Pull Request (PR) Rules
+1. **Mandatory Checklist**: Every PR must satisfy the Architectural, Security, and Performance checklists in the PR template.
+2. **Linear History**: Rebase feature branches before merging.
+3. **Mandatory Review**: At least one approval from a CODEOWNER.
+4. **CI Compliance**: All status checks must pass (Lint, Test, Security, CodeQL, Coverage).
 
-## 6. Labels & Milestones
-### Standard Labels
-- `bug`: Something isn't working.
-- `feature`: New functionality.
-- `architecture`: Structural design changes.
-- `adr`: Architecture Decision Records.
-- `performance`: Speed or resource optimizations.
-- `security`: Security-related issues.
-- `triage`: Needs classification.
-- `critical`: High-priority / blocking.
-- `good first issue`: Suitable for new contributors.
+## 6. Branch Protection Rules
+### `main` branch
+- Require PR before merging.
+- Require 1 Approval.
+- Require Status Checks (Test, Lint, CodeQL, Security).
+- Require Conversation Resolution.
+- Require Linear History (Squash/Rebase).
+- Restrict Force Push & Deletion.
 
-### Milestones
-- `Phase 1.0 — Runtime Foundation`
-- `Phase 2.0 — Context Engine`
-- `Phase 3.0 — OS Integration`
+### `develop` branch
+- Require PR.
+- Require Status Checks.
+- Require Linear History.
 
-## 7. CODEOWNERS Policy
-- The `@ioriimasu` team/user is the default owner of all code.
-- Changes to `ARCHITECTURE.md` and `internal/runtime/` require explicit approval from the primary owner.
+## 7. Security Policy
+Enabled features:
+- Dependabot (Weekly updates)
+- CodeQL Analysis (Every push/PR to main/develop)
+- Secret Scanning
+- Dependency Graph
+- Private Vulnerability Reporting
 
-## 8. Release Workflow (Semantic Versioning)
-1. Branch from `develop` to `release/vX.Y.Z`.
-2. Update `CHANGELOG.md` and version files.
-3. Open PR into `main`.
-4. Merge into `main` and tag `vX.Y.Z`.
-5. Back-merge `main` into `develop`.
+## 8. Release Automation
+Handled via **GoReleaser**:
+1. Tag a release: `git tag -a v0.1.0 -m "Release v0.1.0"`
+2. Push tag: `git push origin v0.1.0`
+3. CI (`release.yml`) triggers GoReleaser to build binaries, generate checksums, and create a GitHub Release.
 
-## 9. Branch Protection Rules
-**`main` branch:**
-- Require pull request reviews before merging.
-- Required approvals: 1.
-- Dismiss stale pull request approvals when new commits are pushed.
-- Require status checks to pass before merging.
-- Require conversation resolution before merging.
-- Enforce restrictions for administrators.
+## 9. Labels Taxonomy
+- `kind/bug`: Defects.
+- `kind/feature`: New capabilities.
+- `kind/refactor`: Internal cleanup.
+- `kind/docs`: Documentation.
+- `kind/security`: Vulnerabilities.
+- `kind/performance`: Optimizations.
+- `kind/architecture`: Structural changes.
+- `priority/high`, `priority/medium`, `priority/low`.
+- `status/blocked`, `status/in-review`, `status/needs-info`.
+- `phase/runtime`, `phase/memory`, `phase/services`, `phase/providers`, `phase/interfaces`.
 
-**`develop` branch:**
-- Same as `main`, but allows force pushes for rebase cleanup by owners.
+## 10. Automated Setup (GitHub CLI)
+Use `gh` to configure the environment:
+```bash
+gh repo edit --enable-discussions --enable-wiki --enable-projects
+gh api -X PATCH repos/:owner/:repo/import/settings -f private_vulnerability_reporting=enabled
+```

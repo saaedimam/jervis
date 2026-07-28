@@ -1,20 +1,29 @@
 # Repository CODEOWNERS
+# Defined individuals or teams responsible for specific modules.
 
-# The CODEOWNERS file is used to define individuals or teams that are 
-# responsible for code in the repository.
+# Catch-all
+*                           @ioriimasu
 
-# Catch-all for everything in the repository.
-*       @ioriimasu
+# Governance and Meta
+/GITHUB_SETUP.md            @ioriimasu
+/.github/                   @ioriimasu
+/LICENSE                    @ioriimasu
 
-# Core architecture and invariants
+# Architecture and Context
 /ARCHITECTURE.md            @ioriimasu
 /ARCHITECTURE_INVARIANTS.md @ioriimasu
-/ADR_GUIDE.md               @ioriimasu
+/context/                   @ioriimasu
+/docs/                      @ioriimasu
 
-# Governance and setup
-/.github/                   @ioriimasu
-/GITHUB_SETUP.md            @ioriimasu
-
-# Implementation packages
+# Core Modules
 /internal/runtime/          @ioriimasu
-/pkg/                       @ioriimasu
+/internal/memory/           @ioriimasu
+/internal/services/         @ioriimasu
+/internal/aiprovider/       @ioriimasu
+/internal/interfaces/       @ioriimasu
+
+# Tooling and Distribution
+/.goreleaser.yml            @ioriimasu
+/scripts/                   @ioriimasu
+/Makefile                   @ioriimasu
+/Taskfile.yml               @ioriimasu
