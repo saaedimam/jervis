@@ -1,0 +1,47 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with Litmus
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project specific
+bin/
+build/
+dist/
+.env
+.env.local
+.env.*.local
+
+# Antigravity / Agentic logs
+.gemini/
+logs/
+*.log
+
+# Go specific
+go.work
+go.work.sum

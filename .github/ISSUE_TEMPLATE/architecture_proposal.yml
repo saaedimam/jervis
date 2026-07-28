@@ -1,0 +1,28 @@
+name: 🏛️ Architecture Proposal
+description: Propose a change to the jervis architecture.
+labels: ["architecture", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What architectural problem are we solving?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Architecture
+      description: Detail the proposed components, interfaces, and interactions.
+    validations:
+      required: true
+  - type: textarea
+    id: invariants
+    attributes:
+      label: Impact on Invariants
+      description: How does this affect [ARCHITECTURE_INVARIANTS.md](file:///Users/ioriimasu/dev/jervis/ARCHITECTURE_INVARIANTS.md)?
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Trade-offs
+      description: What are the pros and cons of this approach?

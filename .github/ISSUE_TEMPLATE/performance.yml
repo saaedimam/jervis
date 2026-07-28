@@ -1,0 +1,21 @@
+name: 🚀 Performance Improvement
+description: Propose or report a performance issue/improvement.
+labels: ["performance", "triage"]
+body:
+  - type: textarea
+    id: benchmark
+    attributes:
+      label: Current Performance / Benchmark
+      description: Provide details on current performance or benchmark results.
+    validations:
+      required: true
+  - type: textarea
+    id: bottleneck
+    attributes:
+      label: Identified Bottleneck
+      description: Where is the performance loss occurring?
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Improvement Proposal
+      description: How do you propose to optimize this?

@@ -1,0 +1,13 @@
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+  gofumpt:
+    extra-rules: true
+linters:
+  enable:
+    - gofumpt
+    - govet
+    - errcheck
+    - staticcheck
+issues:
+  exclude-use-default: false

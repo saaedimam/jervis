@@ -1,0 +1,25 @@
+name: 🔒 Security Vulnerability
+description: Report a security issue.
+labels: ["security", "critical", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Note:** If this is a sensitive security vulnerability, please consider our [Security Policy](file:///Users/ioriimasu/dev/jervis/SECURITY.md) before posting publicly.
+  - type: textarea
+    id: vulnerability
+    attributes:
+      label: Description of the Vulnerability
+      description: Provide as much detail as possible.
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Potential Impact
+      description: What is the risk associated with this vulnerability?
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Suggested Mitigation
+      description: How can we fix or mitigate this?

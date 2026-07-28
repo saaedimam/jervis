@@ -1,0 +1,20 @@
+# Repository CODEOWNERS
+
+# The CODEOWNERS file is used to define individuals or teams that are 
+# responsible for code in the repository.
+
+# Catch-all for everything in the repository.
+*       @ioriimasu
+
+# Core architecture and invariants
+/ARCHITECTURE.md            @ioriimasu
+/ARCHITECTURE_INVARIANTS.md @ioriimasu
+/ADR_GUIDE.md               @ioriimasu
+
+# Governance and setup
+/.github/                   @ioriimasu
+/GITHUB_SETUP.md            @ioriimasu
+
+# Implementation packages
+/internal/runtime/          @ioriimasu
+/pkg/                       @ioriimasu

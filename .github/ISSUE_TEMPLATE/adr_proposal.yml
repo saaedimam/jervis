@@ -1,0 +1,30 @@
+name: 📜 ADR Proposal
+description: Propose a new Architecture Decision Record.
+labels: ["adr", "triage"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: ADR Title
+      placeholder: "ADR-XXX: Short Descriptive Title"
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What is the context of this decision?
+    validations:
+      required: true
+  - type: textarea
+    id: decision
+    attributes:
+      label: Proposed Decision
+      description: What are we deciding to do?
+    validations:
+      required: true
+  - type: textarea
+    id: consequences
+    attributes:
+      label: Consequences
+      description: What are the resulting consequences (positive and negative)?

@@ -1,0 +1,12 @@
+version: 2
+project_name: jervis
+builds:
+  - main: ./cmd/jervis
+    binary: jervis
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
