@@ -10,7 +10,6 @@ import (
 
 func TestNotification(t *testing.T) {
 	evtID, _ := types.NewEventID("evt-1")
-	now := types.Now()
 	mockEvt := &testutils.MockEvent{
 		IDVal: evtID,
 	}

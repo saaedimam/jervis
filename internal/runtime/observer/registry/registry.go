@@ -1,81 +1,70 @@
 package registry
 
 import (
-	"strings"
-
 	"github.com/ioriimasu/jervis/internal/runtime/observer/contracts"
-	obserrors "github.com/ioriimasu/jervis/internal/runtime/observer/errors"
+	"github.com/ioriimasu/jervis/internal/runtime/observer/errors"
 )
 
+// registry implements contracts.Registry interface.
 type registry struct {
-	observers   []contracts.Observer
-	observerMap map[string]contracts.Observer
+	observers []contracts.Observer
 }
 
-// NewRegistry creates a new, un-synchronized FIFO observer registry.
-func NewRegistry() contracts.Registry {
+// New creates a new in-memory observer registry.
+func New() contracts.Registry {
 	return &registry{
-		observers:   make([]contracts.Observer, 0),
-		observerMap: make(map[string]contracts.Observer),
+		observers: make([]contracts.Observer, 0),
 	}
 }
 
+// Register adds an observer in deterministic FIFO sequence.
 func (r *registry) Register(obs contracts.Observer) error {
-	if obs == nil || strings.TrimSpace(obs.ID()) == "" {
-		return obserrors.ErrObserverNotFound
+	if obs == nil {
+		return errors.ErrObserverNotFound
 	}
-	id := obs.ID()
-	if _, exists := r.observerMap[id]; exists {
-		return obserrors.ErrDuplicateObserver
+
+	if r.Contains(obs.ID()) {
+		return errors.ErrDuplicateObserver
 	}
 
 	r.observers = append(r.observers, obs)
-	r.observerMap[id] = obs
 	return nil
 }
 
+// Unregister removes an observer by its ID.
 func (r *registry) Unregister(id string) error {
-	if strings.TrimSpace(id) == "" {
-		return obserrors.ErrObserverNotFound
-	}
-	if _, exists := r.observerMap[id]; !exists {
-		return obserrors.ErrObserverNotFound
-	}
-
-	delete(r.observerMap, id)
-
-	newObservers := make([]contracts.Observer, 0, len(r.observers)-1)
-	for _, obs := range r.observers {
-		if obs.ID() != id {
-			newObservers = append(newObservers, obs)
+	for i, obs := range r.observers {
+		if obs.ID() == id {
+			r.observers = append(r.observers[:i], r.observers[i+1:]...)
+			return nil
 		}
 	}
-	r.observers = newObservers
-	return nil
+	return errors.ErrObserverNotFound
 }
 
+// Observers returns a defensive copy slice of registered observers sorted by registration sequence.
 func (r *registry) Observers() []contracts.Observer {
-	if len(r.observers) == 0 {
-		return []contracts.Observer{}
-	}
 	cp := make([]contracts.Observer, len(r.observers))
 	copy(cp, r.observers)
 	return cp
 }
 
+// Count returns the number of registered observers.
 func (r *registry) Count() int {
 	return len(r.observers)
 }
 
+// Contains reports whether an observer with the specified ID exists in the registry.
 func (r *registry) Contains(id string) bool {
-	if strings.TrimSpace(id) == "" {
-		return false
+	for _, obs := range r.observers {
+		if obs.ID() == id {
+			return true
+		}
 	}
-	_, exists := r.observerMap[id]
-	return exists
+	return false
 }
 
+// Clear removes all registered observers.
 func (r *registry) Clear() {
 	r.observers = make([]contracts.Observer, 0)
-	r.observerMap = make(map[string]contracts.Observer)
 }

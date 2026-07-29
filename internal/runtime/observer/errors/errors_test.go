@@ -2,60 +2,62 @@ package errors_test
 
 import (
 	"errors"
+	"strings"
 	"testing"
 
-	obserrors "github.com/ioriimasu/jervis/internal/runtime/observer/errors"
+	observererrors "github.com/ioriimasu/jervis/internal/runtime/observer/errors"
 )
 
-func TestErrors(t *testing.T) {
-	if obserrors.ErrInvalidNotification == nil {
-		t.Fatal("ErrInvalidNotification is nil")
+func TestErrObserverPanic(t *testing.T) {
+	err := &observererrors.ErrObserverPanic{
+		ObserverID: "obs-1",
+		Recovered:  "something went wrong",
 	}
-	if obserrors.ErrDuplicateObserver == nil {
-		t.Fatal("ErrDuplicateObserver is nil")
-	}
-	if obserrors.ErrObserverNotFound == nil {
-		t.Fatal("ErrObserverNotFound is nil")
-	}
-	if obserrors.ErrObserverFailure == nil {
-		t.Fatal("ErrObserverFailure is nil")
-	}
-	if obserrors.ErrDispatchFailed == nil {
-		t.Fatal("ErrDispatchFailed is nil")
-	}
-	if obserrors.ErrObserverPanic == nil {
-		t.Fatal("ErrObserverPanic is nil")
+
+	expected := "observer [obs-1] panicked: something went wrong"
+	if err.Error() != expected {
+		t.Errorf("expected %q, got %q", expected, err.Error())
 	}
 }
 
 func TestAggregateError(t *testing.T) {
-	var nilAgg *obserrors.AggregateError
-	if nilAgg.Error() != "no observer errors" {
-		t.Errorf("Expected 'no observer errors', got %s", nilAgg.Error())
-	}
-	if nilAgg.Errors() != nil {
-		t.Errorf("Expected nil errors slice")
-	}
+	t.Run("nil errs", func(t *testing.T) {
+		err := observererrors.NewAggregateError(nil)
+		if err != nil {
+			t.Errorf("expected nil, got %v", err)
+		}
+	})
 
-	emptyAgg := obserrors.NewAggregateError([]error{})
-	if emptyAgg != nil {
-		t.Errorf("Expected nil for empty errors slice")
-	}
+	t.Run("empty slice", func(t *testing.T) {
+		err := observererrors.NewAggregateError([]error{})
+		if err != nil {
+			t.Errorf("expected nil, got %v", err)
+		}
+	})
 
-	err1 := errors.New("err 1")
-	err2 := errors.New("err 2")
-	agg := obserrors.NewAggregateError([]error{err1, nil, err2})
+	t.Run("multiple errors", func(t *testing.T) {
+		errs := []error{
+			errors.New("error 1"),
+			&observererrors.ErrObserverPanic{ObserverID: "obs-2", Recovered: "panic!"},
+		}
+		agg := observererrors.NewAggregateError(errs)
+		if agg == nil {
+			t.Fatal("expected aggregate error, got nil")
+		}
 
-	if agg == nil {
-		t.Fatal("Expected non-nil AggregateError")
-	}
+		msg := agg.Error()
+		if !strings.Contains(msg, "2 observer error(s)") {
+			t.Errorf("missing error count in message: %q", msg)
+		}
+		if !strings.Contains(msg, "error 1") {
+			t.Errorf("missing error 1 in message: %q", msg)
+		}
+		if !strings.Contains(msg, "obs-2") {
+			t.Errorf("missing observer ID in message: %q", msg)
+		}
 
-	if len(agg.Errors()) != 2 {
-		t.Fatalf("Expected 2 errors, got %d", len(agg.Errors()))
-	}
-
-	str := agg.Error()
-	if str == "" {
-		t.Error("Expected non-empty string representation")
-	}
+		if len(agg.Errors()) != 2 {
+			t.Errorf("expected 2 errors, got %d", len(agg.Errors()))
+		}
+	})
 }
