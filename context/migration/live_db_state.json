@@ -1,0 +1,182 @@
+{
+  "architecture": {
+    "id": "d3dcb133-f96e-4e8e-944f-5825c2d1eee0",
+    "title": "\ud83c\udfdb\ufe0f Architecture Registry",
+    "archived": true,
+    "count": 0
+  },
+  "packages": {
+    "id": "9c8bb7d5-5675-4cc5-b1b7-6a9c1ac3fe2f",
+    "title": "\ud83d\udce6 Package Registry",
+    "archived": true,
+    "count": 0
+  },
+  "files": {
+    "id": "d5b8d71a-c568-4288-9443-f3deb8b316bc",
+    "title": "\ud83d\udcc4 File Registry",
+    "archived": true,
+    "count": 0
+  },
+  "specifications": {
+    "id": "f30e0d51-a787-421a-ad6b-77935f7d2e53",
+    "title": "\ud83d\udccb Specification Registry",
+    "archived": true,
+    "count": 0
+  },
+  "adrs": {
+    "id": "6b1d8415-c863-4943-bbe4-4381672f48f0",
+    "title": "\ud83d\udccb ADRs",
+    "archived": true,
+    "count": 0
+  },
+  "apis": {
+    "id": "5e2dad61-5186-46f7-be6b-e7e5c3715f04",
+    "title": "\u26a1 API Registry",
+    "archived": true,
+    "count": 0
+  },
+  "timeline": {
+    "id": "abc5d892-1299-4813-b8bf-a143d6c8c73c",
+    "title": "\ud83d\udcc5 Engineering Timeline",
+    "archived": true,
+    "count": 0
+  },
+  "gates": {
+    "id": "39ae6e23-2bc1-4e34-a7b0-a1da9410b081",
+    "title": "\u2705 Quality Gates",
+    "archived": true,
+    "count": 0
+  },
+  "handoffs": {
+    "id": "c1e36ebb-a3fc-4aea-a3d2-ac8214e1e40a",
+    "title": "\ud83e\udd16 AI Handoff",
+    "archived": true,
+    "count": 0
+  },
+  "commits": {
+    "id": "69c5145a-b84c-43e5-83b2-05d746a80e26",
+    "title": "\ud83d\udd04 Commit Intelligence",
+    "archived": true,
+    "count": 0
+  },
+  "memory": {
+    "id": "38a76b5b-b20e-498e-b6e9-e643c2ae7d8b",
+    "title": "\ud83e\udde0 Engineering Memory",
+    "archived": true,
+    "count": 0
+  },
+  "milestones": {
+    "id": "7cb28553-9f9b-4a6d-857b-5f9c724ddf22",
+    "title": "\ud83c\udfaf Milestones",
+    "archived": true,
+    "count": 0
+  },
+  "dashboard": {
+    "id": "6b2ad157-1284-45a0-808b-cd352f73ab0a",
+    "title": "\ud83d\udcca Dashboard",
+    "archived": true,
+    "count": 0
+  },
+  "dependencies": {
+    "id": "1de04b92-6fe3-4756-b85d-c9370f838a3b",
+    "title": "\ud83d\udd17 Dependency Graph",
+    "archived": true,
+    "count": 0
+  },
+  "tasks": {
+    "id": "3ab1b27f-dcba-8173-810c-e369999f1f55",
+    "title": "Tasks",
+    "archived": true,
+    "count": 0
+  },
+  "releases": {
+    "id": "3ab1b27f-dcba-815c-b351-c1e3a032d77d",
+    "title": "Releases",
+    "archived": true,
+    "count": 0
+  },
+  "bugs": {
+    "id": "3ab1b27f-dcba-8188-8e40-d68338db98c9",
+    "title": "Bugs",
+    "archived": true,
+    "count": 0
+  },
+  "risks": {
+    "id": "3ab1b27f-dcba-814d-a56c-dea71d01a91b",
+    "title": "Risks",
+    "archived": true,
+    "count": 0
+  },
+  "tech_debt": {
+    "id": "3ab1b27f-dcba-81b9-9a3b-f51bbd481efa",
+    "title": "Technical Debt",
+    "archived": true,
+    "count": 0
+  },
+  "research": {
+    "id": "3ab1b27f-dcba-81ff-b01d-f9a6cccbb6f1",
+    "title": "Research",
+    "archived": true,
+    "count": 0
+  },
+  "prompt_library": {
+    "id": "3ab1b27f-dcba-8112-8e17-dc1a7d24aa90",
+    "title": "Prompt Library",
+    "archived": true,
+    "count": 0
+  },
+  "lessons_learned": {
+    "id": "3ab1b27f-dcba-81e5-be95-fb36c52858dd",
+    "title": "Lessons Learned",
+    "archived": true,
+    "count": 0
+  },
+  "patterns": {
+    "id": "3ab1b27f-dcba-812e-9100-e1d02c94593d",
+    "title": "Patterns",
+    "archived": true,
+    "count": 0
+  },
+  "performance_benchmarks": {
+    "id": "3ab1b27f-dcba-819c-b017-e34218f446f3",
+    "title": "Performance Benchmarks",
+    "archived": true,
+    "count": 0
+  },
+  "coding_standards": {
+    "id": "3ab1b27f-dcba-819c-b5f1-d36f3e507c2f",
+    "title": "Coding Standards",
+    "archived": true,
+    "count": 0
+  },
+  "glossary": {
+    "id": "3ab1b27f-dcba-812a-89b3-e5dbc278c0aa",
+    "title": "Glossary",
+    "archived": true,
+    "count": 0
+  },
+  "assets": {
+    "id": "3ab1b27f-dcba-8144-a0bc-fbf76689612f",
+    "title": "Assets",
+    "archived": true,
+    "count": 0
+  },
+  "external_dependencies": {
+    "id": "3ab1b27f-dcba-8142-9eb8-fd159f13ea2e",
+    "title": "External Dependencies",
+    "archived": true,
+    "count": 0
+  },
+  "roadmap": {
+    "id": "3ab1b27f-dcba-8119-a98b-ef09d095af54",
+    "title": "Roadmap",
+    "archived": true,
+    "count": 0
+  },
+  "engineering_decisions": {
+    "id": "3ab1b27f-dcba-8183-bf47-e7db7d880ac9",
+    "title": "Engineering Decisions",
+    "archived": true,
+    "count": 0
+  }
+}
