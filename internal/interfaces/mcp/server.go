@@ -111,8 +111,11 @@ func (s *Server) handleListTasks(ctx context.Context, request mcp.CallToolReques
 }
 
 func (s *Server) handleNotionSync(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-	args := request.Params.Arguments.(map[string]any)
-	syncType := args["type"].(string)
+	args, ok := request.Params.Arguments.(map[string]any)
+	if !ok {
+		return mcp.NewToolResultError("invalid arguments format"), nil
+	}
+	syncType, _ := args["type"].(string)
 	name, _ := args["name"].(string)
 	file, _ := args["file"].(string)
 	targetID, _ := args["id"].(string)

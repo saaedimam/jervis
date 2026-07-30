@@ -91,7 +91,7 @@ func (e *Engine) Query(ctx context.Context, filter contracts.Filter) ([]runtimec
 	if err != nil {
 		return nil, fmt.Errorf("failed to query events from store: %w", err)
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	results := []runtimecontracts.Event{}
 	for rows.Next() {

@@ -26,7 +26,7 @@ func TestOllamaAdapter_Chat(t *testing.T) {
 		}
 
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{
+		_, _ = w.Write([]byte(`{
 			"message": {"role": "assistant", "content": "hello ollama"},
 			"prompt_eval_count": 10,
 			"eval_count": 5
@@ -60,7 +60,7 @@ func TestOllamaAdapter_Chat(t *testing.T) {
 func TestOllamaAdapter_Chat_Error(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`internal server error`))
+		_, _ = w.Write([]byte(`internal server error`))
 	}))
 	defer server.Close()
 

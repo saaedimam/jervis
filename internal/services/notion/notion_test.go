@@ -56,9 +56,9 @@ func TestService_SyncContext(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		if r.Method == "GET" {
-			w.Write([]byte(`{"results": [{"id": "block1"}]}`))
+			_, _ = w.Write([]byte(`{"results": [{"id": "block1"}]}`))
 		} else {
-			w.Write([]byte(`{}`))
+			_, _ = w.Write([]byte(`{}`))
 		}
 	}))
 	defer server.Close()
