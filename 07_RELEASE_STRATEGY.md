@@ -35,7 +35,7 @@ Jervis compiles to single static binaries using Go cross-compilation (`CGO_ENABL
 - **Build Tooling**: `goreleaser` compiles static binaries, generates SHA256 checksum manifests (`checksums.txt`), generates release notes, and signs artifacts with GPG/Cosign.
 
 ### Homebrew Tap Integration
-- **Official Tap**: Maintain official Homebrew formula `jervis.rb` in `ioriimasu/homebrew-jervis`.
+- **Official Tap**: Maintain official Homebrew formula `jervis.rb` in `saaedimam/homebrew-jervis`.
 - **Installation Command**: `brew install saaedimam/jervis/jervis`.
 - **Automated Formula Updates**: GoReleaser automatically updates Homebrew formula URL and SHA256 hashes upon stable tag release.
 

@@ -43,4 +43,4 @@ This document defines the normative specification for the automated CI/CD automa
 
 ### Stage 10: Homebrew Formula Automation
 - **Trigger**: Successful release artifact generation.
-- **Requirement**: The pipeline MUST update the Homebrew formula repository (`ioriimasu/homebrew-jervis`) with updated binary download URLs and SHA256 hashes.
+- **Requirement**: The pipeline MUST update the Homebrew formula repository (`saaedimam/homebrew-jervis`) with updated binary download URLs and SHA256 hashes.

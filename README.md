@@ -101,9 +101,9 @@ See the full [ROADMAP.md](ROADMAP.md) for details.
 
 ## 📚 Documentation
 
-- [Developer Guide](https://ioriimasu.github.io/jervis/)
-- [API Reference](https://ioriimasu.github.io/jervis/api)
-- [Plugin Development](https://ioriimasu.github.io/jervis/plugins)
+- [Developer Guide](https://saaedimam.github.io/jervis/)
+- [API Reference](https://saaedimam.github.io/jervis/api)
+- [Plugin Development](https://saaedimam.github.io/jervis/plugins)
 
 ---
 
