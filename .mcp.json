@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "jervis": {
+      "command": "/Users/ioriimasu/dev/jervis/bin/jervis",
+      "args": ["mcp"]
+    }
+  }
+}
