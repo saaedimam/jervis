@@ -81,7 +81,6 @@ func TestEventBuilderAndClone(t *testing.T) {
 		SetMetadata("key1", "val1").
 		SetVersion("1.0.0").
 		Build()
-
 	if err != nil {
 		t.Fatalf("unexpected error building event: %v", err)
 	}
@@ -146,7 +145,6 @@ func TestEventBuilderDefaultsAndAutoPopulate(t *testing.T) {
 		SetSource("test").
 		SetPayload("payload").
 		Build()
-
 	if err != nil {
 		t.Fatalf("unexpected build error: %v", err)
 	}

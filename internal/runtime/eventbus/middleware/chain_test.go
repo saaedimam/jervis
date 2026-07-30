@@ -79,7 +79,6 @@ func TestChainFIFOPreLIFOPostExecution(t *testing.T) {
 		sequence = append(sequence, "Terminal")
 		return nil
 	})
-
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}

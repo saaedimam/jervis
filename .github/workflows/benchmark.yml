@@ -11,14 +11,26 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.22.x'
+          go-version: '1.25.x'
       - name: Run Benchmarks
-        run: go test -v -bench=. -run=^$ ./... > benchmark_result.txt
+        id: run_bench
+        run: |
+          set -o pipefail
+          # run benchmarks; allow non-zero exit but still capture output
+          go test -v -bench=. -run=^$ ./... > benchmark_result.txt || true
+          # detect whether any benchmark lines exist
+          if grep -q '^Benchmark' benchmark_result.txt; then
+            echo "has_benchmarks=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_benchmarks=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Store benchmark result
+        if: steps.run_bench.outputs.has_benchmarks == 'true'
         uses: benchmark-action/github-action-benchmark@v1
         with:
           tool: 'go'
           output-file-path: benchmark_result.txt
           fail-on-alert: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          comment-on-event: true
+

@@ -41,7 +41,24 @@ dist/
 .gemini/
 logs/
 *.log
+__pycache__/
 
 # Go specific
 go.work
 go.work.sum
+
+# Notion Sync & Local Metadata
+.jervis/
+.jervis_sync_log
+.jervis_sync_state
+scratch/
+graph.json
+payload.json
+test_payload.json
+data/
+
+# Generated outputs
+jervis
+*.db
+*.out
+

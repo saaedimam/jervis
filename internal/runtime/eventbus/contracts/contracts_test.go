@@ -28,7 +28,7 @@ func (d *dummySubscriber) Subscribe(eventType string, handler contracts.Handler,
 	return nil
 }
 
-func (d *dummySubscriber) Unsubscribe(eventType string, handlerID string) error {
+func (d *dummySubscriber) Unsubscribe(eventType, handlerID string) error {
 	return nil
 }
 
@@ -52,7 +52,7 @@ func (d *dummyMiddleware) Execute(event contracts.Event, next func(contracts.Eve
 
 type dummyEventFilter struct{}
 
-func (d *dummyEventFilter) Matches(eventType string, targetPattern string) bool {
+func (d *dummyEventFilter) Matches(eventType, targetPattern string) bool {
 	return eventType == targetPattern
 }
 

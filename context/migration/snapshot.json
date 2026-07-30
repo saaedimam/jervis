@@ -1,0 +1,1526 @@
+{
+  "timestamp": "2026-07-29T00:27:39.051688Z",
+  "git_commit": "91ba7ad10ced4accfd6bbced0dab254da9d0af60",
+  "database_ids": {
+    "parent_page": "3ab1b27f-dcba-81d0-8b35-ed766e2e8420",
+    "architecture": "d3dcb133-f96e-4e8e-944f-5825c2d1eee0",
+    "packages": "9c8bb7d5-5675-4cc5-b1b7-6a9c1ac3fe2f",
+    "files": "d5b8d71a-c568-4288-9443-f3deb8b316bc",
+    "specifications": "f30e0d51-a787-421a-ad6b-77935f7d2e53",
+    "adrs": "6b1d8415-c863-4943-bbe4-4381672f48f0",
+    "apis": "5e2dad61-5186-46f7-be6b-e7e5c3715f04",
+    "timeline": "abc5d892-1299-4813-b8bf-a143d6c8c73c",
+    "gates": "39ae6e23-2bc1-4e34-a7b0-a1da9410b081",
+    "handoffs": "c1e36ebb-a3fc-4aea-a3d2-ac8214e1e40a",
+    "commits": "69c5145a-b84c-43e5-83b2-05d746a80e26",
+    "memory": "38a76b5b-b20e-498e-b6e9-e643c2ae7d8b",
+    "milestones": "7cb28553-9f9b-4a6d-857b-5f9c724ddf22",
+    "dashboard": "6b2ad157-1284-45a0-808b-cd352f73ab0a",
+    "dependencies": "1de04b92-6fe3-4756-b85d-c9370f838a3b",
+    "graph_metadata": "",
+    "tasks": "3ab1b27f-dcba-8173-810c-e369999f1f55",
+    "releases": "3ab1b27f-dcba-815c-b351-c1e3a032d77d",
+    "bugs": "3ab1b27f-dcba-8188-8e40-d68338db98c9",
+    "risks": "3ab1b27f-dcba-814d-a56c-dea71d01a91b",
+    "tech_debt": "3ab1b27f-dcba-81b9-9a3b-f51bbd481efa",
+    "research": "3ab1b27f-dcba-81ff-b01d-f9a6cccbb6f1",
+    "prompt_library": "3ab1b27f-dcba-8112-8e17-dc1a7d24aa90",
+    "lessons_learned": "3ab1b27f-dcba-81e5-be95-fb36c52858dd",
+    "patterns": "3ab1b27f-dcba-812e-9100-e1d02c94593d",
+    "performance_benchmarks": "3ab1b27f-dcba-819c-b017-e34218f446f3",
+    "coding_standards": "3ab1b27f-dcba-819c-b5f1-d36f3e507c2f",
+    "glossary": "3ab1b27f-dcba-812a-89b3-e5dbc278c0aa",
+    "assets": "3ab1b27f-dcba-8144-a0bc-fbf76689612f",
+    "external_dependencies": "3ab1b27f-dcba-8142-9eb8-fd159f13ea2e",
+    "roadmap": "3ab1b27f-dcba-8119-a98b-ef09d095af54",
+    "engineering_decisions": "3ab1b27f-dcba-8183-bf47-e7db7d880ac9"
+  },
+  "schemas": {
+    "architecture": {
+      "Design Principles": {
+        "id": "MVhg",
+        "name": "Design Principles",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Purpose": {
+        "id": "MrlP",
+        "name": "Purpose",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Repository Path": {
+        "id": "Pccx",
+        "name": "Repository Path",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Status": {
+        "id": "R~KB",
+        "name": "Status",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "5f1fbdcd-4a1f-4d9f-974b-515b6a78d5df",
+              "name": "Draft",
+              "color": "gray",
+              "description": null
+            },
+            {
+              "id": "d50fe916-0f4a-4c8f-8ff5-747467e2965a",
+              "name": "Implementation",
+              "color": "blue",
+              "description": null
+            },
+            {
+              "id": "e633f62b-1717-4e9d-8ab4-82d37fbd3a36",
+              "name": "Frozen",
+              "color": "green",
+              "description": null
+            },
+            {
+              "id": "1fb0936b-c251-49c9-9029-6b9b6c669190",
+              "name": "Obsolete",
+              "color": "red",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Specifications": {
+        "id": "Uz%7C%3B",
+        "name": "Specifications",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "f30e0d51-a787-421a-ad6b-77935f7d2e53",
+          "data_source_id": "e61c5194-4e7c-43b3-bed9-d149db362d96",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Architecture",
+            "synced_property_id": "dDhn"
+          }
+        }
+      },
+      "Coverage": {
+        "id": "%5D%3EtS",
+        "name": "Coverage",
+        "description": null,
+        "type": "number",
+        "number": {
+          "format": "percent"
+        }
+      },
+      "Risks": {
+        "id": "djAd",
+        "name": "Risks",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Files": {
+        "id": "eLbh",
+        "name": "Files",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "d5b8d71a-c568-4288-9443-f3deb8b316bc",
+          "data_source_id": "2f6a0483-207c-4902-b35c-7e534ca09a4e",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Architecture",
+            "synced_property_id": "L%60Yy"
+          }
+        }
+      },
+      "Name": {
+        "id": "gW%3F%5C",
+        "name": "Name",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Related ADRs": {
+        "id": "ovpf",
+        "name": "Related ADRs",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "6b1d8415-c863-4943-bbe4-4381672f48f0",
+          "data_source_id": "e6956c32-0152-414d-8bbe-af8297a3e516",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Related Architecture",
+            "synced_property_id": "d%3ARb"
+          }
+        }
+      },
+      "Packages": {
+        "id": "uQcg",
+        "name": "Packages",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "9c8bb7d5-5675-4cc5-b1b7-6a9c1ac3fe2f",
+          "data_source_id": "67a310ee-ac61-4cc2-8bad-64ae3de22e4d",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Architecture",
+            "synced_property_id": "K%40dS"
+          }
+        }
+      },
+      "ADRs": {
+        "id": "%7CunM",
+        "name": "ADRs",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "6b1d8415-c863-4943-bbe4-4381672f48f0",
+          "data_source_id": "e6956c32-0152-414d-8bbe-af8297a3e516",
+          "type": "single_property",
+          "single_property": {}
+        }
+      },
+      "Subsystem": {
+        "id": "title",
+        "name": "Subsystem",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "packages": {
+      "Exported APIs": {
+        "id": "%3AFgu",
+        "name": "Exported APIs",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Architecture": {
+        "id": "K%40dS",
+        "name": "Architecture",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "d3dcb133-f96e-4e8e-944f-5825c2d1eee0",
+          "data_source_id": "3ef6ecdd-7f47-48d4-a287-62e5611a5e90",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Packages",
+            "synced_property_id": "uQcg"
+          }
+        }
+      },
+      "Purpose": {
+        "id": "OGi_",
+        "name": "Purpose",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Dependencies": {
+        "id": "S%60qn",
+        "name": "Dependencies",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Repository Path": {
+        "id": "UFWo",
+        "name": "Repository Path",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Coverage": {
+        "id": "Vikg",
+        "name": "Coverage",
+        "description": null,
+        "type": "number",
+        "number": {
+          "format": "percent"
+        }
+      },
+      "Implementing Specification": {
+        "id": "%5E%7DJ%5B",
+        "name": "Implementing Specification",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "f30e0d51-a787-421a-ad6b-77935f7d2e53",
+          "data_source_id": "e61c5194-4e7c-43b3-bed9-d149db362d96",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Related Packages",
+            "synced_property_id": "ewq%3D"
+          }
+        }
+      },
+      "Path": {
+        "id": "g%3Avr",
+        "name": "Path",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Files": {
+        "id": "mDZ%5E",
+        "name": "Files",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "d5b8d71a-c568-4288-9443-f3deb8b316bc",
+          "data_source_id": "2f6a0483-207c-4902-b35c-7e534ca09a4e",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Package",
+            "synced_property_id": "uoRm"
+          }
+        }
+      },
+      "APIs": {
+        "id": "n%3BL%5E",
+        "name": "APIs",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "5e2dad61-5186-46f7-be6b-e7e5c3715f04",
+          "data_source_id": "6113b322-07a5-4f39-85f9-4ada351de83a",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Package",
+            "synced_property_id": "rbxw"
+          }
+        }
+      },
+      "Status": {
+        "id": "%7Bdur",
+        "name": "Status",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "92b52a0e-ee0c-42da-aaf7-ca4ca2a1a4af",
+              "name": "Draft",
+              "color": "gray",
+              "description": null
+            },
+            {
+              "id": "cbb3820b-f90b-47fe-8bab-99d95306bde0",
+              "name": "Implementation",
+              "color": "blue",
+              "description": null
+            },
+            {
+              "id": "98cd8c5f-dff9-4641-8644-1b37ec1f2b27",
+              "name": "Frozen",
+              "color": "green",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Package": {
+        "id": "title",
+        "name": "Package",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "files": {
+      "Status": {
+        "id": "FjYR",
+        "name": "Status",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "430adc14-2771-404d-8ba2-94d64d50d3d1",
+              "name": "Active",
+              "color": "green",
+              "description": null
+            },
+            {
+              "id": "c112d2dc-995e-4498-9ae0-698b56d3d5d6",
+              "name": "Deprecated",
+              "color": "red",
+              "description": null
+            },
+            {
+              "id": "5afe8750-3087-4757-bac4-aa0e7232b5cf",
+              "name": "Planning",
+              "color": "gray",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Architecture": {
+        "id": "L%60Yy",
+        "name": "Architecture",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "d3dcb133-f96e-4e8e-944f-5825c2d1eee0",
+          "data_source_id": "3ef6ecdd-7f47-48d4-a287-62e5611a5e90",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Files",
+            "synced_property_id": "eLbh"
+          }
+        }
+      },
+      "Specification": {
+        "id": "S%5BY%7B",
+        "name": "Specification",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "f30e0d51-a787-421a-ad6b-77935f7d2e53",
+          "data_source_id": "e61c5194-4e7c-43b3-bed9-d149db362d96",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Files",
+            "synced_property_id": "f%3Dw%3F"
+          }
+        }
+      },
+      "Commits": {
+        "id": "fOuZ",
+        "name": "Commits",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "69c5145a-b84c-43e5-83b2-05d746a80e26",
+          "data_source_id": "3f8d8f21-e9d6-4ec8-888c-62a8b050e302",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Files",
+            "synced_property_id": "d%5D%7B%7D"
+          }
+        }
+      },
+      "Path": {
+        "id": "lM%5BJ",
+        "name": "Path",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Exported APIs": {
+        "id": "lokF",
+        "name": "Exported APIs",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "5e2dad61-5186-46f7-be6b-e7e5c3715f04",
+          "data_source_id": "6113b322-07a5-4f39-85f9-4ada351de83a",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "File",
+            "synced_property_id": "ezlk"
+          }
+        }
+      },
+      "Coverage": {
+        "id": "sVYW",
+        "name": "Coverage",
+        "description": null,
+        "type": "number",
+        "number": {
+          "format": "percent"
+        }
+      },
+      "Package": {
+        "id": "uoRm",
+        "name": "Package",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "9c8bb7d5-5675-4cc5-b1b7-6a9c1ac3fe2f",
+          "data_source_id": "67a310ee-ac61-4cc2-8bad-64ae3de22e4d",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Files",
+            "synced_property_id": "mDZ%5E"
+          }
+        }
+      },
+      "Frozen": {
+        "id": "zwC%40",
+        "name": "Frozen",
+        "description": null,
+        "type": "checkbox",
+        "checkbox": {}
+      },
+      "Language": {
+        "id": "%7Ck%3BH",
+        "name": "Language",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "81bdf75b-1180-424e-878d-407369c50eb8",
+              "name": "Go",
+              "color": "blue",
+              "description": null
+            },
+            {
+              "id": "b5ba1ac4-6414-43f6-b66d-4a979bc6c120",
+              "name": "Markdown",
+              "color": "gray",
+              "description": null
+            },
+            {
+              "id": "56956c19-1030-450c-ba73-5152f8da7482",
+              "name": "YAML",
+              "color": "orange",
+              "description": null
+            },
+            {
+              "id": "c27b2c7e-61f9-4cec-a8cc-4e4677403cfa",
+              "name": "JSON",
+              "color": "yellow",
+              "description": null
+            },
+            {
+              "id": "d2808f1f-67ee-420d-a02c-b04a74a12cee",
+              "name": "Shell",
+              "color": "green",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Line Count": {
+        "id": "~vQw",
+        "name": "Line Count",
+        "description": null,
+        "type": "number",
+        "number": {
+          "format": "number"
+        }
+      },
+      "File ID": {
+        "id": "title",
+        "name": "File ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "specifications": {
+      "Repository Path": {
+        "id": "%3BJa%3D",
+        "name": "Repository Path",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Architecture": {
+        "id": "dDhn",
+        "name": "Architecture",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "d3dcb133-f96e-4e8e-944f-5825c2d1eee0",
+          "data_source_id": "3ef6ecdd-7f47-48d4-a287-62e5611a5e90",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Specifications",
+            "synced_property_id": "Uz%7C%3B"
+          }
+        }
+      },
+      "Related Packages": {
+        "id": "ewq%3D",
+        "name": "Related Packages",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "9c8bb7d5-5675-4cc5-b1b7-6a9c1ac3fe2f",
+          "data_source_id": "67a310ee-ac61-4cc2-8bad-64ae3de22e4d",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Implementing Specification",
+            "synced_property_id": "%5E%7DJ%5B"
+          }
+        }
+      },
+      "Files": {
+        "id": "f%3Dw%3F",
+        "name": "Files",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "d5b8d71a-c568-4288-9443-f3deb8b316bc",
+          "data_source_id": "2f6a0483-207c-4902-b35c-7e534ca09a4e",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Specification",
+            "synced_property_id": "S%5BY%7B"
+          }
+        }
+      },
+      "Version": {
+        "id": "g%5D%7Bv",
+        "name": "Version",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Status": {
+        "id": "jbOF",
+        "name": "Status",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "becdac04-3b4e-4ce1-92bb-6f15bc00e53b",
+              "name": "Draft",
+              "color": "gray",
+              "description": null
+            },
+            {
+              "id": "78ec9669-4306-4155-91e4-2e6413a6e8c2",
+              "name": "Implementation",
+              "color": "blue",
+              "description": null
+            },
+            {
+              "id": "5fa3d738-e26d-49da-b289-0cb1351f42b6",
+              "name": "Frozen",
+              "color": "green",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Frozen": {
+        "id": "tm%5Ej",
+        "name": "Frozen",
+        "description": null,
+        "type": "checkbox",
+        "checkbox": {}
+      },
+      "Specification": {
+        "id": "title",
+        "name": "Specification",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "adrs": {
+      "Affected Components": {
+        "id": "%40%40%5Do",
+        "name": "Affected Components",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Status": {
+        "id": "ISet",
+        "name": "Status",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "da53701b-86f0-452b-bb71-2a8b4a0823ca",
+              "name": "Proposed",
+              "color": "gray",
+              "description": null
+            },
+            {
+              "id": "2a210bb4-6303-491f-b3d1-cc7e3eefc5e5",
+              "name": "Accepted",
+              "color": "green",
+              "description": null
+            },
+            {
+              "id": "94426312-40f7-4216-86f3-0fb3c8fd155a",
+              "name": "Rejected",
+              "color": "red",
+              "description": null
+            },
+            {
+              "id": "d69bd764-bd86-4413-a857-a3113cd75ebc",
+              "name": "Superseded",
+              "color": "orange",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Consequences": {
+        "id": "_%5C%3D%3A",
+        "name": "Consequences",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Repository Path": {
+        "id": "_%5C%5B%5C",
+        "name": "Repository Path",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Related Architecture": {
+        "id": "d%3ARb",
+        "name": "Related Architecture",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "d3dcb133-f96e-4e8e-944f-5825c2d1eee0",
+          "data_source_id": "3ef6ecdd-7f47-48d4-a287-62e5611a5e90",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Related ADRs",
+            "synced_property_id": "ovpf"
+          }
+        }
+      },
+      "Decision": {
+        "id": "vaI%5D",
+        "name": "Decision",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "ADR": {
+        "id": "title",
+        "name": "ADR",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "apis": {
+      "Frozen": {
+        "id": "%3FhQ%7C",
+        "name": "Frozen",
+        "description": null,
+        "type": "checkbox",
+        "checkbox": {}
+      },
+      "API Name": {
+        "id": "H~N%3D",
+        "name": "API Name",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Line Number": {
+        "id": "N%40AA",
+        "name": "Line Number",
+        "description": null,
+        "type": "number",
+        "number": {
+          "format": "number"
+        }
+      },
+      "Status": {
+        "id": "evGk",
+        "name": "Status",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "c46310dc-2cec-453b-a88e-249f1f116384",
+              "name": "Active",
+              "color": "green",
+              "description": null
+            },
+            {
+              "id": "3def6b54-2151-4188-a0e0-6c5954ad0120",
+              "name": "Deprecated",
+              "color": "red",
+              "description": null
+            },
+            {
+              "id": "ebcfd9d9-58bb-4ee4-9d44-69a97fa2c76e",
+              "name": "Experimental",
+              "color": "blue",
+              "description": null
+            }
+          ]
+        }
+      },
+      "File": {
+        "id": "ezlk",
+        "name": "File",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "d5b8d71a-c568-4288-9443-f3deb8b316bc",
+          "data_source_id": "2f6a0483-207c-4902-b35c-7e534ca09a4e",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Exported APIs",
+            "synced_property_id": "lokF"
+          }
+        }
+      },
+      "Package": {
+        "id": "rbxw",
+        "name": "Package",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "9c8bb7d5-5675-4cc5-b1b7-6a9c1ac3fe2f",
+          "data_source_id": "67a310ee-ac61-4cc2-8bad-64ae3de22e4d",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "APIs",
+            "synced_property_id": "n%3BL%5E"
+          }
+        }
+      },
+      "Type": {
+        "id": "wZSC",
+        "name": "Type",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "4b8a5525-2b78-4620-a13a-b51fb919d145",
+              "name": "Function",
+              "color": "blue",
+              "description": null
+            },
+            {
+              "id": "cab7e293-68ad-4233-b990-d03d64028842",
+              "name": "Interface",
+              "color": "purple",
+              "description": null
+            },
+            {
+              "id": "31442feb-0142-41a7-be81-9fcb0c165727",
+              "name": "Struct",
+              "color": "orange",
+              "description": null
+            },
+            {
+              "id": "a3efeab8-2630-4651-9ba6-3098319c62fe",
+              "name": "Type",
+              "color": "yellow",
+              "description": null
+            },
+            {
+              "id": "f0b1bb8b-fb62-4971-825d-0db825c11c25",
+              "name": "Constant",
+              "color": "gray",
+              "description": null
+            }
+          ]
+        }
+      },
+      "API ID": {
+        "id": "title",
+        "name": "API ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "timeline": {
+      "Name": {
+        "id": "title",
+        "name": "Name",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "gates": {
+      "Name": {
+        "id": "title",
+        "name": "Name",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "handoffs": {
+      "Name": {
+        "id": "title",
+        "name": "Name",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "commits": {
+      "Author": {
+        "id": "%5Cjv%7D",
+        "name": "Author",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Date": {
+        "id": "%5EDIN",
+        "name": "Date",
+        "description": null,
+        "type": "date",
+        "date": {}
+      },
+      "Message": {
+        "id": "aGQ%3A",
+        "name": "Message",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Files": {
+        "id": "d%5D%7B%7D",
+        "name": "Files",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "d5b8d71a-c568-4288-9443-f3deb8b316bc",
+          "data_source_id": "2f6a0483-207c-4902-b35c-7e534ca09a4e",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Commits",
+            "synced_property_id": "fOuZ"
+          }
+        }
+      },
+      "Hash": {
+        "id": "nI%60%3B",
+        "name": "Hash",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Session": {
+        "id": "xoFo",
+        "name": "Session",
+        "description": null,
+        "type": "relation",
+        "relation": {
+          "database_id": "3d199938-9c6a-4eb5-a99c-98ccd03b4581",
+          "data_source_id": "0848948e-bdce-4a2f-84a8-f9c630b0901e",
+          "type": "dual_property",
+          "dual_property": {
+            "synced_property_name": "Commits",
+            "synced_property_id": "GFKP"
+          }
+        }
+      },
+      "Branch": {
+        "id": "%7DnQB",
+        "name": "Branch",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Commit ID": {
+        "id": "title",
+        "name": "Commit ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "memory": {
+      "Name": {
+        "id": "title",
+        "name": "Name",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "milestones": {
+      "Status": {
+        "id": "%40~uD",
+        "name": "Status",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "c59893ad-ba87-4ed3-a9ab-371701e72e87",
+              "name": "Pending",
+              "color": "gray",
+              "description": null
+            },
+            {
+              "id": "98fa9e2f-787e-452e-a7a5-4e0131b46fc3",
+              "name": "In Progress",
+              "color": "blue",
+              "description": null
+            },
+            {
+              "id": "db09ad94-7956-4980-8589-4f166bcecafc",
+              "name": "Completed",
+              "color": "green",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Dependencies": {
+        "id": "SCDs",
+        "name": "Dependencies",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Phase": {
+        "id": "S%60YB",
+        "name": "Phase",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Coverage": {
+        "id": "cxTt",
+        "name": "Coverage",
+        "description": null,
+        "type": "number",
+        "number": {
+          "format": "percent"
+        }
+      },
+      "Milestone": {
+        "id": "title",
+        "name": "Milestone",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "dashboard": {
+      "Name": {
+        "id": "title",
+        "name": "Name",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "dependencies": {
+      "Name": {
+        "id": "title",
+        "name": "Name",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "tasks": {
+      "Name": {
+        "id": "f%7CS%7D",
+        "name": "Name",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Status": {
+        "id": "lToD",
+        "name": "Status",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "6d2989b1-bd57-4cff-937f-e1c8294ba6ed",
+              "name": "Todo",
+              "color": "gray",
+              "description": null
+            },
+            {
+              "id": "da7a14f9-2331-43ba-b25a-f26951854fc9",
+              "name": "In Progress",
+              "color": "blue",
+              "description": null
+            },
+            {
+              "id": "e8d6f872-37f7-4f98-b92c-c07cb4d8f634",
+              "name": "Done",
+              "color": "green",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Task ID": {
+        "id": "title",
+        "name": "Task ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "releases": {
+      "Version": {
+        "id": "%3FDxf",
+        "name": "Version",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Date": {
+        "id": "e%7B%5EM",
+        "name": "Date",
+        "description": null,
+        "type": "date",
+        "date": {}
+      },
+      "Release ID": {
+        "id": "title",
+        "name": "Release ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "bugs": {
+      "Description": {
+        "id": "Cpe%7D",
+        "name": "Description",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Status": {
+        "id": "TxM%3F",
+        "name": "Status",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "2e045bcd-3d55-4fdc-a8f0-e1f1bd52d0ae",
+              "name": "Open",
+              "color": "red",
+              "description": null
+            },
+            {
+              "id": "47294f9f-13ab-4572-a56e-f619b7c0160c",
+              "name": "Resolved",
+              "color": "green",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Bug ID": {
+        "id": "title",
+        "name": "Bug ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "risks": {
+      "Description": {
+        "id": "RSCf",
+        "name": "Description",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Impact": {
+        "id": "bP%3Em",
+        "name": "Impact",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "005644bc-3140-49c1-9752-770370de4c8a",
+              "name": "High",
+              "color": "red",
+              "description": null
+            },
+            {
+              "id": "050c7811-d910-43a3-86eb-2280f007f5db",
+              "name": "Medium",
+              "color": "yellow",
+              "description": null
+            },
+            {
+              "id": "579b5500-04fa-4f7d-80dc-82cc97bc5930",
+              "name": "Low",
+              "color": "green",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Risk ID": {
+        "id": "title",
+        "name": "Risk ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "tech_debt": {
+      "Priority": {
+        "id": "C%5EX%3A",
+        "name": "Priority",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "48fe995e-9f13-41a2-9b35-75932e9dab9f",
+              "name": "High",
+              "color": "red",
+              "description": null
+            },
+            {
+              "id": "269b3268-8b8a-455d-9aba-af1817b02016",
+              "name": "Medium",
+              "color": "yellow",
+              "description": null
+            },
+            {
+              "id": "09f5ccda-a02d-425d-bec3-a4f1172f5a7a",
+              "name": "Low",
+              "color": "green",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Description": {
+        "id": "OE%3A%7C",
+        "name": "Description",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Debt ID": {
+        "id": "title",
+        "name": "Debt ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "research": {
+      "Summary": {
+        "id": "ZM%3Ah",
+        "name": "Summary",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Topic": {
+        "id": "oMM%3F",
+        "name": "Topic",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Research ID": {
+        "id": "title",
+        "name": "Research ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "prompt_library": {
+      "Purpose": {
+        "id": "%5Ec%3C%5D",
+        "name": "Purpose",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Context": {
+        "id": "q%5C%60%40",
+        "name": "Context",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Prompt ID": {
+        "id": "title",
+        "name": "Prompt ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "lessons_learned": {
+      "Mistake": {
+        "id": "%5Dn%3Bl",
+        "name": "Mistake",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Situation": {
+        "id": "xrAr",
+        "name": "Situation",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Resolution": {
+        "id": "%7BqAK",
+        "name": "Resolution",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Lesson ID": {
+        "id": "title",
+        "name": "Lesson ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "patterns": {
+      "Name": {
+        "id": "MKi%3D",
+        "name": "Name",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Description": {
+        "id": "XckX",
+        "name": "Description",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Pattern ID": {
+        "id": "title",
+        "name": "Pattern ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "performance_benchmarks": {
+      "Metric": {
+        "id": "Dybf",
+        "name": "Metric",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Value": {
+        "id": "L%5C%5Ew",
+        "name": "Value",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Benchmark ID": {
+        "id": "title",
+        "name": "Benchmark ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "coding_standards": {
+      "Description": {
+        "id": "_%5EVv",
+        "name": "Description",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Rule": {
+        "id": "g%7Byl",
+        "name": "Rule",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Standard ID": {
+        "id": "title",
+        "name": "Standard ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "glossary": {
+      "Definition": {
+        "id": "Fy%3Dz",
+        "name": "Definition",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Term": {
+        "id": "title",
+        "name": "Term",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "assets": {
+      "Name": {
+        "id": "Dkgz",
+        "name": "Name",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Type": {
+        "id": "QgNs",
+        "name": "Type",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "c0662559-72e2-4936-8675-fa04e3ce5d6b",
+              "name": "Image",
+              "color": "blue",
+              "description": null
+            },
+            {
+              "id": "e904ea09-ee7e-4605-a16b-32458fa269c1",
+              "name": "Document",
+              "color": "gray",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Asset ID": {
+        "id": "title",
+        "name": "Asset ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "external_dependencies": {
+      "Version": {
+        "id": "ZeG%3B",
+        "name": "Version",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Name": {
+        "id": "b%40%3CJ",
+        "name": "Name",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Dependency ID": {
+        "id": "title",
+        "name": "Dependency ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "roadmap": {
+      "Name": {
+        "id": "aO%3El",
+        "name": "Name",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Quarter": {
+        "id": "%7DV%5Bc",
+        "name": "Quarter",
+        "description": null,
+        "type": "select",
+        "select": {
+          "options": [
+            {
+              "id": "70999891-bc64-4b05-a4b6-63a3209f2246",
+              "name": "Q1",
+              "color": "blue",
+              "description": null
+            },
+            {
+              "id": "db9b5eed-bc76-4985-ac93-6d84819ada29",
+              "name": "Q2",
+              "color": "green",
+              "description": null
+            },
+            {
+              "id": "164031ec-291f-442b-944b-f982ba365e7d",
+              "name": "Q3",
+              "color": "yellow",
+              "description": null
+            },
+            {
+              "id": "e989429c-3385-4896-b105-84fd0b06b9a6",
+              "name": "Q4",
+              "color": "red",
+              "description": null
+            }
+          ]
+        }
+      },
+      "Item ID": {
+        "id": "title",
+        "name": "Item ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    },
+    "engineering_decisions": {
+      "Decision": {
+        "id": "%5EZSM",
+        "name": "Decision",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Problem": {
+        "id": "nKF%40",
+        "name": "Problem",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Rationale": {
+        "id": "nQYR",
+        "name": "Rationale",
+        "description": null,
+        "type": "rich_text",
+        "rich_text": {}
+      },
+      "Decision ID": {
+        "id": "title",
+        "name": "Decision ID",
+        "description": null,
+        "type": "title",
+        "title": {}
+      }
+    }
+  }
+}

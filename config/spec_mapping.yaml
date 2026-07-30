@@ -1,0 +1,76 @@
+packages:
+  internal/runtime/contracts:
+    architecture: ARCH-001
+  internal/runtime/types:
+    architecture: ARCH-001
+  internal/runtime/errors:
+    architecture: ARCH-001
+  internal/runtime/version:
+    architecture: ARCH-001
+  internal/runtime/buildinfo:
+    architecture: ARCH-001
+  internal/runtime/config:
+    architecture: ARCH-001
+  internal/runtime/lifecycle:
+    architecture: ARCH-001
+  
+  internal/runtime/eventbus:
+    architecture: ARCH-002
+    specification: SPEC-006
+  internal/runtime/eventbus/contracts:
+    architecture: ARCH-002
+    specification: SPEC-001
+  internal/runtime/eventbus/events:
+    architecture: ARCH-002
+    specification: SPEC-002
+  internal/runtime/eventbus/errors:
+    architecture: ARCH-002
+  internal/runtime/eventbus/subscription:
+    architecture: ARCH-002
+  internal/runtime/eventbus/registry:
+    architecture: ARCH-002
+  internal/runtime/eventbus/dispatcher:
+    architecture: ARCH-002
+    specification: SPEC-004
+  internal/runtime/eventbus/middleware:
+    architecture: ARCH-002
+    specification: SPEC-005
+
+  internal/runtime/permissions/contracts:
+    architecture: ARCH-003
+    specification: SPEC-010
+  internal/runtime/permissions/capability:
+    architecture: ARCH-003
+    specification: SPEC-011
+  internal/runtime/permissions/decision:
+    architecture: ARCH-003
+  internal/runtime/permissions/validator:
+    architecture: ARCH-003
+  internal/runtime/permissions/errors:
+    architecture: ARCH-003
+  internal/runtime/permissions/rule:
+    architecture: ARCH-003
+    specification: SPEC-011
+  internal/runtime/permissions/policy:
+    architecture: ARCH-003
+    specification: SPEC-011
+  internal/runtime/permissions/registry:
+    architecture: ARCH-003
+  internal/runtime/permissions/engine:
+    architecture: ARCH-003
+    specification: SPEC-010
+
+  internal/runtime/observer/contracts:
+    architecture: ARCH-004
+    specification: SPEC-020
+  internal/runtime/observer/notification:
+    architecture: ARCH-004
+    specification: SPEC-021
+  internal/runtime/observer/errors:
+    architecture: ARCH-004
+  internal/runtime/observer/registry:
+    architecture: ARCH-004
+  internal/runtime/observer/dispatcher:
+    architecture: ARCH-004
+  internal/runtime/observer/observer:
+    architecture: ARCH-004

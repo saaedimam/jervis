@@ -1,0 +1,246 @@
+// Package sqlite_test tests the SQLite query engine implementation.
+package sqlite_test
+
+import (
+	"context"
+	"encoding/json"
+	"testing"
+	"time"
+
+	"github.com/stretchr/testify/require"
+	"github.com/ioriimasu/jervis/internal/memory/query/contracts"
+	"github.com/ioriimasu/jervis/internal/memory/store"
+	storecontracts "github.com/ioriimasu/jervis/internal/memory/store/contracts"
+	"github.com/ioriimasu/jervis/internal/memory/timeline/engine"
+	eventsContracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
+	"github.com/ioriimasu/jervis/internal/runtime/eventbus/events"
+	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/ioriimasu/jervis/internal/memory/query/sqlite"
+)
+
+func TestSQLiteQueryEngine_Query(t *testing.T) {
+	// Create an in-memory store
+	str, err := store.New(":memory:")
+	require.NoError(t, err)
+	defer str.Close()
+
+	// Initialize the schema if the store supports it
+	if initable, ok := str.(interface{ Initialize(context.Context) error }); ok {
+		if err := initable.Initialize(context.Background()); err != nil {
+			t.Fatalf("Failed to initialize schema: %v", err)
+		}
+	}
+
+	// Create query engine
+	qe := sqlite.NewSQLiteQueryEngine(str)
+
+	// Test 1: Simple query without WHERE clause
+	queryResult, err := qe.Query(context.Background(), "SELECT * FROM events")
+	require.NoError(t, err)
+	require.Empty(t, queryResult) // No events inserted yet
+
+	// Insert a test event
+	eventID, err := types.NewEventID("test-event-1")
+	require.NoError(t, err)
+	testEvent, err := events.NewBuilder().
+		SetID(eventID).
+		SetType("test.type").
+		SetSource("test-source").
+		SetTimestamp(types.Now()).
+		SetPayload(map[string]interface{}{"key": "value"}).
+		Build()
+	require.NoError(t, err)
+
+	// Store the event using the timeline engine's append method (we need to access the engine directly)
+	fakeTE := &TEAdapter{store: str}
+	err = fakeTE.Append(context.Background(), testEvent)
+	require.NoError(t, err)
+
+	// Query again - should get the event back
+	queryResult, err = qe.Query(context.Background(), "SELECT * FROM events")
+	require.NoError(t, err)
+	require.Len(t, queryResult, 1)
+	require.Equal(t, "test-event-1", queryResult[0].ID().String()) // Note: ID gets converted
+	require.Equal(t, "test.type", queryResult[0].Type())
+}
+
+// TestQueryWithFilters tests querying with various filter conditions
+func TestSQLiteQueryEngine_QueryWithFilters(t *testing.T) {
+	// Create an in-memory store
+	str, err := store.New(":memory:")
+	require.NoError(t, err)
+	defer str.Close()
+
+	// Initialize the schema if the store supports it
+	if initable, ok := str.(interface{ Initialize(context.Context) error }); ok {
+		if err := initable.Initialize(context.Background()); err != nil {
+			t.Fatalf("Failed to initialize schema: %v", err)
+		}
+	}
+
+	// Create query engine
+	qe := sqlite.NewSQLiteQueryEngine(str)
+
+	// Insert test events
+	now := types.Now()
+	past := time.Now().Add(-24 * time.Hour)
+	future := time.Now().Add(24 * time.Hour)
+
+	// Build events
+	event1ID, err := types.NewEventID("event1")
+	require.NoError(t, err)
+	event1, err := events.NewBuilder().
+		SetID(event1ID).
+		SetType("type.a").
+		SetSource("source1").
+		SetTimestamp(types.NewTimestamp(past)).
+		SetPayload(map[string]interface{}{"value": 1}).
+		Build()
+	require.NoError(t, err)
+
+	event2ID, err := types.NewEventID("event2")
+	require.NoError(t, err)
+	event2, err := events.NewBuilder().
+		SetID(event2ID).
+		SetType("type.b").
+		SetSource("source2").
+		SetTimestamp(types.Now()). // Fixed: now is already a types.Timestamp
+		SetPayload(map[string]interface{}{"value": 2}).
+		Build()
+	require.NoError(t, err)
+
+	event3ID, err := types.NewEventID("event3")
+	require.NoError(t, err)
+	event3, err := events.NewBuilder().
+		SetID(event3ID).
+		SetType("type.a").
+		SetSource("source1").
+		SetTimestamp(types.NewTimestamp(future)).
+		SetPayload(map[string]interface{}{"value": 3}).
+		Build()
+	require.NoError(t, err)
+
+	testEvents := []events.Event{event1, event2, event3}
+
+	// Store events using direct store access (bypassing timeline engine for simplicity)
+	for _, evt := range testEvents {
+		payload, _ := json.Marshal(evt.Payload())
+		metadata, _ := json.Marshal(evt.Metadata())
+		_, err := str.Exec(context.Background(),
+			"INSERT INTO events (id, type, source, timestamp, priority, payload, metadata) VALUES (?, ?, ?, ?, ?, ?, ?)",
+			evt.ID().String(),
+			evt.Type(),
+			evt.Source(),
+			evt.Timestamp().Time(),
+			uint8(evt.Priority()),
+			payload,
+			metadata,
+		)
+		require.NoError(t, err)
+	}
+
+	// Test filtering by type
+	filteredResults, err := qe.Query(context.Background(), "SELECT * FROM events WHERE TYPE = 'type.a'")
+	require.NoError(t, err)
+	require.Len(t, filteredResults, 2)
+	for _, e := range filteredResults {
+		require.Equal(t, "type.a", e.Type())
+	}
+
+	// Test filtering by timestamp range
+	filteredResults, err = qe.Query(context.Background(), "SELECT * FROM events WHERE TIMESTAMP >= '"+past.Format(time.RFC3339)+"' AND TIMESTAMP <= '"+future.Format(time.RFC3339)+"'")
+	require.NoError(t, err)
+	require.Len(t, filteredResults, 3) // All events should be in range
+
+	// Test limit
+	filteredResults, err = qe.Query(context.Background(), "SELECT * FROM events LIMIT 2")
+	require.NoError(t, err)
+	require.Len(t, filteredResults, 2)
+}
+
+// TestPrepare validates the Prepare method
+func TestSQLiteQueryEngine_Prepare(t *testing.T) {
+	// Create an in-memory store
+	str, err := store.New(":memory:")
+	require.NoError(t, err)
+	defer str.Close()
+
+	// Initialize the schema if the store supports it
+	if initable, ok := str.(interface{ Initialize(context.Context) error }); ok {
+		if err := initable.Initialize(context.Background()); err != nil {
+			t.Fatalf("Failed to initialize schema: %v", err)
+		}
+	}
+
+	// Create query engine
+	qe := sqlite.NewSQLiteQueryEngine(str)
+
+	// Test valid query
+	pq, err := qe.Prepare("SELECT * FROM events WHERE TYPE = 'test'")
+	require.NoError(t, err)
+	require.NotNil(t, pq)
+	require.Equal(t, "SELECT * FROM events WHERE TYPE = 'test'", pq.String())
+
+	// Test invalid query
+	_, err = qe.Prepare("INVALID SQL")
+	require.Error(t, err)
+}
+
+// TestPreparedQueryExecute tests executing a prepared query
+func TestPreparedQueryExecute(t *testing.T) {
+	// Create an in-memory store
+	str, err := store.New(":memory:")
+	require.NoError(t, err)
+	defer str.Close()
+
+	// Initialize the schema if the store supports it
+	if initable, ok := str.(interface{ Initialize(context.Context) error }); ok {
+		if err := initable.Initialize(context.Background()); err != nil {
+			t.Fatalf("Failed to initialize schema: %v", err)
+		}
+	}
+
+	// Create query engine
+	qe := sqlite.NewSQLiteQueryEngine(str)
+
+	// Prepare a query
+	pq, err := qe.Prepare("SELECT * FROM events")
+	require.NoError(t, err)
+	require.NotNil(t, pq)
+
+	// Execute the prepared query
+	results, err := pq.Execute(context.Background(), str)
+	require.NoError(t, err)
+	require.Empty(t, results) // No events yet
+}
+
+// TEAdapter is a temporary adapter to test the timeline engine's Append method
+// since we don't want to expose the timeline engine's internal methods in this test.
+type TEAdapter struct {
+	store storecontracts.Store
+}
+
+func (t *TEAdapter) Append(ctx context.Context, event events.Event) error {
+	// This would normally use the timeline engine, but for simplicity in this test
+	// we'll directly insert into the store using the same logic as the timeline engine
+	payload, err := json.Marshal(event.Payload())
+	if err != nil {
+		return err
+	}
+	metadata, err := json.Marshal(event.Metadata())
+	if err != nil {
+		return err
+	}
+
+	_, err = t.store.Exec(ctx,
+		"INSERT INTO events (id, type, source, timestamp, priority, payload, metadata) VALUES (?, ?, ?, ?, ?, ?, ?)",
+		event.ID().String(),
+		event.Type(),
+		event.Source(),
+		event.Timestamp().Time(),
+		uint8(event.Priority()),
+		payload,
+		metadata,
+	)
+	return err
+}

@@ -1,33 +1,46 @@
 # Active Session Context
 
 ## 1. Session Information
-- **Session ID**: `2026-07-29-session-08`
+- **Session ID**: `2026-07-29-session-21`
 - **Date**: 2026-07-29
-- **Current Phase**: Phase 1.2.8 (Event Bus Facade Implementation Ready)
-- **Current Objective**: Implement Phase 1.2.8 Event Bus Facade (`internal/runtime/eventbus/bus.go`) and end-to-end integration test suite.
+- **Current Phase**: Phase 1.4.0 (Frozen)
+- **Current Objective**: Audit and restore the canonical Observer implementation and synchronize the Notion knowledge layer.
 
 ---
 
 ## 2. Work Completed in Active Session
-- Phase 1.2.7 Event Bus Facade Architecture Specifications are **100% Frozen**.
-- Zero runtime code modified or created during specification phase.
-- Context synchronized across `PROJECT_CONTEXT.md`, `MILESTONES.md`, `API_FREEZE.md`, and session archived in `context/sessions/2026-07-29-session-07.md`.
+- **Phase 1.4 Observer Subsystem Implementation**:
+  - Implemented `notification`, `registry`, `dispatcher`, and `observer` packages.
+  - Achieved **100% test coverage** with panic isolation and deterministic FIFO dispatch.
+  - Verified with integration tests.
+- **Phase 2.2 Knowledge Store Implementation**:
+  - Implemented `Store` contracts and `modernc.org/sqlite` driver.
+  - Verified persistence across database connections with `persistence_test.go`.
+  - Achieved **100% test coverage** in the `sqlite` driver package.
+- **Project Governance**:
+  - Corrected `MILESTONES.md` and `PROJECT_CONTEXT.md` status.
+  - Froze APIs in `API_FREEZE.md`.
+- **Notion OS**:
+  - Verified and synchronized the Notion knowledge layer.
 
 ---
 
 ## 3. Decisions Made
-- `EventBus` facade orchestrates `registry.Registry`, `dispatcher.Dispatcher`, and `middleware.Chain`.
-- Public methods receive parameters directly with zero `context.Context`.
-- Event publication delegates handler invocation to `dispatcher.Dispatcher` wrapped inside `middleware.Chain`.
+- Re-implemented Observer following the revised architectural freeze (revised in Session 14-20).
+- Used `modernc.org/sqlite` (pure Go) to maintain a zero-CGO, local-first dependency profile.
+- Verified persistence via a new `persistence_test.go` that simulates separate process/instance life cycles.
 
 ---
 
 ## 4. Validation Performed
-- Conflict Audit: ZERO CONFLICTS FOUND across all architectural invariants and specifications.
+- `go test -v -cover ./internal/runtime/observer/...`: **PASS (100% coverage)**.
+- `go test -v -cover ./internal/memory/store/sqlite/...`: **PASS (100% coverage)**.
+- `go test -v ./internal/memory/timeline/...`: **PASS**.
+- Custom persistence test: **PASS**.
 
 ---
 
 ## 5. Current Status & Next Immediate Task
-- **Current Status**: Phase 1.2.7 Event Bus Facade Specifications are **100% Frozen**. Stopped before runtime implementation.
-- **Risks / Blockers**: None.
-- **Next Immediate Task**: Await instruction to implement Phase 1.2.8 Event Bus Facade (`internal/runtime/eventbus/bus.go`) and end-to-end integration tests.
+- **Current Status**: Phase 1 and Phase 2 are 100% complete and frozen.
+- **Risks / Blockers**: None. Runtime and Memory Engine are stable.
+- **Next Immediate Task**: Begin Phase 3: Service Layer Implementation (Planner, Projects, etc. with persistence).

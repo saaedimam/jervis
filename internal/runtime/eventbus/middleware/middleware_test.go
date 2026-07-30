@@ -22,7 +22,6 @@ func TestFuncMiddlewareAdapter(t *testing.T) {
 		terminalCalled = true
 		return nil
 	})
-
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}

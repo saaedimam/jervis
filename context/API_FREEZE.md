@@ -65,15 +65,97 @@
 
 ---
 
-## Phase 1.2.7 Specifications: Event Bus Facade Architecture
-- **Specs**:
-  - `BUS_SPECIFICATION.md`
-  - `BUS_CONTRACTS.md`
-  - `BUS_PIPELINE.md`
-  - `BUS_SEQUENCE.md`
-- **Status**: Specification Frozen (Zero Runtime Implementation Code)
+## Phase 1.2.8: Event Bus Facade Package
+- **Packages**:
+  - `internal/runtime/eventbus` (`EventBus`, `New()`, `Publish()`, `Subscribe()`, `Unsubscribe()`, `Use()`, `Count()`)
+- **Status**: Frozen (Complete Event Bus Engine Implementation)
 - **Design Invariants**:
-  - Event Bus Facade (`internal/runtime/eventbus`) is the sole canonical entry point.
-  - Orchestrates validation, registry lookup, middleware chain, and dispatcher execution.
-  - Zero `context.Context` parameters in public facade methods.
-- **Breaking Changes**: Formal ADR required before modifying public facade contracts.
+  - Canonical single entry point facade orchestrating `events.ValidateEvent`, `registry.Registry`, `middleware.Chain`, and `dispatcher.Dispatcher`.
+  - 100% synchronous execution without goroutines, channels, mutexes, or `context.Context`.
+  - 100.0% statement coverage achieved across all 8 eventbus packages with `-race`.
+- **Breaking Changes**: Formal ADR required before modifying public facade method signatures.
+
+---
+
+## Phase 1.3.1: Runtime Permission Engine Core Foundation Packages
+- **Packages**:
+  - `internal/runtime/permissions/contracts` (`Capability`, `Decision`, `Effect`, `Validator`, `Rule`, `Policy`)
+  - `internal/runtime/permissions/capability` (`Capability`, `New()`, `Subject`, `Resource`, `Action`, `IsZero()`, `String()`)
+  - `internal/runtime/permissions/decision` (`Decision`, `NewAllow()`, `NewDeny()`, `IsAllowed()`, `Effect()`, `Reason()`, `String()`)
+  - `internal/runtime/permissions/validator` (`Validator`, `New()`, `Validate()`)
+  - `internal/runtime/permissions/errors` (Canonical error variables)
+- **Status**: Frozen
+- **Design Invariants**:
+  - Pure value objects and structural validation without state or policy storage.
+  - 100.0% statement coverage achieved across all 5 foundation packages with `-race`.
+- **Breaking Changes**: Formal ADR required before modifying permission core types or contracts.
+
+---
+
+## Phase 1.3.2: Runtime Permission Engine Rule & Policy Domain Models
+- **Packages**:
+  - `internal/runtime/permissions/rule` (`Rule`, `New()`, `ID()`, `Subject()`, `Resource()`, `Action()`, `Effect()`, `Description()`, `Evaluate()`, `Validate()`, `IsZero()`, `String()`)
+  - `internal/runtime/permissions/policy` (`Policy`, `New()`, `ID()`, `Name()`, `Description()`, `Version()`, `Rules()`, `Count()`, `Validate()`, `IsZero()`, `String()`)
+- **Status**: Frozen
+- **Design Invariants**:
+  - Immutable domain models with defensive rules slice copies in constructors and getters.
+  - Wildcard pattern matching (`*` and `prefix*`) in `Rule.Evaluate`.
+  - 100.0% statement coverage achieved across all permission domain packages with `-race`.
+- **Breaking Changes**: Formal ADR required before modifying Rule or Policy exported interfaces.
+
+---
+
+## Phase 1.3.3: Runtime Permission Engine Policy Registry Package
+- **Packages**:
+  - `internal/runtime/permissions/registry` (`Registry`, `New()`, `Register()`, `Unregister()`, `Get()`, `Policies()`, `Snapshot()`, `Count()`, `Contains()`, `Clear()`)
+- **Status**: Frozen
+- **Design Invariants**:
+  - In-memory policy storage component strictly decoupled from evaluation logic.
+  - Deterministic Policy ID ascending sort order returned by `Policies()` and `Snapshot()`.
+  - Defensive slice copies returned for all policy query methods.
+  - 100.0% statement coverage achieved across all 8 permissions packages with `-race`.
+- **Breaking Changes**: Formal ADR required before modifying Registry exported method signatures.
+
+---
+
+## Phase 1.3.4: Runtime Permission Engine Evaluator Package
+- **Packages**:
+  - `internal/runtime/permissions/engine` (`Engine`, `New()`, `Authorize()`, `Registry()`)
+- **Status**: Frozen (Complete Permission Evaluation Engine Implementation)
+- **Design Invariants**:
+  - Strict 6-stage evaluation pipeline (Capability Validation -> Policy Retrieval -> Rule Evaluation -> Deny Short-Circuit -> Allow Accumulation -> Default Deny Fallback).
+  - Explicit Deny-First override rule precedence ("explicit deny" reason).
+  - Default Deny fallback policy ("default deny policy enforced" reason).
+  - 100% synchronous execution without goroutines, channels, mutexes, or `context.Context`.
+  - 100.0% statement coverage achieved across all 9 permissions packages with `-race`.
+- **Breaking Changes**: Formal ADR required before modifying Engine exported method signatures.
+
+---
+
+## Phase 1.4: Runtime Observer Subsystem
+- **Packages**:
+  - `internal/runtime/observer/notification` (`Notification`, `New()`, `Event()`, `ObservedAt()`)
+  - `internal/runtime/observer/errors` (`AggregateError`, `ErrInvalidNotification`, `ErrObserverPanic`)
+  - `internal/runtime/observer/registry` (`Registry`, `New()`, `Register()`, `Unregister()`, `Observers()`, `Count()`, `Contains()`, `Clear()`)
+  - `internal/runtime/observer/dispatcher` (`Dispatcher`, `New()`, `Dispatch()`)
+  - `internal/runtime/observer` (`RuntimeObserver`, `New()`, `Notify()`, `Subscribe()`, `Unsubscribe()`)
+- **Status**: Frozen (Complete Implementation)
+- **Design Invariants**:
+  - Passive event monitoring without state mutation or EventBus feedback loops.
+  - Compositional wrapping of `eventcontracts.Event`.
+  - Deterministic FIFO dispatch order.
+  - Panic isolation per observer handler.
+  - 100% statement coverage achieved across all observer packages.
+
+---
+
+## Phase 2.2: Memory Engine - Knowledge Store Driver (SQLite)
+- **Packages**:
+  - `internal/memory/store/contracts` (`Store`, `Rows`)
+  - `internal/memory/store/sqlite` (`Driver`, `New()`, `Initialize()`, `Exec()`, `Query()`, `Close()`)
+- **Status**: Frozen (Complete Implementation)
+- **Design Invariants**:
+  - Pure Go SQLite driver (`modernc.org/sqlite`).
+  - Thread-safe persistence across instances.
+  - Automated schema initialization.
+  - 100% statement coverage in the sqlite package.
