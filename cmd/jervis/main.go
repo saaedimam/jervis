@@ -7,12 +7,12 @@ import (
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/saaedimam/jervis/internal/aiprovider/contracts"
 	"github.com/saaedimam/jervis/internal/app"
 	"github.com/saaedimam/jervis/internal/interfaces/mcp"
 	"github.com/saaedimam/jervis/internal/interfaces/rest"
 	"github.com/saaedimam/jervis/internal/runtime/buildinfo"
-	"github.com/joho/godotenv"
 )
 
 func main() {

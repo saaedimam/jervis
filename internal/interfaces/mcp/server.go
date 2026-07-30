@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/saaedimam/jervis/internal/app"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
+	"github.com/saaedimam/jervis/internal/app"
 )
 
 // Server wraps the MCP server implementation.
