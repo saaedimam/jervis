@@ -9,7 +9,7 @@ on:
     - cron: '0 0 * * 0' # Weekly
 
 env:
-  GO_VERSION: '1.22.x'
+  GO_VERSION: '1.24.x'
   GH_CLI_VERSION: '2.45.0' # Fixed version for reproducibility
   YQ_VERSION: 'v4.40.5'
 
