@@ -1,13 +1,13 @@
 {
   "schemaVersion": "1",
-  "generatedAt": "2026-07-30T20:05:27Z",
+  "generatedAt": "2026-07-30T21:07:26Z",
   "spec_version": "1.0.0",
   "checks": [
     {
       "id": "repo.visibility",
-      "status": "PASS",
-      "level": "INFO",
-      "message": "private"
+      "status": "FAIL",
+      "level": "ERROR",
+      "message": "Expected public, got private"
     },
     {
       "id": "repo.description",

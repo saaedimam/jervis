@@ -68,7 +68,9 @@ check_repo_property() {
   fi
 }
 
-check_repo_property "repo.visibility" "$(yq '.repository.visibility' "$SPEC_FILE")" "$([[ $(echo "$repo_json" | jq -r '.isPrivate') == "false" ]] && echo "public" || echo "private")" "$LEVEL_ERROR"
+EXPECTED_VISIBILITY="${EXPECTED_VISIBILITY:-$(yq '.repository.visibility' "$SPEC_FILE" 2>/dev/null || echo "private")}"
+ACTUAL_VISIBILITY="$([[ $(echo "$repo_json" | jq -r '.isPrivate') == "false" ]] && echo "public" || echo "private")"
+check_repo_property "repo.visibility" "$EXPECTED_VISIBILITY" "$ACTUAL_VISIBILITY" "$LEVEL_ERROR"
 check_repo_property "repo.description" "$(yq '.repository.description' "$SPEC_FILE")" "$(echo "$repo_json" | jq -r '.description')" "$LEVEL_WARN"
 check_repo_property "repo.wiki" "$(yq '.repository.features.wiki' "$SPEC_FILE")" "$(echo "$repo_json" | jq -r '.hasWikiEnabled')" "$LEVEL_WARN"
 

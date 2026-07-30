@@ -1,12 +1,12 @@
 # GitHub Repository Audit Snapshot — saaedimam/jervis
 
 **Governance Spec**: v1.0.0
-**Verification Date**: 2026-07-30 20:05:28 UTC
-**Audit Git SHA**: c9bc3ac1cd319b4adf204b7702d8ed1241dccf0b
-**Compliance Status**: PASS
+**Verification Date**: 2026-07-30 21:07:27 UTC
+**Audit Git SHA**: abb9b14a4351e97bb531d7b8f20e255456009482
+**Compliance Status**: FAIL
 
 ## Summary
-- [x] **repo.visibility** (INFO): private
+- [ ] **repo.visibility** (ERROR): Expected public, got private
 - [x] **repo.description** (INFO): Local-first runtime and context operating system for AI agents.
 - [x] **repo.wiki** (INFO): true
 - [x] **branch.main.reviews** (INFO): 1
