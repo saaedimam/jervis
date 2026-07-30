@@ -81,9 +81,12 @@ func (s *Server) registerResources() {
 }
 
 func (s *Server) handleCreateTask(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
-	args := request.Params.Arguments.(map[string]any)
-	id := args["id"].(string)
-	title := args["title"].(string)
+	args, ok := request.Params.Arguments.(map[string]any)
+	if !ok {
+		return mcp.NewToolResultError("invalid arguments format"), nil
+	}
+	id, _ := args["id"].(string)
+	title, _ := args["title"].(string)
 	desc, _ := args["description"].(string)
 
 	task, err := s.app.Services.Planner.CreateTask(ctx, id, title, desc)

@@ -152,7 +152,7 @@ func (s *service) ListHabits(ctx context.Context) ([]*Habit, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to query habits: %w", err)
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	var results []*Habit
 	for rows.Next() {

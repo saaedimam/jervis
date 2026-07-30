@@ -21,7 +21,7 @@ func setupTestServer(t *testing.T, expectedPath string, method string, response 
 		}
 
 		w.WriteHeader(status)
-		w.Write([]byte(response))
+		_, _ = w.Write([]byte(response))
 	}))
 }
 

@@ -136,7 +136,7 @@ func (s *service) ListProjects(ctx context.Context) ([]*Project, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to query projects: %w", err)
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	var results []*Project
 	for rows.Next() {

@@ -41,7 +41,7 @@ func TestPersistence(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to query d2: %v", err)
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	if !rows.Next() {
 		t.Errorf("expected to find record in d2")

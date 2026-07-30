@@ -31,7 +31,7 @@ func TestOpenAIAdapter_Chat(t *testing.T) {
 		}
 
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{
+		_, _ = w.Write([]byte(`{
 			"choices": [{"message": {"role": "assistant", "content": "hello"}}],
 			"usage": {"prompt_tokens": 10, "completion_tokens": 5, "total_tokens": 15}
 		}`))
@@ -66,7 +66,7 @@ func TestOpenAIAdapter_Chat(t *testing.T) {
 func TestOpenAIAdapter_Chat_Error(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`internal server error`))
+		_, _ = w.Write([]byte(`internal server error`))
 	}))
 	defer server.Close()
 
