@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func setupTestServer(t *testing.T, expectedPath string, method string, response string, status int) *httptest.Server {
+func setupTestServer(t *testing.T, expectedPath, method, response string, status int) *httptest.Server {
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Header.Get("Authorization") != "Bearer test-token" {
 			w.WriteHeader(http.StatusUnauthorized)

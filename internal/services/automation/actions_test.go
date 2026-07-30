@@ -17,11 +17,11 @@ func (m *mockNotion) SyncProjects(ctx context.Context, id string, p projects.Ser
 	return nil
 }
 func (m *mockNotion) SyncContext(ctx context.Context, name, file, id string) error { return nil }
-func (m *mockNotion) SyncMilestones(ctx context.Context, databaseID string, filePath string) error {
+func (m *mockNotion) SyncMilestones(ctx context.Context, databaseID, filePath string) error {
 	return nil
 }
 
-func (m *mockNotion) SyncADRs(ctx context.Context, databaseID string, adrDir string) error {
+func (m *mockNotion) SyncADRs(ctx context.Context, databaseID, adrDir string) error {
 	return nil
 }
 
@@ -29,7 +29,7 @@ func (m *mockNotion) SyncSpecifications(ctx context.Context, databaseID string, 
 	return nil
 }
 
-func (m *mockNotion) SyncDashboard(ctx context.Context, pageID string, status string) error {
+func (m *mockNotion) SyncDashboard(ctx context.Context, pageID, status string) error {
 	return nil
 }
 

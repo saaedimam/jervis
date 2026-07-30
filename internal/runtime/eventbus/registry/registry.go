@@ -55,7 +55,7 @@ func ValidatePattern(p string) error {
 }
 
 // MatchesPattern tests whether an eventType matches a subscription pattern.
-func MatchesPattern(eventType string, pattern string) bool {
+func MatchesPattern(eventType, pattern string) bool {
 	if pattern == "*" {
 		return true
 	}

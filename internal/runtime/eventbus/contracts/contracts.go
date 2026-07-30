@@ -32,7 +32,7 @@ type Publisher interface {
 // Subscriber defines the contract for registering and unregistering event handlers.
 type Subscriber interface {
 	Subscribe(eventType string, handler Handler, priority uint8) error
-	Unsubscribe(eventType string, handlerID string) error
+	Unsubscribe(eventType, handlerID string) error
 }
 
 // Dispatcher defines the component responsible for routing events to handlers.
@@ -52,5 +52,5 @@ type Middleware interface {
 
 // EventFilter defines matching logic for topic subscriptions.
 type EventFilter interface {
-	Matches(eventType string, targetPattern string) bool
+	Matches(eventType, targetPattern string) bool
 }

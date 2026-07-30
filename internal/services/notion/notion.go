@@ -13,13 +13,13 @@ import (
 
 // Service defines the Notion Integration Service interface.
 type Service interface {
-	SyncContext(ctx context.Context, name, filePath string, pageID string) error
+	SyncContext(ctx context.Context, name, filePath, pageID string) error
 	SyncTasks(ctx context.Context, databaseID string, plannerService planner.Service) error
 	SyncProjects(ctx context.Context, databaseID string, projectsService projects.Service) error
-	SyncMilestones(ctx context.Context, databaseID string, filePath string) error
-	SyncADRs(ctx context.Context, databaseID string, adrDir string) error
+	SyncMilestones(ctx context.Context, databaseID, filePath string) error
+	SyncADRs(ctx context.Context, databaseID, adrDir string) error
 	SyncSpecifications(ctx context.Context, databaseID string, specFiles []string) error
-	SyncDashboard(ctx context.Context, pageID string, status string) error
+	SyncDashboard(ctx context.Context, pageID, status string) error
 }
 
 type service struct {
@@ -35,7 +35,7 @@ func New(token string, publisher eventcontracts.Publisher) Service {
 	}
 }
 
-func (s *service) SyncContext(ctx context.Context, name, filePath string, pageID string) error {
+func (s *service) SyncContext(ctx context.Context, name, filePath, pageID string) error {
 	content, err := os.ReadFile(filePath)
 	if err != nil {
 		return fmt.Errorf("failed to read context file %s: %w", filePath, err)
@@ -296,7 +296,7 @@ func mapProjectStatus(status projects.ProjectStatus) string {
 	}
 }
 
-func (s *service) SyncMilestones(ctx context.Context, databaseID string, filePath string) error {
+func (s *service) SyncMilestones(ctx context.Context, databaseID, filePath string) error {
 	// Simple implementation: parse MILESTONES.md and upload lines
 	_, err := os.ReadFile(filePath)
 	if err != nil {
@@ -325,7 +325,7 @@ func (s *service) SyncMilestones(ctx context.Context, databaseID string, filePat
 	return err
 }
 
-func (s *service) SyncADRs(ctx context.Context, databaseID string, adrDir string) error {
+func (s *service) SyncADRs(ctx context.Context, databaseID, adrDir string) error {
 	files, err := os.ReadDir(adrDir)
 	if err != nil {
 		return err
@@ -371,7 +371,7 @@ func (s *service) SyncSpecifications(ctx context.Context, databaseID string, spe
 	return nil
 }
 
-func (s *service) SyncDashboard(ctx context.Context, pageID string, status string) error {
+func (s *service) SyncDashboard(ctx context.Context, pageID, status string) error {
 	// SyncDashboard is intentionally a no-op in v1.0.
 	// Dashboard synchronization is performed by the Engineering Knowledge
 	// Compiler and external Notion synchronization pipeline.
