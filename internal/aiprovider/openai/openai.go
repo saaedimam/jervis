@@ -59,7 +59,7 @@ func (a *adapter) Chat(ctx context.Context, model string, messages []contracts.M
 		return nil, err
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", baseURL+"/v1/chat/completions", bytes.NewReader(jsonBody))
+	req, err := http.NewRequestWithContext(ctx, "POST", baseURL+"/chat/completions", bytes.NewReader(jsonBody))
 	if err != nil {
 		return nil, err
 	}

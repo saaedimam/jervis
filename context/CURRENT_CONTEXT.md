@@ -1,37 +1,42 @@
 # CURRENT_CONTEXT
 
 ## Active Session: SESSION-017
-## Timestamp: 2026-07-30T18:58:19Z
+## Timestamp: 2026-07-31T00:00:00Z
 
 ### Current State
-- Phase: 1.4.2
-- Component: ARCH-004 (Observer)
-- Packages: PKG-026..028 (registry, dispatcher, observer)
-- Specifications: SPEC-020..022
-- Files: FILE-0017..0023 (Observer foundation)
+- Phase: v1.0.0-rc1 (Release Candidate 1)
+- All core components implemented
+- OpenAI endpoint bug fixed (baseURL /v1/v1 dedup)
+- MASTER_CONTEXT.md regenerated with accurate metrics
 
-### Knowledge Graph ✅ COMPLETE
-- File Registry: Operational
-- 23 core files synchronized
-- All relationships validated
-- Incremental sync active
+### Repository Status
+- Go Packages: 86
+- Go Files: 188
+- Test Files: 66
+- Tests: 238 (all passing)
+- Test Coverage: 67.0%
+- Race Detection: Clean
 
 ### Recent Changes
-- File Registry fully integrated ✅
-- Knowledge Graph validated ✅
-- Integrity report generated ✅
-- Context files updated ✅
+- Fixed OpenAI endpoint bug (was /v1/chat/completions, now /chat/completions)
+- Regenerated MASTER_CONTEXT.md with accurate repo metrics
+- Coverage artifacts cleaned (auto.out, coverage.out)
+
+### Known Limitations (v1.0.0-rc1)
+1. ChatStream() stubs return errors — deferred to post-v1.0
+2. calendar.ImportICal uses continue on duplicates — non-blocking
+3. Notion sync pipeline requires external tooling connectivity
 
 ### Blockers
-- None
+- None (after OpenAI endpoint fix)
 
-### Next 3 Tasks
-1. Implement PKG-026: Observer Registry
-2. Implement PKG-027: Observer Dispatcher  
-3. Implement PKG-028: Observer Facade
+### Next Steps
+1. Tag as v1.0.0-rc1
+2. Test RC1 in staging for 1-2 days
+3. Promote to v1.0.0 final after validation
+4. Implement ChatStream after v1.0.0 GA
 
 ### Risk Level: Low
-- Foundation complete
-- Specifications frozen
-- Architecture approved
-- Knowledge Graph operational
+- All verification gates pass
+- No outstanding functional bugs
+- Known limitations documented
