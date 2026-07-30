@@ -27,7 +27,7 @@ add_pkg() {
     "Status": {"select": {"name": "$status"}},
     "Coverage": {"rich_text": [{"text": {"content": "$coverage"}}]},
     "Frozen": {"checkbox": $frozen},
-    "Source Path": {"url": "https://github.com/ioriimasu/jervis/tree/main/$name"},
+    "Source Path": {"url": "https://github.com/saaedimam/jervis/tree/main/$name"},
     "Architecture": {"rich_text": [{"text": {"content": "$arch"}}]}
   }
 }

@@ -10,8 +10,8 @@ This document defines the frozen interface contracts and data models for the Run
 package contracts
 
 import (
-	eventcontracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	eventcontracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 // Notification defines the immutable notification interface wrapping an Event.

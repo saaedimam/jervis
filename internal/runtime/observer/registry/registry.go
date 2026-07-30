@@ -1,8 +1,8 @@
 package registry
 
 import (
-	"github.com/ioriimasu/jervis/internal/runtime/observer/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/observer/errors"
+	"github.com/saaedimam/jervis/internal/runtime/observer/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/observer/errors"
 )
 
 // registry implements contracts.Registry interface.

@@ -3,7 +3,7 @@ package contracts_test
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/contracts"
 )
 
 type mockComponent struct {

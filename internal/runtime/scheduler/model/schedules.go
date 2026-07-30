@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/contracts"
 )
 
 // IntervalSchedule triggers a job at fixed time intervals.

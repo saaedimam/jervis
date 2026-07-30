@@ -3,9 +3,9 @@ package notification_test
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/observer/notification"
-	"github.com/ioriimasu/jervis/internal/runtime/observer/testutils"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/observer/notification"
+	"github.com/saaedimam/jervis/internal/runtime/observer/testutils"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 func TestNotification(t *testing.T) {

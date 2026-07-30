@@ -5,8 +5,8 @@ package store_test
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/memory/store"
-	"github.com/ioriimasu/jervis/internal/memory/store/contracts"
+	"github.com/saaedimam/jervis/internal/memory/store"
+	"github.com/saaedimam/jervis/internal/memory/store/contracts"
 )
 
 // TestStoreNew verifies that Store.New returns a valid SQLite store.

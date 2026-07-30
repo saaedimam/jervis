@@ -3,10 +3,10 @@ package engine
 import (
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/decision"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/registry"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/validator"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/decision"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/registry"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/validator"
 )
 
 // Engine orchestrates synchronous capability validation and policy evaluation.

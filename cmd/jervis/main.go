@@ -7,11 +7,11 @@ import (
 	"os"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
-	"github.com/ioriimasu/jervis/internal/app"
-	"github.com/ioriimasu/jervis/internal/interfaces/mcp"
-	"github.com/ioriimasu/jervis/internal/interfaces/rest"
-	"github.com/ioriimasu/jervis/internal/runtime/buildinfo"
+	"github.com/saaedimam/jervis/internal/aiprovider/contracts"
+	"github.com/saaedimam/jervis/internal/app"
+	"github.com/saaedimam/jervis/internal/interfaces/mcp"
+	"github.com/saaedimam/jervis/internal/interfaces/rest"
+	"github.com/saaedimam/jervis/internal/runtime/buildinfo"
 	"github.com/joho/godotenv"
 )
 

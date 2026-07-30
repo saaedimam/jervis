@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
+	"github.com/saaedimam/jervis/internal/aiprovider/contracts"
 )
 
 func TestOpenAIAdapter_Name(t *testing.T) {

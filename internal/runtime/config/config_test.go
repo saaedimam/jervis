@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/config"
-	errs "github.com/ioriimasu/jervis/internal/runtime/errors"
+	"github.com/saaedimam/jervis/internal/runtime/config"
+	errs "github.com/saaedimam/jervis/internal/runtime/errors"
 )
 
 func TestConfigDefault(t *testing.T) {

@@ -3,9 +3,9 @@ package automation_test
 import (
 	"testing"
 
-	events "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
-	"github.com/ioriimasu/jervis/internal/services/automation"
+	events "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/services/automation"
 )
 
 // mockRuntimeEvent implements events.Event for testing

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	errs "github.com/ioriimasu/jervis/internal/runtime/eventbus/errors"
+	errs "github.com/saaedimam/jervis/internal/runtime/eventbus/errors"
 )
 
 func TestEventBusErrors(t *testing.T) {

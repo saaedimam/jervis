@@ -1,9 +1,9 @@
 package testutils
 
 import (
-	eventcontracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/observer/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	eventcontracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/observer/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 var (

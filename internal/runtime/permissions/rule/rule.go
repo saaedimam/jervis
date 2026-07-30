@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/contracts"
-	errs "github.com/ioriimasu/jervis/internal/runtime/permissions/errors"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/contracts"
+	errs "github.com/saaedimam/jervis/internal/runtime/permissions/errors"
 )
 
 // Rule represents an immutable authorization statement within a security policy.

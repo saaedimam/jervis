@@ -3,13 +3,13 @@ package eventbus
 import (
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/dispatcher"
-	errs "github.com/ioriimasu/jervis/internal/runtime/eventbus/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/events"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/middleware"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/registry"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/subscription"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/dispatcher"
+	errs "github.com/saaedimam/jervis/internal/runtime/eventbus/errors"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/events"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/middleware"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/registry"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/subscription"
 )
 
 // EventBus is the canonical Event Bus facade orchestrating validation, registry, middleware, and dispatcher.

@@ -1,8 +1,8 @@
 package contracts
 
 import (
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 // Notification defines the immutable notification interface wrapping an Event.

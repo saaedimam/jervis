@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/contracts"
-	errs "github.com/ioriimasu/jervis/internal/runtime/permissions/errors"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/contracts"
+	errs "github.com/saaedimam/jervis/internal/runtime/permissions/errors"
 )
 
 // Registry manages in-memory storage and retrieval of security policies.

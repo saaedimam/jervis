@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
+	"github.com/saaedimam/jervis/internal/aiprovider/contracts"
 )
 
 var baseURL = "https://api.anthropic.com/v1"

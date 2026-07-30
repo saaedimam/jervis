@@ -3,8 +3,8 @@ package model
 import (
 	"sync"
 
-	"github.com/ioriimasu/jervis/internal/runtime/session/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/session/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 type Session struct {

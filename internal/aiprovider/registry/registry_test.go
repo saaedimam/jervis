@@ -5,7 +5,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
+	"github.com/saaedimam/jervis/internal/aiprovider/contracts"
 )
 
 type mockProvider struct {

@@ -1,4 +1,4 @@
-module github.com/ioriimasu/jervis
+module github.com/saaedimam/jervis
 
 go 1.25.5
 

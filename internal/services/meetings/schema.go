@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/memory/store/contracts"
+	"github.com/saaedimam/jervis/internal/memory/store/contracts"
 )
 
 // Schema defines the SQL statements for the meetings service.

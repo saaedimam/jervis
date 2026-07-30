@@ -4,7 +4,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/buildinfo"
+	"github.com/saaedimam/jervis/internal/runtime/buildinfo"
 )
 
 func TestBuildInfoGet(t *testing.T) {

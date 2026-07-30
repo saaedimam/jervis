@@ -3,8 +3,8 @@ package contracts_test
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 type dummyHandler struct {

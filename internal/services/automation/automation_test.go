@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	events "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/services/automation"
+	events "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/services/automation"
 )
 
 type mockPublisher struct{}

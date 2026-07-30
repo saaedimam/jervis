@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/memory/store/sqlite"
+	"github.com/saaedimam/jervis/internal/memory/store/sqlite"
 )
 
 func TestPersistence(t *testing.T) {

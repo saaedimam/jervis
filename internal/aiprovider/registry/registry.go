@@ -4,7 +4,7 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
+	"github.com/saaedimam/jervis/internal/aiprovider/contracts"
 )
 
 var ErrProviderNotFound = errors.New("aiprovider: provider not found")

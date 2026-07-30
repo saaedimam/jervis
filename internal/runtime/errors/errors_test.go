@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	errs "github.com/ioriimasu/jervis/internal/runtime/errors"
+	errs "github.com/saaedimam/jervis/internal/runtime/errors"
 )
 
 func TestCanonicalErrors(t *testing.T) {

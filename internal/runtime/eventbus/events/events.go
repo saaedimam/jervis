@@ -5,9 +5,9 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	errs "github.com/ioriimasu/jervis/internal/runtime/eventbus/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	errs "github.com/saaedimam/jervis/internal/runtime/eventbus/errors"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 // Priority represents event processing priority as a byte.

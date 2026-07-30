@@ -25,7 +25,7 @@ add_spec() {
     "Package": {"rich_text": [{"text": {"content": "$pkg"}}]},
     "Architecture": {"rich_text": [{"text": {"content": "$arch"}}]},
     "Frozen": {"checkbox": $frozen},
-    "Markdown File": {"url": "https://github.com/ioriimasu/jervis/blob/main/$file"}
+    "Markdown File": {"url": "https://github.com/saaedimam/jervis/blob/main/$file"}
   }
 }
 EOF

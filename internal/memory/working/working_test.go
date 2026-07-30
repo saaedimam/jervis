@@ -3,7 +3,7 @@ package working
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/memory/working/model"
+	"github.com/saaedimam/jervis/internal/memory/working/model"
 )
 
 func TestWorkingMemory_SlidingWindow(t *testing.T) {

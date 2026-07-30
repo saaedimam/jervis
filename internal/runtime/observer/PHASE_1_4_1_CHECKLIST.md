@@ -157,9 +157,9 @@ func (a *AggregateError) Error() string
 
 ### Dependencies
 **Allowed Imports:**
-- `github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts`
-- `github.com/ioriimasu/jervis/internal/runtime/types`
-- `github.com/ioriimasu/jervis/internal/runtime/errors`
+- `github.com/saaedimam/jervis/internal/runtime/eventbus/contracts`
+- `github.com/saaedimam/jervis/internal/runtime/types`
+- `github.com/saaedimam/jervis/internal/runtime/errors`
 - Standard library: `fmt`, `sort`, `strings`, `sync/atomic` (only for testing)
 
 **Forbidden Imports:**

@@ -3,7 +3,7 @@ package model
 import (
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/memory/contracts"
+	"github.com/saaedimam/jervis/internal/memory/contracts"
 )
 
 type entry struct {

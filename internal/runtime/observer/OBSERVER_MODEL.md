@@ -16,8 +16,8 @@ The `Notification` struct (in `notification` package) provides an immutable impl
 package notification
 
 import (
-	eventcontracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	eventcontracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 type Notification struct {

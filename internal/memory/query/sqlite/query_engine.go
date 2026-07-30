@@ -7,11 +7,11 @@ import (
 	"strings"
 	"time"
 
-	memContracts "github.com/ioriimasu/jervis/internal/memory/contracts"
-	qContracts "github.com/ioriimasu/jervis/internal/memory/query/contracts"
-	storecontracts "github.com/ioriimasu/jervis/internal/memory/store/contracts"
-	"github.com/ioriimasu/jervis/internal/memory/timeline/engine"
-	eventsContracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
+	memContracts "github.com/saaedimam/jervis/internal/memory/contracts"
+	qContracts "github.com/saaedimam/jervis/internal/memory/query/contracts"
+	storecontracts "github.com/saaedimam/jervis/internal/memory/store/contracts"
+	"github.com/saaedimam/jervis/internal/memory/timeline/engine"
+	eventsContracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
 )
 
 // sqliteQueryEngine implements the QueryEngine interface using SQLite and the timeline engine.

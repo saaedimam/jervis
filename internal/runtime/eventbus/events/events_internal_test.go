@@ -3,7 +3,7 @@ package events
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 func TestEnvelopeHeaderAndNilMetadataInternal(t *testing.T) {

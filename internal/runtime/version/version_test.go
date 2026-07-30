@@ -3,7 +3,7 @@ package version_test
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/version"
+	"github.com/saaedimam/jervis/internal/runtime/version"
 )
 
 func TestVersionInfo(t *testing.T) {

@@ -3,7 +3,7 @@ package model
 import (
 	"context"
 
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/contracts"
 )
 
 type Job struct {

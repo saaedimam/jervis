@@ -4,10 +4,10 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/contracts"
-	errs "github.com/ioriimasu/jervis/internal/runtime/permissions/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/policy"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/rule"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/contracts"
+	errs "github.com/saaedimam/jervis/internal/runtime/permissions/errors"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/policy"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/rule"
 )
 
 type invalidMockRule struct{}

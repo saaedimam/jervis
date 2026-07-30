@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/capability"
-	errs "github.com/ioriimasu/jervis/internal/runtime/permissions/errors"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/capability"
+	errs "github.com/saaedimam/jervis/internal/runtime/permissions/errors"
 )
 
 func TestCapabilityValidCreation(t *testing.T) {

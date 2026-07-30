@@ -3,7 +3,7 @@ package buildinfo
 import (
 	"runtime"
 
-	"github.com/ioriimasu/jervis/internal/runtime/version"
+	"github.com/saaedimam/jervis/internal/runtime/version"
 )
 
 // Private unexported variables for linker (-ldflags) injection at compile time.

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"testing"
 
-	errs "github.com/ioriimasu/jervis/internal/runtime/eventbus/errors"
+	errs "github.com/saaedimam/jervis/internal/runtime/eventbus/errors"
 
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/dispatcher"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/dispatcher"
 )
 
 func TestAggregateErrorEmpty(t *testing.T) {

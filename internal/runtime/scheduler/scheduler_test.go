@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/model"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/model"
 )
 
 func TestScheduler_Tick(t *testing.T) {

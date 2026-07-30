@@ -36,7 +36,7 @@ Jervis compiles to single static binaries using Go cross-compilation (`CGO_ENABL
 
 ### Homebrew Tap Integration
 - **Official Tap**: Maintain official Homebrew formula `jervis.rb` in `ioriimasu/homebrew-jervis`.
-- **Installation Command**: `brew install ioriimasu/jervis/jervis`.
+- **Installation Command**: `brew install saaedimam/jervis/jervis`.
 - **Automated Formula Updates**: GoReleaser automatically updates Homebrew formula URL and SHA256 hashes upon stable tag release.
 
 ---

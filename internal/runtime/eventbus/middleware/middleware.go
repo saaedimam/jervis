@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
 )
 
 // Func allows a function with the matching signature to satisfy contracts.Middleware.

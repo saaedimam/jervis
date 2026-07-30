@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync"
 
-	events "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
+	events "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
 )
 
 // Service represents the automation service.

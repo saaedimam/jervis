@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ioriimasu/jervis/internal/runtime/buildinfo"
+	"github.com/saaedimam/jervis/internal/runtime/buildinfo"
 )
 
 func main() {

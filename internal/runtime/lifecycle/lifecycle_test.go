@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	errs "github.com/ioriimasu/jervis/internal/runtime/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	errs "github.com/saaedimam/jervis/internal/runtime/errors"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 func TestLifecycleManagerFullCycle(t *testing.T) {

@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
-	"github.com/ioriimasu/jervis/internal/aiprovider/registry"
-	"github.com/ioriimasu/jervis/internal/services/notion"
-	"github.com/ioriimasu/jervis/internal/services/planner"
-	"github.com/ioriimasu/jervis/internal/services/projects"
+	"github.com/saaedimam/jervis/internal/aiprovider/contracts"
+	"github.com/saaedimam/jervis/internal/aiprovider/registry"
+	"github.com/saaedimam/jervis/internal/services/notion"
+	"github.com/saaedimam/jervis/internal/services/planner"
+	"github.com/saaedimam/jervis/internal/services/projects"
 )
 
 // SyncNotionAction synchronizes local state to Notion.

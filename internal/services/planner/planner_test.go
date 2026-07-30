@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/memory/store/sqlite"
-	"github.com/ioriimasu/jervis/internal/services/planner"
+	"github.com/saaedimam/jervis/internal/memory/store/sqlite"
+	"github.com/saaedimam/jervis/internal/services/planner"
 )
 
 func setupTestPlanner(t *testing.T) (planner.Service, func()) {

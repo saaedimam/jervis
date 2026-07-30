@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	events "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	events "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 type mockAction struct {

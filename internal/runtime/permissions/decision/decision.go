@@ -3,7 +3,7 @@ package decision
 import (
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/contracts"
 )
 
 // Decision represents an immutable authorization decision result.

@@ -3,8 +3,8 @@ package capability
 import (
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/contracts"
-	errs "github.com/ioriimasu/jervis/internal/runtime/permissions/errors"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/contracts"
+	errs "github.com/saaedimam/jervis/internal/runtime/permissions/errors"
 )
 
 // Subject represents the security entity requesting permission.

@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/errors"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/errors"
 )
 
 type mockJob struct {

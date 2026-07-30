@@ -8,14 +8,14 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
-	"github.com/ioriimasu/jervis/internal/memory/query/contracts"
-	"github.com/ioriimasu/jervis/internal/memory/store"
-	storecontracts "github.com/ioriimasu/jervis/internal/memory/store/contracts"
-	"github.com/ioriimasu/jervis/internal/memory/timeline/engine"
-	eventsContracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/events"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
-	"github.com/ioriimasu/jervis/internal/memory/query/sqlite"
+	"github.com/saaedimam/jervis/internal/memory/query/contracts"
+	"github.com/saaedimam/jervis/internal/memory/store"
+	storecontracts "github.com/saaedimam/jervis/internal/memory/store/contracts"
+	"github.com/saaedimam/jervis/internal/memory/timeline/engine"
+	eventsContracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/events"
+	"github.com/saaedimam/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/memory/query/sqlite"
 )
 
 func TestSQLiteQueryEngine_Query(t *testing.T) {

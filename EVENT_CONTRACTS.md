@@ -13,7 +13,7 @@ package contracts
 import (
 	"context"
 
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 // Event represents the canonical immutable event envelope interface.

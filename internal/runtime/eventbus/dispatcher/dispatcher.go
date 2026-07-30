@@ -3,9 +3,9 @@ package dispatcher
 import (
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	errs "github.com/ioriimasu/jervis/internal/runtime/eventbus/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/events"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	errs "github.com/saaedimam/jervis/internal/runtime/eventbus/errors"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/events"
 )
 
 // MaxDispatchDepth caps the maximum allowed recursive event dispatch call depth.

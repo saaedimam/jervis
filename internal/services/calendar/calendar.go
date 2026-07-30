@@ -7,8 +7,8 @@ import (
 	"time"
 
 	ical "github.com/arran4/golang-ical"
-	eventcontracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/services/meetings"
+	eventcontracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/services/meetings"
 )
 
 // Service defines the Calendar Integration Service interface.

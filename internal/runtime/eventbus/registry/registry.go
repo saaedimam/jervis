@@ -6,8 +6,8 @@ import (
 	"strings"
 	"unicode"
 
-	errs "github.com/ioriimasu/jervis/internal/runtime/eventbus/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/subscription"
+	errs "github.com/saaedimam/jervis/internal/runtime/eventbus/errors"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/subscription"
 )
 
 // Registry manages synchronous event subscriptions deterministically.

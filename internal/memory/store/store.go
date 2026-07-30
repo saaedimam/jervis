@@ -8,8 +8,8 @@
 package store
 
 import (
-	"github.com/ioriimasu/jervis/internal/memory/store/contracts"
-	"github.com/ioriimasu/jervis/internal/memory/store/sqlite"
+	"github.com/saaedimam/jervis/internal/memory/store/contracts"
+	"github.com/saaedimam/jervis/internal/memory/store/sqlite"
 )
 
 // New returns a new Store implementation using SQLite with the provided data source name.

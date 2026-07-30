@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/engine"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/registry"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/engine"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/errors"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/registry"
 )
 
 type Scheduler struct {

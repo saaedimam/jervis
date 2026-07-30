@@ -3,8 +3,8 @@ package registry
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/session/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/session/errors"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 type mockSession struct {

@@ -3,7 +3,7 @@ package model
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 func TestSession(t *testing.T) {

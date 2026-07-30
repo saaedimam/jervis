@@ -3,8 +3,8 @@ package middleware
 import (
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	errs "github.com/ioriimasu/jervis/internal/runtime/eventbus/errors"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	errs "github.com/saaedimam/jervis/internal/runtime/eventbus/errors"
 )
 
 // Chain manages and executes an ordered sequence of middleware interceptors.

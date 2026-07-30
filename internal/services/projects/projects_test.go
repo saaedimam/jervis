@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/memory/store/sqlite"
-	"github.com/ioriimasu/jervis/internal/services/projects"
+	"github.com/saaedimam/jervis/internal/memory/store/sqlite"
+	"github.com/saaedimam/jervis/internal/services/projects"
 )
 
 func setupTestProjects(t *testing.T) (projects.Service, func()) {

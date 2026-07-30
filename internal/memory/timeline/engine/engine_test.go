@@ -5,10 +5,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/memory/contracts"
-	"github.com/ioriimasu/jervis/internal/memory/store/sqlite"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/events"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/memory/contracts"
+	"github.com/saaedimam/jervis/internal/memory/store/sqlite"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/events"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 func setupTestEngine(t *testing.T) (*Engine, func()) {

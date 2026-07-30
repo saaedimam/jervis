@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/contracts"
 )
 
 type Engine struct {

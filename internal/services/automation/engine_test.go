@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/services/automation"
+	"github.com/saaedimam/jervis/internal/services/automation"
 )
 
 type recordedAction struct {

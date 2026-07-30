@@ -1,12 +1,12 @@
 package observer
 
 import (
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	obscontracts "github.com/ioriimasu/jervis/internal/runtime/observer/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/observer/dispatcher"
-	"github.com/ioriimasu/jervis/internal/runtime/observer/notification"
-	"github.com/ioriimasu/jervis/internal/runtime/observer/registry"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	obscontracts "github.com/saaedimam/jervis/internal/runtime/observer/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/observer/dispatcher"
+	"github.com/saaedimam/jervis/internal/runtime/observer/notification"
+	"github.com/saaedimam/jervis/internal/runtime/observer/registry"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 // RuntimeObserver provides the high-level API for the Observer subsystem.

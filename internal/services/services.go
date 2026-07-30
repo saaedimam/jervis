@@ -4,15 +4,15 @@ import (
 	"context"
 	"fmt"
 
-	storecontracts "github.com/ioriimasu/jervis/internal/memory/store/contracts"
-	eventcontracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/services/automation"
-	"github.com/ioriimasu/jervis/internal/services/calendar"
-	"github.com/ioriimasu/jervis/internal/services/habits"
-	"github.com/ioriimasu/jervis/internal/services/meetings"
-	"github.com/ioriimasu/jervis/internal/services/notion"
-	"github.com/ioriimasu/jervis/internal/services/planner"
-	"github.com/ioriimasu/jervis/internal/services/projects"
+	storecontracts "github.com/saaedimam/jervis/internal/memory/store/contracts"
+	eventcontracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/services/automation"
+	"github.com/saaedimam/jervis/internal/services/calendar"
+	"github.com/saaedimam/jervis/internal/services/habits"
+	"github.com/saaedimam/jervis/internal/services/meetings"
+	"github.com/saaedimam/jervis/internal/services/notion"
+	"github.com/saaedimam/jervis/internal/services/planner"
+	"github.com/saaedimam/jervis/internal/services/projects"
 )
 
 // Container holds all domain services for the Jervis platform.

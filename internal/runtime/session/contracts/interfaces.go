@@ -1,7 +1,7 @@
 package contracts
 
 import (
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 // Session represents an active user session or workspace context.

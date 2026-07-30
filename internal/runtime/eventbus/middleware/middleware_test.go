@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/middleware"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/middleware"
 )
 
 func TestFuncMiddlewareAdapter(t *testing.T) {

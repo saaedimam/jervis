@@ -3,7 +3,7 @@ package contracts_test
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/contracts"
 )
 
 func TestEffectString(t *testing.T) {

@@ -3,9 +3,9 @@ package observer_test
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/observer"
-	"github.com/ioriimasu/jervis/internal/runtime/observer/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/observer/testutils"
+	"github.com/saaedimam/jervis/internal/runtime/observer"
+	"github.com/saaedimam/jervis/internal/runtime/observer/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/observer/testutils"
 )
 
 func TestRuntimeObserver(t *testing.T) {

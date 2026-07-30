@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ioriimasu/jervis/internal/app"
+	"github.com/saaedimam/jervis/internal/app"
 )
 
 // Server wraps the REST API server implementation.

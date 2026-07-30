@@ -1,9 +1,9 @@
 package timeline
 
 import (
-	"github.com/ioriimasu/jervis/internal/memory/contracts"
-	storecontracts "github.com/ioriimasu/jervis/internal/memory/store/contracts"
-	"github.com/ioriimasu/jervis/internal/memory/timeline/engine"
+	"github.com/saaedimam/jervis/internal/memory/contracts"
+	storecontracts "github.com/saaedimam/jervis/internal/memory/store/contracts"
+	"github.com/saaedimam/jervis/internal/memory/timeline/engine"
 )
 
 // Timeline provides the high-level facade for the event ledger.

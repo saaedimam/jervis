@@ -6,9 +6,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus"
-	permengine "github.com/ioriimasu/jervis/internal/runtime/permissions/engine"
-	permregistry "github.com/ioriimasu/jervis/internal/runtime/permissions/registry"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus"
+	permengine "github.com/saaedimam/jervis/internal/runtime/permissions/engine"
+	permregistry "github.com/saaedimam/jervis/internal/runtime/permissions/registry"
 )
 
 func main() {

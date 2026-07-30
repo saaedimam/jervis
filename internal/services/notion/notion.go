@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	eventcontracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/services/planner"
-	"github.com/ioriimasu/jervis/internal/services/projects"
+	eventcontracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/services/planner"
+	"github.com/saaedimam/jervis/internal/services/projects"
 )
 
 // Service defines the Notion Integration Service interface.

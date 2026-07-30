@@ -1,8 +1,8 @@
 package working
 
 import (
-	"github.com/ioriimasu/jervis/internal/memory/contracts"
-	"github.com/ioriimasu/jervis/internal/memory/working/engine"
+	"github.com/saaedimam/jervis/internal/memory/contracts"
+	"github.com/saaedimam/jervis/internal/memory/working/engine"
 )
 
 // WorkingMemory provides the high-level facade for active context.

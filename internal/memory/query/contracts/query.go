@@ -5,8 +5,8 @@ package contracts
 import (
 	"context"
 
-	storecontracts "github.com/ioriimasu/jervis/internal/memory/store/contracts"
-	eventsContracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
+	storecontracts "github.com/saaedimam/jervis/internal/memory/store/contracts"
+	eventsContracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
 )
 
 // QueryEngine defines the interface for the query engine component.

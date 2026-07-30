@@ -3,7 +3,7 @@ package errors_test
 import (
 	"testing"
 
-	pErrors "github.com/ioriimasu/jervis/internal/runtime/permissions/errors"
+	pErrors "github.com/saaedimam/jervis/internal/runtime/permissions/errors"
 )
 
 func TestPermissionErrors(t *testing.T) {

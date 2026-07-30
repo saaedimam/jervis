@@ -1,7 +1,7 @@
 package automation
 
 import (
-	events "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
+	events "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
 )
 
 // CronTrigger activates a workflow based on a cron expression.

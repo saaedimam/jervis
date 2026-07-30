@@ -3,8 +3,8 @@ package decision_test
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/decision"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/decision"
 )
 
 func TestDecisionAllow(t *testing.T) {

@@ -8,10 +8,10 @@ import (
 	"strings"
 	"time"
 
-	storecontracts "github.com/ioriimasu/jervis/internal/memory/store/contracts"
-	eventcontracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/events"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	storecontracts "github.com/saaedimam/jervis/internal/memory/store/contracts"
+	eventcontracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/events"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 var (

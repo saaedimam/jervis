@@ -3,9 +3,9 @@ package registry_test
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/observer/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/observer/registry"
-	"github.com/ioriimasu/jervis/internal/runtime/observer/testutils"
+	"github.com/saaedimam/jervis/internal/runtime/observer/errors"
+	"github.com/saaedimam/jervis/internal/runtime/observer/registry"
+	"github.com/saaedimam/jervis/internal/runtime/observer/testutils"
 )
 
 func TestRegistry(t *testing.T) {

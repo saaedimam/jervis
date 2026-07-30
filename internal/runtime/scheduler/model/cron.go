@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/contracts"
 )
 
 // CronSchedule triggers a job based on a cron expression.

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	observererrors "github.com/ioriimasu/jervis/internal/runtime/observer/errors"
+	observererrors "github.com/saaedimam/jervis/internal/runtime/observer/errors"
 )
 
 func TestErrObserverPanic(t *testing.T) {

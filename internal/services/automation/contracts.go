@@ -3,7 +3,7 @@ package automation
 import (
 	"context"
 
-	events "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
+	events "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
 )
 
 // Action defines a contract for executable actions in the Automation Service.

@@ -4,17 +4,17 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/aiprovider/anthropic"
-	"github.com/ioriimasu/jervis/internal/aiprovider/google"
-	"github.com/ioriimasu/jervis/internal/aiprovider/ollama"
-	"github.com/ioriimasu/jervis/internal/aiprovider/openai"
-	"github.com/ioriimasu/jervis/internal/aiprovider/prompts"
-	"github.com/ioriimasu/jervis/internal/aiprovider/registry"
-	"github.com/ioriimasu/jervis/internal/memory/store/sqlite"
-	"github.com/ioriimasu/jervis/internal/memory/timeline"
-	"github.com/ioriimasu/jervis/internal/memory/working"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus"
-	"github.com/ioriimasu/jervis/internal/services"
+	"github.com/saaedimam/jervis/internal/aiprovider/anthropic"
+	"github.com/saaedimam/jervis/internal/aiprovider/google"
+	"github.com/saaedimam/jervis/internal/aiprovider/ollama"
+	"github.com/saaedimam/jervis/internal/aiprovider/openai"
+	"github.com/saaedimam/jervis/internal/aiprovider/prompts"
+	"github.com/saaedimam/jervis/internal/aiprovider/registry"
+	"github.com/saaedimam/jervis/internal/memory/store/sqlite"
+	"github.com/saaedimam/jervis/internal/memory/timeline"
+	"github.com/saaedimam/jervis/internal/memory/working"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus"
+	"github.com/saaedimam/jervis/internal/services"
 )
 
 // App is the central container for the Jervis Personal OS.

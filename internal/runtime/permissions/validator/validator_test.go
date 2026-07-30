@@ -4,9 +4,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/capability"
-	errs "github.com/ioriimasu/jervis/internal/runtime/permissions/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/validator"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/capability"
+	errs "github.com/saaedimam/jervis/internal/runtime/permissions/errors"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/validator"
 )
 
 type mockCap struct {

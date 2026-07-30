@@ -3,10 +3,10 @@ package session
 import (
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/runtime/session/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/session/model"
-	"github.com/ioriimasu/jervis/internal/runtime/session/registry"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/session/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/session/model"
+	"github.com/saaedimam/jervis/internal/runtime/session/registry"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 type SessionManager struct {

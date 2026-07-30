@@ -4,11 +4,11 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	errs "github.com/ioriimasu/jervis/internal/runtime/eventbus/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/events"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/middleware"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	errs "github.com/saaedimam/jervis/internal/runtime/eventbus/errors"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/events"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/middleware"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 func createTestEvent(t *testing.T) contracts.Event {

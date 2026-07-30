@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/services/planner"
-	"github.com/ioriimasu/jervis/internal/services/projects"
+	"github.com/saaedimam/jervis/internal/services/planner"
+	"github.com/saaedimam/jervis/internal/services/projects"
 )
 
 type mockPlanner struct{}

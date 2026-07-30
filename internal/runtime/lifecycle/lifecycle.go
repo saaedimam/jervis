@@ -3,9 +3,9 @@ package lifecycle
 import (
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/runtime/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/errors"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/errors"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 var _ contracts.LifecycleManager = (*Manager)(nil)

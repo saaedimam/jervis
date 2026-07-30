@@ -3,12 +3,12 @@ package engine_test
 import (
 	"testing"
 
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/capability"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/engine"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/policy"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/registry"
-	"github.com/ioriimasu/jervis/internal/runtime/permissions/rule"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/capability"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/engine"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/policy"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/registry"
+	"github.com/saaedimam/jervis/internal/runtime/permissions/rule"
 )
 
 func TestEngineInvalidCapability(t *testing.T) {

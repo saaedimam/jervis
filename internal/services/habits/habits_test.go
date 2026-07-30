@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/memory/store/sqlite"
-	"github.com/ioriimasu/jervis/internal/services/habits"
+	"github.com/saaedimam/jervis/internal/memory/store/sqlite"
+	"github.com/saaedimam/jervis/internal/services/habits"
 )
 
 func setupTestHabits(t *testing.T) (habits.Service, func()) {

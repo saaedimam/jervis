@@ -1,12 +1,12 @@
 # jervis
 
-[![Go Version](https://img.shields.io/github/go-mod/go-version/ioriimasu/jervis)](https://go.dev/)
-[![CI](https://github.com/ioriimasu/jervis/actions/workflows/ci.yml/badge.svg)](https://github.com/ioriimasu/jervis/actions/workflows/ci.yml)
-[![Codecov](https://codecov.io/gh/ioriimasu/jervis/branch/main/graph/badge.svg)](https://codecov.io/gh/ioriimasu/jervis)
-[![License](https://img.shields.io/github/license/ioriimasu/jervis)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/ioriimasu/jervis)](https://github.com/ioriimasu/jervis/releases)
-[![Go Report Card](https://goreportcard.com/badge/github.com/ioriimasu/jervis)](https://goreportcard.com/report/github.com/ioriimasu/jervis)
-[![CodeQL](https://github.com/ioriimasu/jervis/actions/workflows/codeql.yml/badge.svg)](https://github.com/ioriimasu/jervis/actions/workflows/codeql.yml)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/saaedimam/jervis)](https://go.dev/)
+[![CI](https://github.com/saaedimam/jervis/actions/workflows/ci.yml/badge.svg)](https://github.com/saaedimam/jervis/actions/workflows/ci.yml)
+[![Codecov](https://codecov.io/gh/saaedimam/jervis/branch/main/graph/badge.svg)](https://codecov.io/gh/saaedimam/jervis)
+[![License](https://img.shields.io/github/license/saaedimam/jervis)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/saaedimam/jervis)](https://github.com/saaedimam/jervis/releases)
+[![Go Report Card](https://goreportcard.com/badge/github.com/saaedimam/jervis)](https://goreportcard.com/report/github.com/saaedimam/jervis)
+[![CodeQL](https://github.com/saaedimam/jervis/actions/workflows/codeql.yml/badge.svg)](https://github.com/saaedimam/jervis/actions/workflows/codeql.yml)
 
 **jervis** is a local-first personal operating system and runtime designed for agentic AI context management. It provides a deterministic environment for AI agents to interact with local tools, memory, and services.
 
@@ -46,13 +46,13 @@ Detailed documentation is available in [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ### Install via Homebrew
 ```bash
-brew tap ioriimasu/jervis
+brew tap saaedimam/jervis
 brew install jervis
 ```
 
 ### Build from Source
 ```bash
-git clone https://github.com/ioriimasu/jervis.git
+git clone https://github.com/saaedimam/jervis.git
 cd jervis
 make build
 ```

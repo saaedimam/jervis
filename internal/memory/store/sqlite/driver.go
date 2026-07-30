@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/ioriimasu/jervis/internal/memory/store/contracts"
+	"github.com/saaedimam/jervis/internal/memory/store/contracts"
 	_ "modernc.org/sqlite"
 )
 

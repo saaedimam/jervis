@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 func TestRuntimeID(t *testing.T) {

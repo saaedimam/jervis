@@ -2,28 +2,28 @@
 # Defined individuals or teams responsible for specific modules.
 
 # Catch-all
-*                           @ioriimasu
+*                           @saaedimam
 
 # Governance and Meta
-/GITHUB_SETUP.md            @ioriimasu
-/.github/                   @ioriimasu
-/LICENSE                    @ioriimasu
+/GITHUB_SETUP.md            @saaedimam
+/.github/                   @saaedimam
+/LICENSE                    @saaedimam
 
 # Architecture and Context
-/ARCHITECTURE.md            @ioriimasu
-/ARCHITECTURE_INVARIANTS.md @ioriimasu
-/context/                   @ioriimasu
-/docs/                      @ioriimasu
+/ARCHITECTURE.md            @saaedimam
+/ARCHITECTURE_INVARIANTS.md @saaedimam
+/context/                   @saaedimam
+/docs/                      @saaedimam
 
 # Core Modules
-/internal/runtime/          @ioriimasu
-/internal/memory/           @ioriimasu
-/internal/services/         @ioriimasu
-/internal/aiprovider/       @ioriimasu
-/internal/interfaces/       @ioriimasu
+/internal/runtime/          @saaedimam
+/internal/memory/           @saaedimam
+/internal/services/         @saaedimam
+/internal/aiprovider/       @saaedimam
+/internal/interfaces/       @saaedimam
 
 # Tooling and Distribution
-/.goreleaser.yml            @ioriimasu
-/scripts/                   @ioriimasu
-/Makefile                   @ioriimasu
-/Taskfile.yml               @ioriimasu
+/.goreleaser.yml            @saaedimam
+/scripts/                   @saaedimam
+/Makefile                   @saaedimam
+/Taskfile.yml               @saaedimam

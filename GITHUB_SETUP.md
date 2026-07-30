@@ -38,4 +38,4 @@ On every successful audit, two files are generated and uploaded as CI artifacts:
 
 ---
 **Governance Version**: v1.0.0
-**Owner**: @ioriimasu
+**Owner**: @saaedimam

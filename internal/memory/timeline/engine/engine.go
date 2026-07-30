@@ -7,11 +7,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/memory/contracts"
-	storecontracts "github.com/ioriimasu/jervis/internal/memory/store/contracts"
-	runtimecontracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/eventbus/events"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"github.com/saaedimam/jervis/internal/memory/contracts"
+	storecontracts "github.com/saaedimam/jervis/internal/memory/store/contracts"
+	runtimecontracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	"github.com/saaedimam/jervis/internal/runtime/eventbus/events"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 // Engine implements Timeline using a persistent Store.

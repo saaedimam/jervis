@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/model"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/registry"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/model"
+	"github.com/saaedimam/jervis/internal/runtime/scheduler/registry"
 )
 
 func TestEngine_Tick(t *testing.T) {
