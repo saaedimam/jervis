@@ -2,9 +2,9 @@ package engine
 
 import (
 	"context"
+	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
 	"sync"
 	"time"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
 )
 
 type Engine struct {
@@ -23,7 +23,7 @@ func New(registry contracts.Registry) *Engine {
 // Tick checks all registered jobs and executes those that are due.
 func (e *Engine) Tick(now time.Time) error {
 	jobs := e.registry.All()
-	
+
 	for _, job := range jobs {
 		e.mu.Lock()
 		lastRun, ok := e.lastRuns[job.ID()]
@@ -48,7 +48,7 @@ func (e *Engine) safeHandle(job contracts.Job, now time.Time) {
 		if r := recover(); r != nil {
 			// In Phase 1.5, we just recover to prevent crash.
 		}
-		
+
 		e.mu.Lock()
 		e.lastRuns[job.ID()] = now
 		e.mu.Unlock()

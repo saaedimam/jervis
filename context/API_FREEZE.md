@@ -132,19 +132,30 @@
 
 ---
 
-## Phase 1.4.0: Runtime Observer Subsystem (Architectural Freeze)
-- **Status**: Frozen (Architecture & Interface Contracts)
+## Phase 1.4: Runtime Observer Subsystem
+- **Packages**:
+  - `internal/runtime/observer/notification` (`Notification`, `New()`, `Event()`, `ObservedAt()`)
+  - `internal/runtime/observer/errors` (`AggregateError`, `ErrInvalidNotification`, `ErrObserverPanic`)
+  - `internal/runtime/observer/registry` (`Registry`, `New()`, `Register()`, `Unregister()`, `Observers()`, `Count()`, `Contains()`, `Clear()`)
+  - `internal/runtime/observer/dispatcher` (`Dispatcher`, `New()`, `Dispatch()`)
+  - `internal/runtime/observer` (`RuntimeObserver`, `New()`, `Notify()`, `Subscribe()`, `Unsubscribe()`)
+- **Status**: Frozen (Complete Implementation)
 - **Design Invariants**:
-  - **Read-Only Observation**: Passive event monitoring without state mutation or EventBus feedback loops.
-  - **Compositional Wrapping**: `Notification` wraps the canonical `eventcontracts.Event` interface (Composition over Duplication).
-  - **Deterministic FIFO Dispatch**: Strict registration sequence execution order (FIFO).
-  - **Panic Isolation**: Individual handler recovery (`recover()`) ensuring system-wide notification integrity (Continue-on-Error).
-  - **Error Aggregation**: Composite `AggregateError` for multi-handler failure reporting.
-  - **Pure Synchronous Execution**: 100% synchronous logic without goroutines, channels, or mutexes.
-- **Architectural Packages (Drafted)**:
-  - `internal/runtime/observer/contracts`
-  - `internal/runtime/observer/notification`
-  - `internal/runtime/observer/errors`
-  - `internal/runtime/observer/registry`
-  - `internal/runtime/observer/dispatcher`
-- **Breaking Changes**: Formal ADR required before modifying frozen Observer specifications or interface contracts.
+  - Passive event monitoring without state mutation or EventBus feedback loops.
+  - Compositional wrapping of `eventcontracts.Event`.
+  - Deterministic FIFO dispatch order.
+  - Panic isolation per observer handler.
+  - 100% statement coverage achieved across all observer packages.
+
+---
+
+## Phase 2.2: Memory Engine - Knowledge Store Driver (SQLite)
+- **Packages**:
+  - `internal/memory/store/contracts` (`Store`, `Rows`)
+  - `internal/memory/store/sqlite` (`Driver`, `New()`, `Initialize()`, `Exec()`, `Query()`, `Close()`)
+- **Status**: Frozen (Complete Implementation)
+- **Design Invariants**:
+  - Pure Go SQLite driver (`modernc.org/sqlite`).
+  - Thread-safe persistence across instances.
+  - Automated schema initialization.
+  - 100% statement coverage in the sqlite package.

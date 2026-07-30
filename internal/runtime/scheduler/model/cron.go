@@ -2,10 +2,10 @@ package model
 
 import (
 	"fmt"
+	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
 	"strconv"
 	"strings"
 	"time"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
 )
 
 // CronSchedule triggers a job based on a cron expression.

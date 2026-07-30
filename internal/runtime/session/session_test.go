@@ -1,9 +1,9 @@
 package session
 
 import (
-	"testing"
-	"github.com/ioriimasu/jervis/internal/runtime/types"
 	"github.com/ioriimasu/jervis/internal/runtime/session/errors"
+	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"testing"
 )
 
 func TestSessionManager(t *testing.T) {
@@ -46,7 +46,7 @@ func TestSessionManager(t *testing.T) {
 		if v1 != "val1" || v2 != "val2" {
 			t.Errorf("metadata mismatch: s1=%s, s2=%s", v1, v2)
 		}
-		
+
 		allMeta := s1.Metadata()
 		if len(allMeta) != 1 || allMeta["key"] != "val1" {
 			t.Error("Metadata() failed")
@@ -64,18 +64,18 @@ func TestSessionManager(t *testing.T) {
 		if _, ok := m.GetSession(id); ok {
 			t.Error("session still exists after close")
 		}
-		
+
 		if err := m.CloseSession(id); err == nil {
 			t.Error("expected error closing non-existent session")
 		}
 	})
-	
+
 	t.Run("Validation and Errors", func(t *testing.T) {
 		_, err := m.CreateSession("")
 		if err == nil {
 			t.Error("expected error for empty session ID")
 		}
-		
+
 		_, _ = m.CreateSession("duplicate")
 		_, err = m.CreateSession("duplicate")
 		if err != errors.ErrSessionAlreadyExists {

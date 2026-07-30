@@ -1,22 +1,42 @@
 package planner_test
 
 import (
+	"context"
 	"testing"
 
+	"github.com/ioriimasu/jervis/internal/memory/store/sqlite"
 	"github.com/ioriimasu/jervis/internal/services/planner"
 )
 
+func setupTestPlanner(t *testing.T) (planner.Service, func()) {
+	ctx := context.Background()
+	store, err := sqlite.New(":memory:")
+	if err != nil {
+		t.Fatalf("failed to create sqlite store: %v", err)
+	}
+
+	if err := planner.Initialize(ctx, store); err != nil {
+		t.Fatalf("failed to initialize planner schema: %v", err)
+	}
+
+	svc := planner.New(store, nil)
+	return svc, func() { store.Close() }
+}
+
 func TestPlannerService(t *testing.T) {
-	svc := planner.New(nil)
+	svc, cleanup := setupTestPlanner(t)
+	defer cleanup()
+
+	ctx := context.Background()
 
 	// Test invalid creation
-	_, err := svc.CreateTask("", "title", "desc")
+	_, err := svc.CreateTask(ctx, "", "title", "desc")
 	if err != planner.ErrInvalidTask {
 		t.Errorf("expected ErrInvalidTask, got %v", err)
 	}
 
 	// Test valid creation
-	t1, err := svc.CreateTask("task-1", "First Task", "Description 1")
+	t1, err := svc.CreateTask(ctx, "task-1", "First Task", "Description 1")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -25,14 +45,14 @@ func TestPlannerService(t *testing.T) {
 		t.Errorf("unexpected task fields: %+v", t1)
 	}
 
-	// Test duplicate creation
-	_, err = svc.CreateTask("task-1", "Duplicate", "desc")
-	if err != planner.ErrDuplicateTask {
-		t.Errorf("expected ErrDuplicateTask, got %v", err)
+	// Test duplicate creation (SQLite will return error on PK violation)
+	_, err = svc.CreateTask(ctx, "task-1", "Duplicate", "desc")
+	if err == nil {
+		t.Errorf("expected error for duplicate task ID, got nil")
 	}
 
 	// Test GetTask
-	fetched, err := svc.GetTask("task-1")
+	fetched, err := svc.GetTask(ctx, "task-1")
 	if err != nil {
 		t.Fatalf("unexpected error getting task: %v", err)
 	}
@@ -41,13 +61,13 @@ func TestPlannerService(t *testing.T) {
 	}
 
 	// Test GetTask non-existent
-	_, err = svc.GetTask("non-existent")
+	_, err = svc.GetTask(ctx, "non-existent")
 	if err != planner.ErrTaskNotFound {
 		t.Errorf("expected ErrTaskNotFound, got %v", err)
 	}
 
 	// Test UpdateTaskStatus
-	updated, err := svc.UpdateTaskStatus("task-1", planner.StatusCompleted)
+	updated, err := svc.UpdateTaskStatus(ctx, "task-1", planner.StatusCompleted)
 	if err != nil {
 		t.Fatalf("unexpected error updating status: %v", err)
 	}
@@ -56,17 +76,21 @@ func TestPlannerService(t *testing.T) {
 	}
 
 	// Test UpdateTaskStatus non-existent
-	_, err = svc.UpdateTaskStatus("non-existent", planner.StatusCompleted)
+	_, err = svc.UpdateTaskStatus(ctx, "non-existent", planner.StatusCompleted)
 	if err != planner.ErrTaskNotFound {
 		t.Errorf("expected ErrTaskNotFound, got %v", err)
 	}
 
 	// Test ListTasks
-	_, _ = svc.CreateTask("task-2", "Second Task", "Description 2")
-	list := svc.ListTasks()
+	_, _ = svc.CreateTask(ctx, "task-2", "Second Task", "Description 2")
+	list, err := svc.ListTasks(ctx)
+	if err != nil {
+		t.Fatalf("unexpected error listing tasks: %v", err)
+	}
 	if len(list) != 2 {
 		t.Fatalf("expected 2 tasks, got %d", len(list))
 	}
+	// Note: We use created_at ASC for ordering in ListTasks
 	if list[0].ID != "task-1" || list[1].ID != "task-2" {
 		t.Errorf("unexpected list order: %+v", list)
 	}

@@ -1,19 +1,20 @@
 package registry
 
 import (
-	"testing"
 	"github.com/ioriimasu/jervis/internal/runtime/session/errors"
 	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"testing"
 )
 
 type mockSession struct {
 	id types.SessionID
 }
-func (m *mockSession) ID() types.SessionID { return m.id }
-func (m *mockSession) Metadata() map[string]string { return nil }
-func (m *mockSession) SetMetadata(k, v string) {}
+
+func (m *mockSession) ID() types.SessionID                 { return m.id }
+func (m *mockSession) Metadata() map[string]string         { return nil }
+func (m *mockSession) SetMetadata(k, v string)             {}
 func (m *mockSession) GetMetadata(k string) (string, bool) { return "", false }
-func (m *mockSession) State() types.State { return types.StateCreated }
+func (m *mockSession) State() types.State                  { return types.StateCreated }
 
 func TestRegistry(t *testing.T) {
 	r := New()
@@ -75,7 +76,7 @@ func TestRegistry_UnregisterMultiple(t *testing.T) {
 	id2, _ := types.NewSessionID("s2")
 	_ = r.Register(&mockSession{id: id1})
 	_ = r.Register(&mockSession{id: id2})
-	
+
 	_ = r.Unregister(id1)
 	if r.Count() != 1 {
 		t.Error("unregister failed")

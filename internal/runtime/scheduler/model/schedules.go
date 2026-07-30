@@ -2,8 +2,8 @@ package model
 
 import (
 	"fmt"
-	"time"
 	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
+	"time"
 )
 
 // IntervalSchedule triggers a job at fixed time intervals.

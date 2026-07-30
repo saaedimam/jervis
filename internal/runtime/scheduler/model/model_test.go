@@ -19,7 +19,7 @@ func TestIntervalSchedule(t *testing.T) {
 	now := time.Now()
 	next := s.NextRun(now)
 	if !next.Equal(now.Add(1 * time.Minute)) {
-		t.Errorf("expected %v, got %v", now.Add(1 * time.Minute), next)
+		t.Errorf("expected %v, got %v", now.Add(1*time.Minute), next)
 	}
 }
 
@@ -75,7 +75,7 @@ func TestJob_Model(t *testing.T) {
 func TestCronSchedule_NextRun(t *testing.T) {
 	// 0 12 * * * -> Every day at 12:00
 	s, _ := NewCronSchedule("0 12 * * *")
-	
+
 	ref := time.Date(2026, 7, 29, 10, 0, 0, 0, time.UTC)
 	next := s.NextRun(ref)
 	expected := time.Date(2026, 7, 29, 12, 0, 0, 0, time.UTC)
@@ -95,7 +95,7 @@ func TestCronSchedule_NextRun(t *testing.T) {
 func TestCronSchedule_ComplexMatches(t *testing.T) {
 	// Specific day of month and month
 	s, _ := NewCronSchedule("0 0 1 1 *") // Jan 1st at 00:00
-	
+
 	ref := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
 	if !s.NextRun(ref).Equal(time.Date(2027, 1, 1, 0, 0, 0, 0, time.UTC)) {
 		t.Error("expected next year Jan 1st")
@@ -105,7 +105,7 @@ func TestCronSchedule_ComplexMatches(t *testing.T) {
 func TestCronSchedule_DOW(t *testing.T) {
 	// Every Sunday at 00:00 (dow=0)
 	s, _ := NewCronSchedule("0 0 * * 0")
-	
+
 	ref := time.Date(2026, 7, 26, 0, 0, 0, 0, time.UTC) // 2026-07-26 is Sunday
 	next := s.NextRun(ref)
 	expected := time.Date(2026, 8, 2, 0, 0, 0, 0, time.UTC) // Next Sunday

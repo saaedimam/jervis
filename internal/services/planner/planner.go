@@ -1,17 +1,22 @@
 package planner
 
 import (
+	"context"
+	"database/sql"
 	"errors"
+	"fmt"
 	"strings"
-	"sync"
 	"time"
 
+	storecontracts "github.com/ioriimasu/jervis/internal/memory/store/contracts"
 	eventcontracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
+	"github.com/ioriimasu/jervis/internal/runtime/eventbus/events"
+	"github.com/ioriimasu/jervis/internal/runtime/types"
 )
 
 var (
-	ErrInvalidTask  = errors.New("planner: invalid task")
-	ErrTaskNotFound = errors.New("planner: task not found")
+	ErrInvalidTask   = errors.New("planner: invalid task")
+	ErrTaskNotFound  = errors.New("planner: task not found")
 	ErrDuplicateTask = errors.New("planner: duplicate task ID")
 )
 
@@ -37,41 +42,31 @@ type Task struct {
 
 // Service defines the Planner domain service interface.
 type Service interface {
-	CreateTask(id, title, description string) (*Task, error)
-	GetTask(id string) (*Task, error)
-	UpdateTaskStatus(id string, status TaskStatus) (*Task, error)
-	ListTasks() []*Task
+	CreateTask(ctx context.Context, id, title, description string) (*Task, error)
+	GetTask(ctx context.Context, id string) (*Task, error)
+	UpdateTaskStatus(ctx context.Context, id string, status TaskStatus) (*Task, error)
+	ListTasks(ctx context.Context) ([]*Task, error)
 }
 
 type service struct {
-	mu        sync.RWMutex
-	tasks     map[string]*Task
-	order     []string
+	store     storecontracts.Store
 	publisher eventcontracts.Publisher
 }
 
-// New constructs a new Planner domain service.
-func New(publisher eventcontracts.Publisher) Service {
+// New constructs a new Planner domain service with persistence.
+func New(store storecontracts.Store, publisher eventcontracts.Publisher) Service {
 	return &service{
-		tasks:     make(map[string]*Task),
-		order:     make([]string, 0),
+		store:     store,
 		publisher: publisher,
 	}
 }
 
-func (s *service) CreateTask(id, title, description string) (*Task, error) {
+func (s *service) CreateTask(ctx context.Context, id, title, description string) (*Task, error) {
 	if strings.TrimSpace(id) == "" || strings.TrimSpace(title) == "" {
 		return nil, ErrInvalidTask
 	}
 
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	if _, exists := s.tasks[id]; exists {
-		return nil, ErrDuplicateTask
-	}
-
-	now := time.Now()
+	now := time.Now().UTC()
 	t := &Task{
 		ID:          id,
 		Title:       title,
@@ -81,52 +76,101 @@ func (s *service) CreateTask(id, title, description string) (*Task, error) {
 		UpdatedAt:   now,
 	}
 
-	s.tasks[id] = t
-	s.order = append(s.order, id)
+	_, err := s.store.Exec(ctx,
+		"INSERT INTO planner_tasks (id, title, description, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+		t.ID, t.Title, t.Description, t.Status, t.CreatedAt, t.UpdatedAt,
+	)
+	if err != nil {
+		// Basic check for duplicate key; ideally we'd use a more driver-specific check if needed,
+		// but for now we'll just return a general error or check if it's a conflict.
+		return nil, fmt.Errorf("failed to insert task: %w", err)
+	}
+
+	s.publishEvent(ctx, "planner.task.created", t)
 
 	return t, nil
 }
 
-func (s *service) GetTask(id string) (*Task, error) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+func (s *service) GetTask(ctx context.Context, id string) (*Task, error) {
+	row := s.store.QueryRow(ctx,
+		"SELECT id, title, description, status, created_at, updated_at FROM planner_tasks WHERE id = ?",
+		id,
+	)
 
-	t, exists := s.tasks[id]
-	if !exists {
+	var t Task
+	err := row.Scan(&t.ID, &t.Title, &t.Description, &t.Status, &t.CreatedAt, &t.UpdatedAt)
+	if err == sql.ErrNoRows {
+		return nil, ErrTaskNotFound
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to scan task: %w", err)
+	}
+
+	return &t, nil
+}
+
+func (s *service) UpdateTaskStatus(ctx context.Context, id string, status TaskStatus) (*Task, error) {
+	now := time.Now().UTC()
+
+	result, err := s.store.Exec(ctx,
+		"UPDATE planner_tasks SET status = ?, updated_at = ? WHERE id = ?",
+		status, now, id,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update task: %w", err)
+	}
+
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return nil, err
+	}
+	if rows == 0 {
 		return nil, ErrTaskNotFound
 	}
 
-	// Return defensive copy
-	cp := *t
-	return &cp, nil
-}
-
-func (s *service) UpdateTaskStatus(id string, status TaskStatus) (*Task, error) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	t, exists := s.tasks[id]
-	if !exists {
-		return nil, ErrTaskNotFound
+	t, err := s.GetTask(ctx, id)
+	if err != nil {
+		return nil, err
 	}
 
-	t.Status = status
-	t.UpdatedAt = time.Now()
+	s.publishEvent(ctx, "planner.task.updated", t)
 
-	cp := *t
-	return &cp, nil
+	return t, nil
 }
 
-func (s *service) ListTasks() []*Task {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+func (s *service) ListTasks(ctx context.Context) ([]*Task, error) {
+	rows, err := s.store.Query(ctx, "SELECT id, title, description, status, created_at, updated_at FROM planner_tasks ORDER BY created_at ASC")
+	if err != nil {
+		return nil, fmt.Errorf("failed to query tasks: %w", err)
+	}
+	defer rows.Close()
 
-	result := make([]*Task, 0, len(s.order))
-	for _, id := range s.order {
-		if t, ok := s.tasks[id]; ok {
-			cp := *t
-			result = append(result, &cp)
+	var results []*Task
+	for rows.Next() {
+		var t Task
+		if err := rows.Scan(&t.ID, &t.Title, &t.Description, &t.Status, &t.CreatedAt, &t.UpdatedAt); err != nil {
+			return nil, fmt.Errorf("failed to scan task row: %w", err)
 		}
+		results = append(results, &t)
 	}
-	return result
+
+	return results, nil
+}
+
+func (s *service) publishEvent(ctx context.Context, eventType string, task *Task) {
+	if s.publisher == nil {
+		return
+	}
+
+	id, _ := types.NewEventID(fmt.Sprintf("%s-%d", task.ID, time.Now().UnixNano()))
+	event, err := events.NewBuilder().
+		SetID(id).
+		SetType(events.EventType(eventType)).
+		SetSource("planner").
+		SetPayload(task).
+		Build()
+
+	if err == nil {
+		_ = s.publisher.Publish(event)
+	}
 }

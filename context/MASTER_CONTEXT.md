@@ -23,8 +23,8 @@
 | Metric | Value |
 |--------|-------|
 | **Architecture Components** | 4 (2 Complete, 2 In Progress) |
-| **Packages** | 29 (100% frozen APIs covered) |
-| **Files** | 242 tracked, 23 synchronized |
+| **Packages** | 86 (100% frozen APIs covered) |
+| **Files** | 455 tracked |
 | **Exported APIs** | 31 (all frozen) |
 | **Specifications** | 15 (all frozen) |
 | **ADRs** | 4 (Accepted) |
@@ -78,10 +78,10 @@
 
 ## 📅 CURRENT PHASE
 
-**Phase**: 2.1 Complete
-**Component**: Working Memory & Timeline Ledger
+**Phase**: 2.2 Complete
+**Component**: Knowledge Store Driver (SQLite)
 **Status**: ✅ Complete (100% test coverage)
-**Next**: Phase 2.2 Knowledge Store Driver (SQLite)
+**Next**: Phase 2.3 Query Engine
 
 ---
 
@@ -116,9 +116,9 @@
 
 ```
 Phase 1: Runtime Foundation     ████████████████████ 100% ✅
-Phase 2: Memory Engine          ████████████░░░░░░░░  60% 🟡
-Phase 3: Domain Services        ░░░░░░░░░░░░░░░░░░░░   0% ⏳
-Phase 4: AI Provider Layer      ░░░░░░░░░░░░░░░░░░░░   0% ⏳
+Phase 2: Memory Engine          ██████████████████░░  90% 🟡
+Phase 3: Domain Services        ████░░░░░░░░░░░░░░░░  20% 🟡
+Phase 4: AI Provider Layer      ████░░░░░░░░░░░░░░░░  20% 🟡
 Phase 5: Client Interfaces      ░░░░░░░░░░░░░░░░░░░░   0% ⏳
 ```
 
@@ -183,24 +183,18 @@ Phase 5: Client Interfaces      ░░░░░░░░░░░░░░░░
 
 ## 📋 PENDING TASKS
 
-**Phase 2.2** (Next):
-1. Design SQLite schema for Knowledge Store
-2. Implement `modernc.org/sqlite` driver
-3. Create persistence layer abstractions
-4. Achieve 100% test coverage
-
-**Phase 3** (Future):
-- Planner service
-- Projects service
-- Habits service
-- Meetings service
+**Phase 2.3** (Next):
+1. Design query DSL
+2. Implement query parser
+3. Optimize query execution
+4. Add indexing
 
 ---
 
 ## 🎯 NEXT PRIORITIES
 
-1. **Phase 2.2**: Knowledge Store Driver
-2. **Documentation**: Update specs for Phase 2.2
+1. **Phase 2.3**: Query Engine
+2. **Documentation**: Update specs for Phase 2.3
 3. **Testing**: Maintain 100% coverage
 4. **Architecture**: Design Phase 3 service boundaries
 
@@ -210,7 +204,7 @@ Phase 5: Client Interfaces      ░░░░░░░░░░░░░░░░
 
 | Phase | Target | Status |
 |-------|--------|--------|
-| Phase 2.2 | Aug 2026 | Knowledge Store |
+| Phase 2.2 | Aug 2026 | ✅ Complete |
 | Phase 3 | Sep 2026 | Domain Services |
 | Phase 4 | Oct 2026 | AI Provider Layer |
 | Phase 5 | Nov 2026 | Client Interfaces |
@@ -222,10 +216,10 @@ Phase 5: Client Interfaces      ░░░░░░░░░░░░░░░░
 
 | Metric | Value |
 |--------|-------|
-| **Files** | 242 |
-| **Go Files** | ~120 |
-| **Test Files** | ~120 |
-| **Lines of Code** | ~25,000 |
+| **Files** | 455 |
+| **Go Files** | 178 |
+| **Test Files** | 56 |
+| **Lines of Code** | ~13,000 |
 | **Test Coverage** | 100% |
 | **Commits** | 10+ |
 | **Sessions** | 21 |

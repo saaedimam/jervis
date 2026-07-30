@@ -1,9 +1,9 @@
 package model
 
 import (
-	"sync"
 	"github.com/ioriimasu/jervis/internal/runtime/session/contracts"
 	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"sync"
 )
 
 type Session struct {
@@ -28,7 +28,7 @@ func (s *Session) ID() types.SessionID {
 func (s *Session) Metadata() map[string]string {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	
+
 	meta := make(map[string]string, len(s.metadata))
 	for k, v := range s.metadata {
 		meta[k] = v

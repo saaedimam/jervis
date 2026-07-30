@@ -42,4 +42,8 @@ func TestRuntimeObserver(t *testing.T) {
 	if notified {
 		t.Errorf("unregistered observer was notified")
 	}
+
+	if ro.Registry() == nil {
+		t.Errorf("Registry() returned nil")
+	}
 }

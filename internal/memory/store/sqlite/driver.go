@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	_ "modernc.org/sqlite"
 	"github.com/ioriimasu/jervis/internal/memory/store/contracts"
+	_ "modernc.org/sqlite"
 )
 
 // Driver implements the Store interface using modernc.org/sqlite.

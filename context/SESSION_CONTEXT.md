@@ -3,38 +3,44 @@
 ## 1. Session Information
 - **Session ID**: `2026-07-29-session-21`
 - **Date**: 2026-07-29
-- **Current Phase**: Phase 2.1 Complete | Phase 1.4.0 (Observer Architecture Refrozen)
-- **Current Objective**: Restore Observer Implementation (Phase 1.4.1) & Implement Phase 2.2 (Knowledge Store).
+- **Current Phase**: Phase 1.4.0 (Frozen)
+- **Current Objective**: Audit and restore the canonical Observer implementation and synchronize the Notion knowledge layer.
 
 ---
 
 ## 2. Work Completed in Active Session
-- Successfully implemented Phase 2.1 Memory Subsystems:
-  - Phase 2.1.0 (Specification): `MEMORY_SPECIFICATION.md` drafted.
-  - Working Memory (`internal/memory/working`): Sliding window FIFO store with thread-safe indexing and defensive copies.
-  - Timeline Ledger (`internal/memory/timeline`): Immutable append-only ledger with time-range and type filtering.
-- Achieved **100% statement coverage** across all Working Memory and Timeline packages.
-- Synchronized Notion Project OS with final architectural status of the Memory Engine (Phase 2.1).
+- **Phase 1.4 Observer Subsystem Implementation**:
+  - Implemented `notification`, `registry`, `dispatcher`, and `observer` packages.
+  - Achieved **100% test coverage** with panic isolation and deterministic FIFO dispatch.
+  - Verified with integration tests.
+- **Phase 2.2 Knowledge Store Implementation**:
+  - Implemented `Store` contracts and `modernc.org/sqlite` driver.
+  - Verified persistence across database connections with `persistence_test.go`.
+  - Achieved **100% test coverage** in the `sqlite` driver package.
+- **Project Governance**:
+  - Corrected `MILESTONES.md` and `PROJECT_CONTEXT.md` status.
+  - Froze APIs in `API_FREEZE.md`.
+- **Notion OS**:
+  - Verified and synchronized the Notion knowledge layer.
 
 ---
 
 ## 3. Decisions Made
-- Implemented `WorkingMemory` with a sliding window policy (FIFO) to manage active context size.
-- Designed `Timeline` as an immutable ledger, ensuring chronological event integrity.
-- Used modular sub-package patterns (`contracts`, `model`, `engine`, `errors`) consistent with Layer 1.
-- Enforced defensive copies for metadata and result slices to maintain state isolation.
+- Re-implemented Observer following the revised architectural freeze (revised in Session 14-20).
+- Used `modernc.org/sqlite` (pure Go) to maintain a zero-CGO, local-first dependency profile.
+- Verified persistence via a new `persistence_test.go` that simulates separate process/instance life cycles.
 
 ---
 
 ## 4. Validation Performed
-- `go test -v -cover ./internal/memory/working/... ./internal/memory/timeline/...`: **PASS (100% coverage)**.
-- Verified sliding window pruning logic.
-- Verified Timeline query filtering (Type, From, To, Limit).
-- Fixed event construction bugs in tests to ensure valid `runtime.Event` usage.
+- `go test -v -cover ./internal/runtime/observer/...`: **PASS (100% coverage)**.
+- `go test -v -cover ./internal/memory/store/sqlite/...`: **PASS (100% coverage)**.
+- `go test -v ./internal/memory/timeline/...`: **PASS**.
+- Custom persistence test: **PASS**.
 
 ---
 
 ## 5. Current Status & Next Immediate Task
-- **Current Status**: Phase 2.1 is 100% complete.
-- **Risks / Blockers**: Persistence driver (SQLite) is pending implementation in Phase 2.2.
-- **Next Immediate Task**: Implement Phase 2.2: Knowledge Store Driver (SQLite) using `modernc.org/sqlite`.
+- **Current Status**: Phase 1 and Phase 2 are 100% complete and frozen.
+- **Risks / Blockers**: None. Runtime and Memory Engine are stable.
+- **Next Immediate Task**: Begin Phase 3: Service Layer Implementation (Planner, Projects, etc. with persistence).

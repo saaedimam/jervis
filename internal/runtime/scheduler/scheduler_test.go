@@ -2,14 +2,14 @@ package scheduler
 
 import (
 	"context"
+	"github.com/ioriimasu/jervis/internal/runtime/scheduler/model"
 	"testing"
 	"time"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/model"
 )
 
 func TestScheduler_Tick(t *testing.T) {
 	s := New()
-	
+
 	callCount := 0
 	handler := func(ctx context.Context) error {
 		callCount++
@@ -21,11 +21,11 @@ func TestScheduler_Tick(t *testing.T) {
 	_ = s.Register(job)
 
 	now := time.Now()
-	
+
 	// First tick (at 'now') - should not run yet if NextRun is now + interval
 	// Wait, my IntervalSchedule.NextRun(zero) returns now + interval.
 	// So first run should be at now + 1s.
-	
+
 	_ = s.Tick(now)
 	if callCount != 0 {
 		t.Errorf("expected 0 calls, got %d", callCount)
@@ -52,7 +52,7 @@ func TestScheduler_Tick(t *testing.T) {
 
 func TestScheduler_Cron(t *testing.T) {
 	s := New()
-	
+
 	callCount := 0
 	handler := func(ctx context.Context) error {
 		callCount++
@@ -66,7 +66,7 @@ func TestScheduler_Cron(t *testing.T) {
 
 	// Reference time: 2026-07-29 05:45:00
 	ref := time.Date(2026, 7, 29, 5, 45, 0, 0, time.UTC)
-	
+
 	// First tick at 05:45 - should not run (NextRun is 06:00)
 	_ = s.Tick(ref)
 	if callCount != 0 {
@@ -104,6 +104,8 @@ func TestScheduler_Lifecycle(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	time.Sleep(1100 * time.Millisecond) // Wait for one tick
+
 	if err := s.Start(ctx); err == nil {
 		t.Error("expected error starting already running scheduler")
 	}
@@ -115,7 +117,7 @@ func TestScheduler_Lifecycle(t *testing.T) {
 
 func TestScheduler_PanicIsolation(t *testing.T) {
 	s := New()
-	
+
 	handler := func(ctx context.Context) error {
 		panic("boom")
 	}

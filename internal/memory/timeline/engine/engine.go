@@ -42,7 +42,7 @@ func (e *Engine) Append(ctx context.Context, event runtimecontracts.Event) error
 		return fmt.Errorf("failed to marshal event metadata: %w", err)
 	}
 
-	_, err = e.store.Exec(ctx, 
+	_, err = e.store.Exec(ctx,
 		"INSERT INTO events (id, type, source, timestamp, priority, payload, metadata) VALUES (?, ?, ?, ?, ?, ?, ?)",
 		event.ID().String(),
 		event.Type(),

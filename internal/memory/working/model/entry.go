@@ -1,8 +1,8 @@
 package model
 
 import (
-	"time"
 	"github.com/ioriimasu/jervis/internal/memory/contracts"
+	"time"
 )
 
 type entry struct {
@@ -18,7 +18,7 @@ func NewEntry(id string, content any, metadata map[string]string) contracts.Entr
 	for k, v := range metadata {
 		meta[k] = v
 	}
-	
+
 	return &entry{
 		id:        id,
 		content:   content,

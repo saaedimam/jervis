@@ -1,8 +1,8 @@
 package engine
 
 import (
-	"sync"
 	"github.com/ioriimasu/jervis/internal/memory/contracts"
+	"sync"
 )
 
 // Engine implements WorkingMemory with a sliding window (FIFO) policy.
@@ -42,13 +42,13 @@ func (e *Engine) Add(entry contracts.Entry) error {
 
 	// Add to end
 	e.entries = append(e.entries, entry)
-	
+
 	// Re-build index to ensure correctness
 	e.index = make(map[string]int, len(e.entries))
 	for i, ent := range e.entries {
 		e.index[ent.ID()] = i
 	}
-	
+
 	return nil
 }
 
@@ -65,7 +65,7 @@ func (e *Engine) Get(id string) (contracts.Entry, bool) {
 func (e *Engine) All() []contracts.Entry {
 	e.mu.RLock()
 	defer e.mu.RUnlock()
-	
+
 	all := make([]contracts.Entry, len(e.entries))
 	copy(all, e.entries)
 	return all

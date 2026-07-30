@@ -1,8 +1,8 @@
 package model
 
 import (
-	"testing"
 	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"testing"
 )
 
 func TestSession(t *testing.T) {
@@ -39,10 +39,10 @@ func TestSession_MetadataCopy(t *testing.T) {
 	id, _ := types.NewSessionID("copy-test")
 	s := NewSession(id)
 	s.SetMetadata("k", "v")
-	
+
 	m := s.Metadata()
 	m["k"] = "mutated" // Should not affect s
-	
+
 	val, _ := s.GetMetadata("k")
 	if val != "v" {
 		t.Error("defensive copy failed")

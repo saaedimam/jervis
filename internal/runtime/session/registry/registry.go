@@ -1,10 +1,10 @@
 package registry
 
 import (
-	"sync"
 	"github.com/ioriimasu/jervis/internal/runtime/session/contracts"
 	"github.com/ioriimasu/jervis/internal/runtime/session/errors"
 	"github.com/ioriimasu/jervis/internal/runtime/types"
+	"sync"
 )
 
 type Registry struct {
@@ -43,7 +43,7 @@ func (r *Registry) Unregister(id types.SessionID) error {
 	}
 
 	delete(r.sessions, id.String())
-	
+
 	// Remove from order slice
 	newOrder := make([]types.SessionID, 0, len(r.order)-1)
 	for _, oid := range r.order {
@@ -52,7 +52,7 @@ func (r *Registry) Unregister(id types.SessionID) error {
 		}
 	}
 	r.order = newOrder
-	
+
 	return nil
 }
 

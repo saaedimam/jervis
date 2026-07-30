@@ -56,3 +56,9 @@ graph.json
 payload.json
 test_payload.json
 data/
+
+# Generated outputs
+jervis
+*.db
+*.out
+

@@ -1,8 +1,0 @@
-// Package claude provides Anthropic Claude API adapter.
-//
-// Purpose: Anthropic Claude API adapter.
-// Responsibilities: Translate abstract prompts to Anthropic API requests.
-// Dependencies: internal/aiprovider interface
-// Forbidden dependencies: internal/interfaces
-// Layer ownership: AI Provider Layer (Layer 4)
-package claude

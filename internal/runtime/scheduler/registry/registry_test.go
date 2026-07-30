@@ -2,17 +2,18 @@ package registry
 
 import (
 	"context"
-	"testing"
 	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
 	"github.com/ioriimasu/jervis/internal/runtime/scheduler/errors"
+	"testing"
 )
 
 type mockJob struct {
 	id string
 }
-func (m *mockJob) ID() string { return m.id }
-func (m *mockJob) Name() string { return m.id }
-func (m *mockJob) Schedule() contracts.Schedule { return nil }
+
+func (m *mockJob) ID() string                       { return m.id }
+func (m *mockJob) Name() string                     { return m.id }
+func (m *mockJob) Schedule() contracts.Schedule     { return nil }
 func (m *mockJob) Handle(ctx context.Context) error { return nil }
 
 func TestRegistry(t *testing.T) {
