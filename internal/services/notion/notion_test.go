@@ -81,9 +81,9 @@ func TestService_SyncTasks(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		if r.Method == "POST" && r.URL.Path == "/databases/db1/query" {
-			w.Write([]byte(`{"results": [{"id": "page1"}]}`))
+			_, _ = w.Write([]byte(`{"results": [{"id": "page1"}]}`))
 		} else {
-			w.Write([]byte(`{"id": "new-page"}`))
+			_, _ = w.Write([]byte(`{"id": "new-page"}`))
 		}
 	}))
 	defer server.Close()
@@ -104,13 +104,13 @@ func TestService_SyncProjects(t *testing.T) {
 		w.WriteHeader(http.StatusOK)
 		if r.Method == "POST" && r.URL.Path == "/databases/db1/query" {
 			if callCount == 0 {
-				w.Write([]byte(`{"results": []}`))
+				_, _ = w.Write([]byte(`{"results": []}`))
 			} else {
-				w.Write([]byte(`{"results": [{"id": "page1"}]}`))
+				_, _ = w.Write([]byte(`{"results": [{"id": "page1"}]}`))
 			}
 			callCount++
 		} else {
-			w.Write([]byte(`{"id": "new-page"}`))
+			_, _ = w.Write([]byte(`{"id": "new-page"}`))
 		}
 	}))
 	defer server.Close()
