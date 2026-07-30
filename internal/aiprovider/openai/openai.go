@@ -12,7 +12,7 @@ import (
 	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
 )
 
-const (
+var (
 	baseURL = "https://api.openai.com/v1"
 )
 
@@ -37,11 +37,18 @@ func (a *adapter) Name() string {
 
 func (a *adapter) Chat(ctx context.Context, model string, messages []contracts.Message, opts contracts.ChatOptions) (*contracts.Response, error) {
 	reqBody := map[string]any{
-		"model":       model,
-		"messages":    messages,
-		"temperature": opts.Temperature,
-		"max_tokens":  opts.MaxTokens,
-		"stream":      false,
+		"model":    model,
+		"messages": messages,
+	}
+
+	if opts.Temperature != 0 {
+		reqBody["temperature"] = opts.Temperature
+	}
+	if opts.MaxTokens != 0 {
+		reqBody["max_tokens"] = opts.MaxTokens
+	}
+	if opts.Stream {
+		reqBody["stream"] = true
 	}
 	if opts.Seed != nil {
 		reqBody["seed"] = *opts.Seed
@@ -52,13 +59,13 @@ func (a *adapter) Chat(ctx context.Context, model string, messages []contracts.M
 		return nil, err
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", baseURL+"/chat/completions", bytes.NewReader(jsonBody))
+	req, err := http.NewRequestWithContext(ctx, "POST", baseURL+"/v1/chat/completions", bytes.NewReader(jsonBody))
 	if err != nil {
 		return nil, err
 	}
 
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+a.apiKey)
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.apiKey))
 
 	resp, err := a.client.Do(req)
 	if err != nil {
@@ -72,10 +79,22 @@ func (a *adapter) Chat(ctx context.Context, model string, messages []contracts.M
 	}
 
 	var openAIResp struct {
+		ID      string `json:"id"`
+		Object  string `json:"object"`
+		Created int64  `json:"created"`
+		Model   string `json:"model"`
 		Choices []struct {
-			Message contracts.Message `json:"message"`
+			Index   int `json:"index"`
+			Message struct {
+				Role    string `json:"role"`
+				Content string `json:"content"`
+			} `json:"message"`
 		} `json:"choices"`
-		Usage contracts.Usage `json:"usage"`
+		Usage struct {
+			PromptTokens     int `json:"prompt_tokens"`
+			CompletionTokens int `json:"completion_tokens"`
+			TotalTokens      int `json:"total_tokens"`
+		} `json:"usage"`
 	}
 
 	if err := json.NewDecoder(resp.Body).Decode(&openAIResp); err != nil {
@@ -83,10 +102,17 @@ func (a *adapter) Chat(ctx context.Context, model string, messages []contracts.M
 	}
 
 	res := &contracts.Response{
-		Usage: openAIResp.Usage,
+		Usage: contracts.Usage{
+			PromptTokens:     openAIResp.Usage.PromptTokens,
+			CompletionTokens: openAIResp.Usage.CompletionTokens,
+			TotalTokens:      openAIResp.Usage.TotalTokens,
+		},
 	}
 	for _, c := range openAIResp.Choices {
-		res.Choices = append(res.Choices, contracts.Choice{Message: c.Message})
+		res.Choices = append(res.Choices, contracts.Choice{Message: contracts.Message{
+			Role:    contracts.Role(c.Message.Role),
+			Content: c.Message.Content,
+		}})
 	}
 
 	return res, nil

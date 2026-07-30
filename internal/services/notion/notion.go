@@ -359,6 +359,8 @@ func (s *service) SyncSpecifications(ctx context.Context, databaseID string, spe
 }
 
 func (s *service) SyncDashboard(ctx context.Context, pageID string, status string) error {
-	// Minimal stub to satisfy interface
+	// SyncDashboard is intentionally a no-op in v1.0.
+	// Dashboard synchronization is performed by the Engineering Knowledge
+	// Compiler and external Notion synchronization pipeline.
 	return nil
 }

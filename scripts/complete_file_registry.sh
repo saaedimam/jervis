@@ -257,14 +257,14 @@ cat > "$REPO_PATH/context/MASTER_CONTEXT.md" <<EOF
 
 ### Graph Relationships ✅ VALIDATED
 
-```
+\```
 FILE-0014 → PKG-014 → ARCH-002 → SPEC-001 ← ADR-0002
    │           │          ↑
    │           │    SPEC-002..006
    │           │
    └── API-029 (EventBus.Publish)
    └── API-030 (EventBus.Subscribe)
-```
+\```
 
 ### Quality Gates ✅ ALL PASS
 - ✅ File Registry exists

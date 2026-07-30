@@ -12,7 +12,7 @@ import (
 	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
 )
 
-const (
+var (
 	baseURL = "https://generativelanguage.googleapis.com/v1beta/models"
 )
 

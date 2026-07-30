@@ -1,13 +1,13 @@
 # Knowledge Graph Integrity Report
-## Generated: 2026-07-28T23:36:34Z
+## Generated: 2026-07-30T18:58:19Z
 
 ### File Registry Status
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| Files Discovered |      242 | ✅ Complete |
+| Files Discovered |      368 | ✅ Complete |
 | Files Synchronized | 23 | ✅ Core Go Files |
-| Files Pending | 219 | ⏳ In Queue |
+| Files Pending | 345 | ⏳ In Queue |
 
 ### Entity Counts
 
@@ -20,7 +20,7 @@
 | Specifications | 12 | SPEC-001..022 |
 | ADRs | 2 | ADR-0001..0002 |
 | Sessions | 17 | SESSION-017 active |
-| Commits | 10 | Latest: 91ba7ad |
+| Commits | 10 | Latest: 79d640b |
 
 ### Relationship Coverage
 
@@ -49,7 +49,7 @@
 | Gate | Status |
 |------|--------|
 | File Registry exists | ✅ |
-| Files synchronized | ✅ (23 core, 219 pending) |
+| Files synchronized | ✅ (23 core, 345 pending) |
 | Immutable FILE IDs | ✅ |
 | Package links | ✅ |
 | Architecture links | ✅ |
@@ -72,11 +72,11 @@
 - ARCH-002 (Event Bus): 8 files
 - ARCH-003 (Permission Engine): 8 files
 - ARCH-004 (Observer): 3 files
-- Other: 219 files pending
+- Other: 345 files pending
 
 ### Next Actions
 
-1. Complete sync of remaining 219 files
+1. Complete sync of remaining 345 files
 2. Establish FILE → COMMIT relationships
 3. Establish FILE → SESSION relationships
 4. Add automated coverage tracking
@@ -91,4 +91,4 @@ The Jervis Engineering Knowledge Graph is now functional with:
 - Quality gates enforced
 - Deterministic synchronization active
 
-Remaining 219 files will be synchronized incrementally.
+Remaining 345 files will be synchronized incrementally.
