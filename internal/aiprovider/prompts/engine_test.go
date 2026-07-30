@@ -32,15 +32,15 @@ func TestEngine(t *testing.T) {
 
 	// Write a test template
 	tmplContent := `Hello {{.Name}}!`
-	if err := os.WriteFile(filepath.Join(dir, "greeting.md"), []byte(tmplContent), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "greeting.md"), []byte(tmplContent), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
 	// Also write a non-md file and a directory
-	if err := os.WriteFile(filepath.Join(dir, "ignore.txt"), []byte("ignore"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "ignore.txt"), []byte("ignore"), 0o644); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.Mkdir(filepath.Join(dir, "sub.md"), 0755); err != nil {
+	if err := os.Mkdir(filepath.Join(dir, "sub.md"), 0o755); err != nil {
 		t.Fatal(err)
 	}
 
@@ -65,7 +65,7 @@ func TestEngine(t *testing.T) {
 
 	// Write an invalid template
 	invalidContent := `Hello {{.Name` // syntax error
-	if err := os.WriteFile(filepath.Join(dir, "invalid.md"), []byte(invalidContent), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "invalid.md"), []byte(invalidContent), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
@@ -78,7 +78,7 @@ func TestEngine(t *testing.T) {
 	// For execution error, missing field with strict mode? In Go templates, missing fields might just be empty or error depending on options.
 	// We can provoke an error by calling a non-existent method.
 	execErrContent := `Hello {{.MissingMethod}}`
-	if err := os.WriteFile(filepath.Join(dir, "execerr.md"), []byte(execErrContent), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "execerr.md"), []byte(execErrContent), 0o644); err != nil {
 		t.Fatal(err)
 	}
 	if _, err := engine.Hydrate("execerr", struct{}{}); err == nil {

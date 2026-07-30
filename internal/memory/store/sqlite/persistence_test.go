@@ -10,7 +10,7 @@ import (
 
 func TestPersistence(t *testing.T) {
 	tmpFile := "test_persistence.db"
-	defer os.Remove(tmpFile)
+	defer func() { _ = os.Remove(tmpFile) }()
 
 	ctx := context.Background()
 
@@ -28,14 +28,14 @@ func TestPersistence(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to insert in d1: %v", err)
 	}
-	d1.Close()
+	_ = d1.Close()
 
 	// Instance 2: Reopen and check
 	d2, err := sqlite.New(tmpFile)
 	if err != nil {
 		t.Fatalf("failed to create d2: %v", err)
 	}
-	defer d2.Close()
+	defer func() { _ = d2.Close() }()
 
 	rows, err := d2.Query(ctx, "SELECT id FROM events WHERE id = ?", "persist-1")
 	if err != nil {

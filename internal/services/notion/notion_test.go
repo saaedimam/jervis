@@ -17,10 +17,13 @@ type mockPlanner struct{}
 func (m *mockPlanner) CreateTask(ctx context.Context, id, title, description string) (*planner.Task, error) {
 	return nil, nil
 }
+
 func (m *mockPlanner) GetTask(ctx context.Context, id string) (*planner.Task, error) { return nil, nil }
+
 func (m *mockPlanner) UpdateTaskStatus(ctx context.Context, id string, status planner.TaskStatus) (*planner.Task, error) {
 	return nil, nil
 }
+
 func (m *mockPlanner) ListTasks(ctx context.Context) ([]*planner.Task, error) {
 	return []*planner.Task{
 		{ID: "t1", Title: "Task 1", Status: planner.StatusPending},
@@ -33,12 +36,15 @@ type mockProjects struct{}
 func (m *mockProjects) CreateProject(ctx context.Context, id, name, desc string) (*projects.Project, error) {
 	return nil, nil
 }
+
 func (m *mockProjects) GetProject(ctx context.Context, id string) (*projects.Project, error) {
 	return nil, nil
 }
+
 func (m *mockProjects) UpdateProjectStatus(ctx context.Context, id string, status projects.ProjectStatus) (*projects.Project, error) {
 	return nil, nil
 }
+
 func (m *mockProjects) ListProjects(ctx context.Context) ([]*projects.Project, error) {
 	return []*projects.Project{
 		{ID: "p1", Name: "Proj 1", Status: projects.StatusActive},
@@ -63,7 +69,7 @@ func TestService_SyncContext(t *testing.T) {
 	s := New("token", nil)
 
 	tmpFile := filepath.Join(t.TempDir(), "ctx.md")
-	os.WriteFile(tmpFile, []byte("hello"), 0644)
+	os.WriteFile(tmpFile, []byte("hello"), 0o644)
 
 	err := s.SyncContext(context.Background(), "Ctx", tmpFile, "page1")
 	if err != nil {
@@ -131,7 +137,7 @@ func TestService_SyncMilestones(t *testing.T) {
 
 	s := New("token", nil)
 	tmpFile := filepath.Join(t.TempDir(), "mile.md")
-	os.WriteFile(tmpFile, []byte("hello"), 0644)
+	os.WriteFile(tmpFile, []byte("hello"), 0o644)
 
 	err := s.SyncMilestones(context.Background(), "db1", tmpFile)
 	if err != nil {
@@ -152,7 +158,7 @@ func TestService_SyncADRs_And_Specs(t *testing.T) {
 	s := New("token", nil)
 
 	tmpDir := t.TempDir()
-	os.WriteFile(filepath.Join(tmpDir, "adr1.md"), []byte("hello"), 0644)
+	os.WriteFile(filepath.Join(tmpDir, "adr1.md"), []byte("hello"), 0o644)
 
 	err := s.SyncADRs(context.Background(), "db1", tmpDir)
 	if err != nil {

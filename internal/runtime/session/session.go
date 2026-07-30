@@ -2,6 +2,7 @@ package session
 
 import (
 	"fmt"
+
 	"github.com/ioriimasu/jervis/internal/runtime/session/contracts"
 	"github.com/ioriimasu/jervis/internal/runtime/session/model"
 	"github.com/ioriimasu/jervis/internal/runtime/session/registry"

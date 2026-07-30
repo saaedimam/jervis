@@ -2,9 +2,10 @@ package scheduler
 
 import (
 	"context"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/model"
 	"testing"
 	"time"
+
+	"github.com/ioriimasu/jervis/internal/runtime/scheduler/model"
 )
 
 func TestScheduler_Tick(t *testing.T) {

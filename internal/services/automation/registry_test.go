@@ -91,7 +91,7 @@ func TestRegistry_Register(t *testing.T) {
 					t.Fatalf("expected error but got none")
 				}
 				if tc.errorTarget != nil && !errors.Is(err, tc.errorTarget) {
-					// Need to import errors above, let's fix that
+					t.Fatalf("expected error target %v, got %v", tc.errorTarget, err)
 				}
 			} else {
 				if err != nil {

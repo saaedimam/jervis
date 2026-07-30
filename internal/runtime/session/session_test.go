@@ -1,9 +1,10 @@
 package session
 
 import (
+	"testing"
+
 	"github.com/ioriimasu/jervis/internal/runtime/session/errors"
 	"github.com/ioriimasu/jervis/internal/runtime/types"
-	"testing"
 )
 
 func TestSessionManager(t *testing.T) {

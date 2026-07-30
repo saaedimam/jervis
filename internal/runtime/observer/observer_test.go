@@ -24,7 +24,6 @@ func TestRuntimeObserver(t *testing.T) {
 
 	evt := &testutils.MockEvent{}
 	err := ro.Notify(evt)
-
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}

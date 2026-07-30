@@ -1,8 +1,9 @@
 package working
 
 import (
-	"github.com/ioriimasu/jervis/internal/memory/working/model"
 	"testing"
+
+	"github.com/ioriimasu/jervis/internal/memory/working/model"
 )
 
 func TestWorkingMemory_SlidingWindow(t *testing.T) {

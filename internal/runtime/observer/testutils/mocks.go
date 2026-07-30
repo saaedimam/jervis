@@ -6,8 +6,10 @@ import (
 	"github.com/ioriimasu/jervis/internal/runtime/types"
 )
 
-var _ eventcontracts.Event = (*MockEvent)(nil)
-var _ contracts.Observer = (*MockObserver)(nil)
+var (
+	_ eventcontracts.Event = (*MockEvent)(nil)
+	_ contracts.Observer   = (*MockObserver)(nil)
+)
 
 type MockEvent struct {
 	IDVal            types.EventID

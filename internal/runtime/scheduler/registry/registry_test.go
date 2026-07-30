@@ -2,9 +2,10 @@ package registry
 
 import (
 	"context"
+	"testing"
+
 	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
 	"github.com/ioriimasu/jervis/internal/runtime/scheduler/errors"
-	"testing"
 )
 
 type mockJob struct {

@@ -20,7 +20,7 @@ func setupTestPlanner(t *testing.T) (planner.Service, func()) {
 	}
 
 	svc := planner.New(store, nil)
-	return svc, func() { store.Close() }
+	return svc, func() { _ = store.Close() }
 }
 
 func TestPlannerService(t *testing.T) {

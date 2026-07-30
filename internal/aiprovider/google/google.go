@@ -12,9 +12,7 @@ import (
 	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
 )
 
-var (
-	baseURL = "https://generativelanguage.googleapis.com/v1beta/models"
-)
+var baseURL = "https://generativelanguage.googleapis.com/v1beta/models"
 
 type adapter struct {
 	apiKey string

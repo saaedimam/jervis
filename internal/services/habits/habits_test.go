@@ -21,7 +21,7 @@ func setupTestHabits(t *testing.T) (habits.Service, func()) {
 	}
 
 	svc := habits.New(store, nil)
-	return svc, func() { store.Close() }
+	return svc, func() { _ = store.Close() }
 }
 
 func TestHabitsService(t *testing.T) {

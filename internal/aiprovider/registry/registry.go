@@ -7,9 +7,7 @@ import (
 	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
 )
 
-var (
-	ErrProviderNotFound = errors.New("aiprovider: provider not found")
-)
+var ErrProviderNotFound = errors.New("aiprovider: provider not found")
 
 // Registry manages a set of AI providers.
 type Registry struct {

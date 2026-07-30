@@ -2,8 +2,9 @@ package contracts
 
 import (
 	"context"
-	runtimecontracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
 	"time"
+
+	runtimecontracts "github.com/ioriimasu/jervis/internal/runtime/eventbus/contracts"
 )
 
 // Entry represents a single unit of information in working memory.

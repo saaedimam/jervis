@@ -1,9 +1,10 @@
 package model
 
 import (
+	"sync"
+
 	"github.com/ioriimasu/jervis/internal/runtime/session/contracts"
 	"github.com/ioriimasu/jervis/internal/runtime/types"
-	"sync"
 )
 
 type Session struct {

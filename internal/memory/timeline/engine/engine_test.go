@@ -2,12 +2,13 @@ package engine
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/ioriimasu/jervis/internal/memory/contracts"
 	"github.com/ioriimasu/jervis/internal/memory/store/sqlite"
 	"github.com/ioriimasu/jervis/internal/runtime/eventbus/events"
 	"github.com/ioriimasu/jervis/internal/runtime/types"
-	"testing"
-	"time"
 )
 
 func setupTestEngine(t *testing.T) (*Engine, func()) {
@@ -20,7 +21,7 @@ func setupTestEngine(t *testing.T) (*Engine, func()) {
 		t.Fatalf("failed to initialize schema: %v", err)
 	}
 
-	return New(driver), func() { driver.Close() }
+	return New(driver), func() { _ = driver.Close() }
 }
 
 func TestEngine(t *testing.T) {

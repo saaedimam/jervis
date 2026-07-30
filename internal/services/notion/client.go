@@ -10,9 +10,7 @@ import (
 	"time"
 )
 
-var (
-	baseURL = "https://api.notion.com/v1"
-)
+var baseURL = "https://api.notion.com/v1"
 
 const (
 	apiVersion = "2022-06-28"

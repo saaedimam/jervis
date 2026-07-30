@@ -1,8 +1,9 @@
 package engine
 
 import (
-	"github.com/ioriimasu/jervis/internal/memory/working/model"
 	"testing"
+
+	"github.com/ioriimasu/jervis/internal/memory/working/model"
 )
 
 func TestEngine(t *testing.T) {

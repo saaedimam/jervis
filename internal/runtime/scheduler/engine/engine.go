@@ -2,9 +2,10 @@ package engine
 
 import (
 	"context"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
 	"sync"
 	"time"
+
+	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
 )
 
 type Engine struct {
@@ -46,7 +47,7 @@ func (e *Engine) Tick(now time.Time) error {
 func (e *Engine) safeHandle(job contracts.Job, now time.Time) {
 	defer func() {
 		if r := recover(); r != nil {
-			// In Phase 1.5, we just recover to prevent crash.
+			_ = r
 		}
 
 		e.mu.Lock()

@@ -12,9 +12,7 @@ import (
 	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
 )
 
-var (
-	baseURL = "https://api.openai.com/v1"
-)
+var baseURL = "https://api.openai.com/v1"
 
 type adapter struct {
 	apiKey string

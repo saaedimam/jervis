@@ -2,22 +2,12 @@ package engine
 
 import (
 	"context"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/contracts"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/model"
-	"github.com/ioriimasu/jervis/internal/runtime/scheduler/registry"
 	"testing"
 	"time"
+
+	"github.com/ioriimasu/jervis/internal/runtime/scheduler/model"
+	"github.com/ioriimasu/jervis/internal/runtime/scheduler/registry"
 )
-
-type mockJob struct {
-	id       string
-	handleFn func(ctx context.Context) error
-}
-
-func (m *mockJob) ID() string                       { return m.id }
-func (m *mockJob) Name() string                     { return m.id }
-func (m *mockJob) Schedule() contracts.Schedule     { return nil }
-func (m *mockJob) Handle(ctx context.Context) error { return m.handleFn(ctx) }
 
 func TestEngine_Tick(t *testing.T) {
 	reg := registry.New()

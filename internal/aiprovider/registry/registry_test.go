@@ -16,6 +16,7 @@ func (m *mockProvider) Name() string { return m.name }
 func (m *mockProvider) Chat(ctx context.Context, model string, messages []contracts.Message, opts contracts.ChatOptions) (*contracts.Response, error) {
 	return nil, nil
 }
+
 func (m *mockProvider) ChatStream(ctx context.Context, model string, messages []contracts.Message, opts contracts.ChatOptions) (io.ReadCloser, error) {
 	return nil, nil
 }

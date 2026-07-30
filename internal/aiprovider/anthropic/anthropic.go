@@ -12,9 +12,7 @@ import (
 	"github.com/ioriimasu/jervis/internal/aiprovider/contracts"
 )
 
-var (
-	baseURL = "https://api.anthropic.com/v1"
-)
+var baseURL = "https://api.anthropic.com/v1"
 
 const (
 	apiVersion = "2023-06-01"

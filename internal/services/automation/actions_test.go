@@ -2,15 +2,17 @@ package automation
 
 import (
 	"context"
+	"testing"
+
 	"github.com/ioriimasu/jervis/internal/aiprovider/registry"
 	"github.com/ioriimasu/jervis/internal/services/planner"
 	"github.com/ioriimasu/jervis/internal/services/projects"
-	"testing"
 )
 
 type mockNotion struct{}
 
 func (m *mockNotion) SyncTasks(ctx context.Context, id string, p planner.Service) error { return nil }
+
 func (m *mockNotion) SyncProjects(ctx context.Context, id string, p projects.Service) error {
 	return nil
 }
@@ -18,12 +20,15 @@ func (m *mockNotion) SyncContext(ctx context.Context, name, file, id string) err
 func (m *mockNotion) SyncMilestones(ctx context.Context, databaseID string, filePath string) error {
 	return nil
 }
+
 func (m *mockNotion) SyncADRs(ctx context.Context, databaseID string, adrDir string) error {
 	return nil
 }
+
 func (m *mockNotion) SyncSpecifications(ctx context.Context, databaseID string, specFiles []string) error {
 	return nil
 }
+
 func (m *mockNotion) SyncDashboard(ctx context.Context, pageID string, status string) error {
 	return nil
 }
@@ -33,7 +38,9 @@ type mockPlanner struct{}
 func (m *mockPlanner) CreateTask(ctx context.Context, id, title, desc string) (*planner.Task, error) {
 	return nil, nil
 }
+
 func (m *mockPlanner) GetTask(ctx context.Context, id string) (*planner.Task, error) { return nil, nil }
+
 func (m *mockPlanner) UpdateTaskStatus(ctx context.Context, id string, status planner.TaskStatus) (*planner.Task, error) {
 	return nil, nil
 }

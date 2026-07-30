@@ -48,7 +48,7 @@ func (s *Server) handleTasks(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		json.NewEncoder(w).Encode(tasks)
+		_ = json.NewEncoder(w).Encode(tasks)
 	case http.MethodPost:
 		var req struct {
 			ID          string `json:"id"`
@@ -65,7 +65,7 @@ func (s *Server) handleTasks(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(task)
+		_ = json.NewEncoder(w).Encode(task)
 	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
@@ -106,5 +106,5 @@ func (s *Server) handleNotionSync(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Sync successful")
+	_, _ = fmt.Fprintf(w, "Sync successful")
 }

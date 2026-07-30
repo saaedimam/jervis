@@ -93,7 +93,7 @@ func runPlanner(args []string) {
 		fmt.Printf("Error initializing Jervis: %v\n", err)
 		os.Exit(1)
 	}
-	defer a.Close()
+	defer func() { _ = a.Close() }()
 
 	if *createCmd {
 		if *id == "" || *title == "" {
@@ -133,7 +133,7 @@ func runDaemon() {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
-	defer a.Close()
+	defer func() { _ = a.Close() }()
 
 	fmt.Println("Jervis OS Runtime Ready.")
 	for {
@@ -164,7 +164,7 @@ func runSync(args []string) {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
-	defer a.Close()
+	defer func() { _ = a.Close() }()
 
 	var syncErr error
 	targetID := *id

@@ -61,7 +61,7 @@ func New(ctx context.Context, cfg Config) (*App, error) {
 	// 5. Initialize Services
 	container, err := services.NewContainer(ctx, store, bus, cfg.NotionToken)
 	if err != nil {
-		store.Close()
+		_ = store.Close()
 		return nil, fmt.Errorf("failed to init services: %w", err)
 	}
 

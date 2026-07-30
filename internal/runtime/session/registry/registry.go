@@ -1,10 +1,11 @@
 package registry
 
 import (
+	"sync"
+
 	"github.com/ioriimasu/jervis/internal/runtime/session/contracts"
 	"github.com/ioriimasu/jervis/internal/runtime/session/errors"
 	"github.com/ioriimasu/jervis/internal/runtime/types"
-	"sync"
 )
 
 type Registry struct {

@@ -1,8 +1,9 @@
 package engine
 
 import (
-	"github.com/ioriimasu/jervis/internal/memory/contracts"
 	"sync"
+
+	"github.com/ioriimasu/jervis/internal/memory/contracts"
 )
 
 // Engine implements WorkingMemory with a sliding window (FIFO) policy.

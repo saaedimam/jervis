@@ -1,8 +1,9 @@
 package model
 
 import (
-	"github.com/ioriimasu/jervis/internal/memory/contracts"
 	"time"
+
+	"github.com/ioriimasu/jervis/internal/memory/contracts"
 )
 
 type entry struct {

@@ -1,8 +1,9 @@
 package model
 
 import (
-	"github.com/ioriimasu/jervis/internal/runtime/types"
 	"testing"
+
+	"github.com/ioriimasu/jervis/internal/runtime/types"
 )
 
 func TestSession(t *testing.T) {
