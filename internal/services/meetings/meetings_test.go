@@ -21,7 +21,7 @@ func setupTestMeetings(t *testing.T) (meetings.Service, func()) {
 	}
 
 	svc := meetings.New(store, nil)
-	return svc, func() { store.Close() }
+	return svc, func() { _ = store.Close() }
 }
 
 func TestMeetingsService(t *testing.T) {

@@ -282,7 +282,7 @@ func runCalendar(args []string) {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
-	defer a.Close()
+	defer func() { _ = a.Close() }()
 
 	if *importCmd {
 		if *url == "" {
@@ -338,7 +338,7 @@ func runChat(args []string) {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
-	defer a.Close()
+	defer func() { _ = a.Close() }()
 
 	p, err := a.AIProviders.Get(*provider)
 	if err != nil {
@@ -382,7 +382,7 @@ func runMCP() {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
-	defer a.Close()
+	defer func() { _ = a.Close() }()
 
 	s := mcp.NewServer(a)
 	if err := s.Serve(); err != nil {
@@ -410,7 +410,7 @@ func runAPI(args []string) {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
-	defer a.Close()
+	defer func() { _ = a.Close() }()
 
 	s := rest.NewServer(a, *port)
 	if err := s.Start(); err != nil {
@@ -439,7 +439,7 @@ func runAutomation(args []string) {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
-	defer a.Close()
+	defer func() { _ = a.Close() }()
 
 	if *list {
 		workflows := a.Services.Automation.Registry().List()

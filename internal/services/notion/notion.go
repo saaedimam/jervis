@@ -48,7 +48,10 @@ func (s *service) SyncContext(ctx context.Context, name, filePath string, pageID
 	}
 
 	for _, block := range blocks {
-		blockID := block["id"].(string)
+		blockID, ok := block["id"].(string)
+		if !ok {
+			continue
+		}
 		if err := s.client.DeleteBlock(ctx, blockID); err != nil {
 			return fmt.Errorf("failed to delete block %s: %w", blockID, err)
 		}
@@ -155,7 +158,10 @@ func (s *service) SyncTasks(ctx context.Context, databaseID string, plannerServi
 
 		if len(results) > 0 {
 			// Update existing page
-			pageID := results[0]["id"].(string)
+			pageID, ok := results[0]["id"].(string)
+			if !ok {
+				return fmt.Errorf("invalid page id in notion response for task %s", task.ID)
+			}
 			err = s.client.UpdatePageProperties(ctx, pageID, props)
 			if err != nil {
 				return fmt.Errorf("failed to update notion page for task %s: %w", task.ID, err)
@@ -257,7 +263,10 @@ func (s *service) SyncProjects(ctx context.Context, databaseID string, projectsS
 
 		if len(results) > 0 {
 			// Update existing page
-			pageID := results[0]["id"].(string)
+			pageID, ok := results[0]["id"].(string)
+			if !ok {
+				return fmt.Errorf("invalid page id in notion response for project %s", project.ID)
+			}
 			err = s.client.UpdatePageProperties(ctx, pageID, props)
 			if err != nil {
 				return fmt.Errorf("failed to update notion page for project %s: %w", project.ID, err)

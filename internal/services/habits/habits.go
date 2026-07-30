@@ -198,7 +198,7 @@ func (s *service) GetHabitLogs(ctx context.Context, habitID string, from, to tim
 	if err != nil {
 		return nil, fmt.Errorf("failed to query habit logs: %w", err)
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	var results []*HabitLog
 	for rows.Next() {

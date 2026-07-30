@@ -79,7 +79,7 @@ func TestService_HandleEvent(t *testing.T) {
 		t.Error("expected action to be executed")
 	}
 
-	service.Stop()
+	_ = service.Stop()
 }
 
 func TestRegistry_Get(t *testing.T) {

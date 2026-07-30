@@ -69,7 +69,7 @@ func TestService_SyncContext(t *testing.T) {
 	s := New("token", nil)
 
 	tmpFile := filepath.Join(t.TempDir(), "ctx.md")
-	os.WriteFile(tmpFile, []byte("hello"), 0o644)
+	_ = os.WriteFile(tmpFile, []byte("hello"), 0o644)
 
 	err := s.SyncContext(context.Background(), "Ctx", tmpFile, "page1")
 	if err != nil {
@@ -128,7 +128,7 @@ func TestService_SyncProjects(t *testing.T) {
 func TestService_SyncMilestones(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"id": "new-page"}`))
+		_, _ = w.Write([]byte(`{"id": "new-page"}`))
 	}))
 	defer server.Close()
 	originalBaseURL := baseURL
@@ -137,7 +137,7 @@ func TestService_SyncMilestones(t *testing.T) {
 
 	s := New("token", nil)
 	tmpFile := filepath.Join(t.TempDir(), "mile.md")
-	os.WriteFile(tmpFile, []byte("hello"), 0o644)
+	_ = os.WriteFile(tmpFile, []byte("hello"), 0o644)
 
 	err := s.SyncMilestones(context.Background(), "db1", tmpFile)
 	if err != nil {
@@ -148,7 +148,7 @@ func TestService_SyncMilestones(t *testing.T) {
 func TestService_SyncADRs_And_Specs(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"id": "new-page"}`))
+		_, _ = w.Write([]byte(`{"id": "new-page"}`))
 	}))
 	defer server.Close()
 	originalBaseURL := baseURL
@@ -158,7 +158,7 @@ func TestService_SyncADRs_And_Specs(t *testing.T) {
 	s := New("token", nil)
 
 	tmpDir := t.TempDir()
-	os.WriteFile(filepath.Join(tmpDir, "adr1.md"), []byte("hello"), 0o644)
+	_ = os.WriteFile(filepath.Join(tmpDir, "adr1.md"), []byte("hello"), 0o644)
 
 	err := s.SyncADRs(context.Background(), "db1", tmpDir)
 	if err != nil {

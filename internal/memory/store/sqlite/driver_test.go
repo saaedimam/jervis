@@ -13,7 +13,7 @@ func TestDriver(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create sqlite driver: %v", err)
 	}
-	defer driver.Close()
+	defer func() { _ = driver.Close() }()
 
 	// Test Initialize (Schema creation)
 	if err := driver.Initialize(ctx); err != nil {

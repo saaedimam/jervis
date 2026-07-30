@@ -145,7 +145,7 @@ func (s *service) ListMeetings(ctx context.Context, from, to time.Time) ([]*Meet
 	if err != nil {
 		return nil, fmt.Errorf("failed to query meetings: %w", err)
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	var results []*Meeting
 	for rows.Next() {

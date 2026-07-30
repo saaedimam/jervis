@@ -31,7 +31,7 @@ func TestGoogleAdapter_Chat(t *testing.T) {
 		}
 
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{
+		_, _ = w.Write([]byte(`{
 			"candidates": [{"content": {"role": "model", "parts": [{"text": "hello google"}]}}],
 			"usageMetadata": {"promptTokenCount": 10, "candidatesTokenCount": 5, "totalTokenCount": 15}
 		}`))
@@ -70,7 +70,7 @@ func TestGoogleAdapter_Chat(t *testing.T) {
 func TestGoogleAdapter_Chat_Error(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`internal server error`))
+		_, _ = w.Write([]byte(`internal server error`))
 	}))
 	defer server.Close()
 

@@ -143,7 +143,7 @@ func (s *service) ListTasks(ctx context.Context) ([]*Task, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to query tasks: %w", err)
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	var results []*Task
 	for rows.Next() {

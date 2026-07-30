@@ -20,7 +20,7 @@ func setupTestProjects(t *testing.T) (projects.Service, func()) {
 	}
 
 	svc := projects.New(store, nil)
-	return svc, func() { store.Close() }
+	return svc, func() { _ = store.Close() }
 }
 
 func TestProjectsService(t *testing.T) {

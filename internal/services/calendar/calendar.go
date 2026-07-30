@@ -41,7 +41,7 @@ func (s *service) ImportICal(ctx context.Context, url string) error {
 	if err != nil {
 		return fmt.Errorf("failed to fetch calendar: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	cal, err := ical.ParseCalendar(resp.Body)
 	if err != nil {

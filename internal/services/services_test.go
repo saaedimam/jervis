@@ -14,7 +14,7 @@ func TestContainer(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create sqlite store: %v", err)
 	}
-	defer store.Close()
+	defer func() { _ = store.Close() }()
 
 	// Initialize container
 	container, err := services.NewContainer(ctx, store, nil, "")

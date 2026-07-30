@@ -31,7 +31,7 @@ func TestAnthropicAdapter_Chat(t *testing.T) {
 		}
 
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{
+		_, _ = w.Write([]byte(`{
 			"content": [{"type": "text", "text": "hello anthropic"}],
 			"usage": {"input_tokens": 10, "output_tokens": 5}
 		}`))
@@ -69,7 +69,7 @@ func TestAnthropicAdapter_Chat(t *testing.T) {
 func TestAnthropicAdapter_Chat_Error(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`internal server error`))
+		_, _ = w.Write([]byte(`internal server error`))
 	}))
 	defer server.Close()
 
