@@ -37,11 +37,26 @@ func (s *service) SyncEvents(ctx context.Context) error {
 }
 
 func (s *service) ImportICal(ctx context.Context, url string) error {
-	resp, err := http.Get(url)
+	// Create HTTP client with timeout to prevent hanging
+	client := &http.Client{
+		Timeout: 30 * time.Second,
+	}
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return fmt.Errorf("failed to create request: %w", err)
+	}
+
+	resp, err := client.Do(req)
 	if err != nil {
 		return fmt.Errorf("failed to fetch calendar: %w", err)
 	}
 	defer func() { _ = resp.Body.Close() }()
+
+	// Check response status
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("failed to fetch calendar: status %d", resp.StatusCode)
+	}
 
 	cal, err := ical.ParseCalendar(resp.Body)
 	if err != nil {

@@ -10,27 +10,52 @@ import (
 
 // Server wraps the REST API server implementation.
 type Server struct {
-	app    *app.App
-	server *http.Server
+	app     *app.App
+	server  *http.Server
+	authKey string
 }
 
 // NewServer creates a new Jervis REST API server.
+// Default binds to localhost (127.0.0.1) for security.
+// Set bindAddress to "0.0.0.0" to expose externally (not recommended).
 func NewServer(a *app.App, port int) *Server {
+	return NewServerWithAuth(a, port, "")
+}
+
+// NewServerWithAuth creates a new Jervis REST API server with optional auth.
+// If authKey is empty, no authentication is required.
+// If authKey is set, requests must include "Authorization: Bearer <authKey>".
+func NewServerWithAuth(a *app.App, port int, authKey string) *Server {
 	mux := http.NewServeMux()
 
 	s := &Server{
-		app: a,
+		app:     a,
+		authKey: authKey,
 		server: &http.Server{
-			Addr:    fmt.Sprintf(":%d", port),
+			Addr:    fmt.Sprintf("127.0.0.1:%d", port),
 			Handler: mux,
 		},
 	}
 
-	// Register routes
-	mux.HandleFunc("/api/v1/planner/tasks", s.handleTasks)
-	mux.HandleFunc("/api/v1/notion/sync", s.handleNotionSync)
+	// Register routes with optional auth middleware
+	mux.HandleFunc("/api/v1/planner/tasks", s.withAuth(s.handleTasks))
+	mux.HandleFunc("/api/v1/notion/sync", s.withAuth(s.handleNotionSync))
 
 	return s
+}
+
+// withAuth wraps a handler with optional authentication.
+func (s *Server) withAuth(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if s.authKey != "" {
+			auth := r.Header.Get("Authorization")
+			if auth == "" || auth != "Bearer "+s.authKey {
+				http.Error(w, "Unauthorized", http.StatusUnauthorized)
+				return
+			}
+		}
+		next(w, r)
+	}
 }
 
 // Start starts the REST API server.

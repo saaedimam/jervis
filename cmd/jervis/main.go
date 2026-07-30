@@ -363,6 +363,12 @@ func runChat(args []string) {
 		os.Exit(1)
 	}
 
+	// Check if response has choices to avoid panic
+	if resp == nil || len(resp.Choices) == 0 {
+		fmt.Println("Chat returned no response choices")
+		os.Exit(1)
+	}
+
 	fmt.Println("\n" + resp.Choices[0].Message.Content)
 	fmt.Printf("\n(Tokens: P=%d, C=%d, T=%d)\n", resp.Usage.PromptTokens, resp.Usage.CompletionTokens, resp.Usage.TotalTokens)
 }

@@ -149,9 +149,34 @@ func (s *Server) handleNotionSync(ctx context.Context, request mcp.CallToolReque
 }
 
 func (s *Server) handleReadResource(ctx context.Context, request mcp.ReadResourceRequest) ([]mcp.ResourceContents, error) {
-	// Simple mapping: file://context/foo.md -> context/foo.md
-	path := request.Params.URI[7:]
-	content, err := os.ReadFile(path)
+	// Validate URI prefix - only allow context/ files
+	const prefix = "file://context/"
+	if len(request.Params.URI) <= len(prefix) || request.Params.URI[:len(prefix)] != prefix {
+		return nil, fmt.Errorf("invalid URI scheme or path")
+	}
+
+	// Extract and validate the path
+	relPath := request.Params.URI[len(prefix):]
+
+	// Clean the path to prevent traversal
+	cleanPath := filepath.Clean(relPath)
+
+	// Reject if path tries to escape context/ directory
+	if cleanPath == ".." || len(cleanPath) >= 3 && cleanPath[:3] == ".." {
+		return nil, fmt.Errorf("path traversal not allowed")
+	}
+
+	// Build full path and verify it stays under context/
+	fullPath := filepath.Join("context", cleanPath)
+	absBase, _ := filepath.Abs("context")
+	absFull, _ := filepath.Abs(fullPath)
+
+	// Ensure the resolved path is under context/
+	if len(absFull) < len(absBase) || absFull[:len(absBase)] != absBase {
+		return nil, fmt.Errorf("path escapes allowed directory")
+	}
+
+	content, err := os.ReadFile(fullPath)
 	if err != nil {
 		return nil, err
 	}
