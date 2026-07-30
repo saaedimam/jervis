@@ -76,11 +76,11 @@ check_repo_property "repo.wiki" "$(yq '.repository.features.wiki' "$SPEC_FILE")"
 check_branch_protection() {
   local branch=$1
   info "Checking $branch protection..."
-  actual_protection=$(gh api "repos/$REPO/branches/$branch/protection" || echo "{}")
+  actual_protection=$(gh api "repos/$REPO/branches/$branch/protection" 2>/dev/null || echo "{}")
   expected_protection=$(yq -o=json ".branches.$branch.protection" "$SPEC_FILE")
   
-  actual_reviews=$(echo "$actual_protection" | jq -r '.required_pull_request_reviews.required_approving_review_count // 0')
-  expected_reviews=$(echo "$expected_protection" | jq -r '.required_pull_request_reviews.required_approving_review_count // 0')
+  actual_reviews=$(echo "$actual_protection" | jq -r '.required_pull_request_reviews.required_approving_review_count // 0' 2>/dev/null | grep -E '^[0-9]+$' || echo "0")
+  expected_reviews=$(echo "$expected_protection" | jq -r '.required_pull_request_reviews.required_approving_review_count // 0' 2>/dev/null | grep -E '^[0-9]+$' || echo "0")
   
   if [[ "$actual_reviews" -eq "$expected_reviews" ]]; then
     add_check "branch.$branch.reviews" "PASS" "$LEVEL_INFO" "$actual_reviews"

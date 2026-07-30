@@ -334,7 +334,9 @@ func (s *service) SyncADRs(ctx context.Context, databaseID string, adrDir string
 					},
 				},
 			}
-			_, _ = s.client.CreatePageInDatabase(ctx, databaseID, props)
+			if _, err := s.client.CreatePageInDatabase(ctx, databaseID, props); err != nil {
+				return fmt.Errorf("failed to create notion page for ADR %s: %w", f.Name(), err)
+			}
 		}
 	}
 	return nil
@@ -353,7 +355,9 @@ func (s *service) SyncSpecifications(ctx context.Context, databaseID string, spe
 				},
 			},
 		}
-		_, _ = s.client.CreatePageInDatabase(ctx, databaseID, props)
+		if _, err := s.client.CreatePageInDatabase(ctx, databaseID, props); err != nil {
+			return fmt.Errorf("failed to create notion page for specification %s: %w", f, err)
+		}
 	}
 	return nil
 }
