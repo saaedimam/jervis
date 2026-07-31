@@ -43,14 +43,26 @@ It is not intended to be a cloud orchestration platform or a hosted AI service.
 
 ## Features
 
+### Core Features (No External Dependencies)
+
 - Local-first runtime for long-lived agent workflows
-- Persistent task, project, and memory management
-- Notion synchronization
-- Calendar integration
-- AI provider integration (OpenAI, Anthropic, Gemini, Ollama)
-- MCP server
-- REST API
+- Task and project management
+- Persistent memory store
 - Automation services
+
+### Optional Integrations
+
+Requires configuration to enable:
+
+- **Notion sync** — `NOTION_TOKEN` + database IDs
+- **Calendar** — iCal import/export
+- **AI chat** — OpenAI, Anthropic, Gemini, or Ollama API keys
+
+### Interfaces
+
+- CLI
+- REST API
+- MCP server
 
 ---
 
@@ -112,19 +124,19 @@ See [docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) for l
 
 Jervis reads configuration from environment variables.
 
-| Variable | Used by | Description |
-|----------|---------|-------------|
-| `NOTION_TOKEN` | Notion sync | Notion integration token |
-| `MASTER_CONTEXT_ID` | Notion sync | Notion page ID for context sync |
-| `TASKS_DB` | Notion sync | Notion database ID for task sync |
-| `PACKAGES_DB` | Notion sync | Notion database ID for project sync |
-| `MILESTONES_DB` | Notion sync | Notion database ID for milestone sync |
-| `ADRS_DB` | Notion sync | Notion database ID for ADR sync |
-| `SPECIFICATIONS_DB` | Notion sync | Notion database ID for spec sync |
-| `OPENAI_API_KEY` | OpenAI provider | Enables OpenAI chat |
-| `ANTHROPIC_API_KEY` | Anthropic provider | Enables Anthropic Claude chat |
-| `GOOGLE_API_KEY` | Gemini provider | Enables Google Gemini chat |
-| `OLLAMA_BASE_URL` | Ollama provider | Base URL for local Ollama instance |
+| Variable | Used by | Required | Description |
+|----------|---------|----------|-------------|
+| `NOTION_TOKEN` | Notion sync | No | Notion integration token |
+| `MASTER_CONTEXT_ID` | Notion sync | No | Notion page ID for context sync |
+| `TASKS_DB` | Notion sync | No | Notion database ID for task sync |
+| `PACKAGES_DB` | Notion sync | No | Notion database ID for project sync |
+| `MILESTONES_DB` | Notion sync | No | Notion database ID for milestone sync |
+| `ADRS_DB` | Notion sync | No | Notion database ID for ADR sync |
+| `SPECIFICATIONS_DB` | Notion sync | No | Notion database ID for spec sync |
+| `OPENAI_API_KEY` | OpenAI provider | No | Enables OpenAI chat |
+| `ANTHROPIC_API_KEY` | Anthropic provider | No | Enables Anthropic Claude chat |
+| `GOOGLE_API_KEY` | Gemini provider | No | Enables Google Gemini chat |
+| `OLLAMA_BASE_URL` | Ollama provider | No | Base URL for local Ollama instance |
 
 No AI provider key is required to run the daemon or use core services.
 
