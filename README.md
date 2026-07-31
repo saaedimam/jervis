@@ -8,7 +8,7 @@
 
 > **Status**
 >
-> Active development. Interfaces may evolve before v1.0. Architectural invariants are documented under `docs/architecture/`.
+> v1.0.0 released. See [releases](https://github.com/saaedimam/jervis/releases).
 
 Jervis is a local-first runtime and context operating system for deterministic automation, persistent memory, and AI-assisted workflows. The runtime does not require an AI provider; AI integrations are enabled only when the corresponding provider is configured.
 
@@ -98,8 +98,8 @@ make build
 ## Minimal Example
 
 ```bash
-./bin/jervis planner --create --id task-001 --title "Review architecture invariants"
-./bin/jervis planner --list
+./bin/jervis planner -create -id task-001 -title "Review architecture invariants"
+./bin/jervis planner -list
 ```
 
 ---
