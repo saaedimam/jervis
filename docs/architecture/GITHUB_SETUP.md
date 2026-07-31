@@ -5,7 +5,7 @@ This document defines the canonical repository standards and the declarative gov
 ## 1. Declarative Governance Model
 Governance is managed as **Infrastructure-as-Code (IaC)**. The single source of truth for all repository settings, protections, and labels is:
 
-👉 **[.github/governance.yaml](file:///Users/ioriimasu/dev/jervis/.github/governance.yaml)**
+👉 **[.github/governance.yaml](.github/governance.yaml)**
 
 ### Layers of Governance
 1.  **Desired State**: Defined in `governance.yaml`.

@@ -22,25 +22,13 @@ Project Jervis is engineered as a local-first personal OS and developer automati
 
 ## 3. Mandatory Design Rules
 
-The following 15 rules must **NEVER** be violated under any circumstances:
+See [ARCHITECTURE_INVARIANTS.md](/docs/architecture/ARCHITECTURE_INVARIANTS.md) for the 15 immutable design rules that govern Project Jervis.
 
-1. **Observer never calls AI.**
-2. **Event Bus never calls AI.**
-3. **Memory never depends on AI.**
-4. **Services never depend on a specific provider.**
-5. **Runtime knows nothing about OpenAI, Claude, Gemini or any vendor.**
-6. **Everything communicates through interfaces.**
-7. **No cyclic dependency.**
-8. **The runtime must continue working if every AI provider is removed.**
-9. **Interfaces never contain business logic.**
-10. **Business logic never depends on UI.**
-11. **Storage is implementation detail.**
-12. **Plugins cannot bypass Runtime.**
-13. **Permissions are enforced before execution.**
-14. **Runtime owns state.**
-15. **AI only consumes context and produces responses.**
+The 15 Architectural Invariants are maintained in [`ARCHITECTURE_INVARIANTS.md`](../../ARCHITECTURE_INVARIANTS.md).
+All code contributions MUST comply with these invariants.
 
 ## 4. Deterministic Development
+
 
 - **Predictable State Transitions**: All state mutations must occur via explicit events processed by the Runtime Event Bus and logged to the immutable Timeline ledger.
 - **Idempotency**: Service operations and scheduling triggers must be idempotent where possible. Re-processing an event from the timeline must yield predictable, reproducible state.

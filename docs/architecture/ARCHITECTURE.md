@@ -4,7 +4,7 @@
 
 Jervis follows a strict **Top-Down Single-Direction Hierarchy** where the **Runtime** owns system execution, state, and security. AI is **NEVER** the owner or driver of the runtime; it is strictly an external consumer that receives context payloads and returns structured responses. The system remains 100% functional for deterministic workflows even if all AI providers are removed.
 
-```
+```mermaid
 OS
 ↓
 Runtime (Observer, Event Bus, Scheduler, Lifecycle, Session Manager, Permissions, Configuration)
@@ -16,7 +16,7 @@ Service Layer (Planner, Projects, Meetings, Habits, Notion, Calendar, Automation
 AI Provider Layer (OpenAI, Claude, Gemini, Ollama, Local Models, Future Providers)
 ↓
 Interfaces (CLI, MCP Server, REST API, Desktop, Menu Bar, Future Interfaces)
-```
+```mermaid
 
 ---
 
@@ -74,23 +74,11 @@ The external boundary exposing Jervis functionality to clients. *Contains zero b
 
 ## 3. Mandatory Design Rules
 
-1. **Observer never calls AI.**
-2. **Event Bus never calls AI.**
-3. **Memory never depends on AI.**
-4. **Services never depend on a specific provider.**
-5. **Runtime knows nothing about OpenAI, Claude, Gemini or any vendor.**
-6. **Everything communicates through interfaces.**
-7. **No cyclic dependency.**
-8. **The runtime must continue working if every AI provider is removed.**
-9. **Interfaces never contain business logic.**
-10. **Business logic never depends on UI.**
-11. **Storage is implementation detail.**
-12. **Plugins cannot bypass Runtime.**
-13. **Permissions are enforced before execution.**
-14. **Runtime owns state.**
-15. **AI only consumes context and produces responses.**
+See [ARCHITECTURE_INVARIANTS.md](docs/architecture/ARCHITECTURE_INVARIANTS.md) for the 15 immutable design rules that govern Project Jervis.
 
----
+The 15 Architectural Invariants are maintained in [`ARCHITECTURE_INVARIANTS.md`](ARCHITECTURE_INVARIANTS.md).
+All code contributions MUST comply with these invariants.
+
 
 ## 4. System Flows & Diagrams
 
@@ -152,7 +140,7 @@ graph LR
     Comp --> SM[Semantic Memory]
     EM --> KS[(Knowledge Store)]
     SM --> KS
-```
+```mermaid
 
 ### Dependency Graph
 ```mermaid
