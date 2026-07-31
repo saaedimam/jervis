@@ -2,64 +2,65 @@
 
 [![Go Version](https://img.shields.io/github/go-mod/go-version/saaedimam/jervis)](https://go.dev/)
 [![CI](https://github.com/saaedimam/jervis/actions/workflows/ci.yml/badge.svg)](https://github.com/saaedimam/jervis/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/saaedimam/jervis/actions/workflows/codeql.yml/badge.svg)](https://github.com/saaedimam/jervis/actions/workflows/codeql.yml)
 [![Codecov](https://codecov.io/gh/saaedimam/jervis/branch/main/graph/badge.svg)](https://codecov.io/gh/saaedimam/jervis)
 [![License](https://img.shields.io/github/license/saaedimam/jervis)](LICENSE)
 
-jervis is a local-first runtime and context operating system for AI agents. It provides deterministic state management, event-driven architecture, and memory persistence—running entirely on your machine without cloud dependencies.
+Jervis is a local-first runtime for deterministic personal automation, memory, and AI-agent context orchestration.
+
+Jervis runs on your machine as a daemon or CLI tool. It manages structured memory, syncs context to Notion, integrates with calendar and task systems, and exposes a pluggable AI provider layer.
 
 ---
 
 ## Why Jervis?
 
-- **Data sovereignty**: All context, memory, and state stay local. No cloud APIs required for core functionality.
-- **Agentic workflows**: Built for AI agents that need persistent memory, event handling, and tool orchestration.
-- **Deterministic execution**: Runtime engine owns all state, events, and permissions. AI providers are downstream consumers.
-- **Extensible interfaces**: CLI, MCP server, REST API, and daemon mode for integration with any agentic framework.
+- **Determinism over probability.** The runtime executes deterministically. AI is isolated downstream and never controls system state.
+- **Local sovereignty.** All data stays on your machine by default. Cloud access is opt-in and explicitly authorized per service.
+- **AI-optional by design.** Core runtime functionality does not require an AI provider.
+- **Single-direction architecture.** Dependencies flow strictly downward. No upward calls. No cycles.
+- **Extensible interfaces.** CLI, REST API, MCP server, and daemon mode over the same runtime core.
 
 ---
 
 ## Features
 
-- **Runtime Engine**: Lifecycle management, event bus, observer pattern, scheduler
-- **Memory System**: Semantic store, timeline store, episodic memory, working memory
-- **Services Layer**: Task planner, Notion sync, calendar integration, automation workflows
-- **AI Provider Gateway**: Anthropic, OpenAI, Google Gemini, Ollama
-- **Interfaces**: CLI, MCP server, REST API, daemon mode
+- **Local runtime** — daemon mode with lifecycle management
+- **Persistent memory** — working memory, timeline, and semantic store
+- **Task planner** — create, list, and manage tasks
+- **Notion synchronization** — sync context, tasks, projects, milestones, ADRs, and specifications
+- **Calendar integration** — iCal import and export
+- **AI provider integration** — adapters for OpenAI, Anthropic, Google Gemini, and Ollama
+- **MCP server** — Model Context Protocol for external AI tool integration
+- **REST API** — local and remote client access
+- **Automation** — pluggable workflow registry
 
 ---
 
 ## Quick Start
 
-### Install
+**Prerequisites**
+
+- Go 1.22+
+- macOS (Linux and Windows support planned)
+
+**Build from source**
 
 ```bash
-# macOS (Homebrew)
-brew tap saaedimam/jervis
-brew install jervis
-
-# Or build from source
 git clone https://github.com/saaedimam/jervis.git
 cd jervis
 make build
 ```
 
-### Run
+**Run**
 
 ```bash
-# Start the daemon
-jervis daemon
-
-# In another terminal, chat with AI
-jervis chat --provider anthropic --model claude-sonnet-4
-
-# Or start the MCP server for IDE integration
-jervis mcp
+./bin/jervis daemon
 ```
 
-### Verify
+**Verify**
 
 ```bash
-jervis version
+./bin/jervis version
 ```
 
 ---
@@ -67,11 +68,8 @@ jervis version
 ## Minimal Example
 
 ```bash
-# Start daemon and verify it's running
-jervis daemon &
-sleep 2
-jervis planner add "Hello world"
-jervis planner list
+./bin/jervis planner --create --id task-001 --title "Review architecture invariants"
+./bin/jervis planner --list
 ```
 
 ---
@@ -80,37 +78,37 @@ jervis planner list
 
 ```mermaid
 graph TD
-    Client[CLI / MCP / REST] --> Runtime[Runtime Engine]
-    Runtime --> EventBus[Event Bus]
-    Runtime --> Memory[Memory Engine]
-    Runtime --> Services[Services]
-    Runtime --> AIPortal[AI Provider Gateway]
-    
-    Memory --> Semantic[Semantic Store]
-    Memory --> Timeline[Timeline Store]
-    Memory --> Working[Working Memory]
-    
-    Services --> Notion[Notion Sync]
-    Services --> Calendar[Calendar]
-    Services --> Planner[Task Planner]
+    Client[CLI / REST / MCP] --> Runtime
+    Runtime --> Memory
+    Runtime --> Services
+    Services --> AI
 ```
 
-The runtime engine orchestrates all state, events, and permissions. See [docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) for details.
+The Runtime owns all execution, state, and permissions. Memory is fully decoupled from AI. Services handle domain logic and call AI providers only when explicitly needed.
+
+See [docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) for layer definitions and [docs/architecture/ARCHITECTURE_INVARIANTS.md](docs/architecture/ARCHITECTURE_INVARIANTS.md) for enforced invariants.
 
 ---
 
 ## Configuration
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `ANTHROPIC_API_KEY` | For Anthropic | - | Anthropic API key |
-| `OPENAI_API_KEY` | For OpenAI | - | OpenAI API key |
-| `GOOGLE_API_KEY` | For Gemini | - | Google AI API key |
-| `NOTION_API_KEY` | For Notion sync | - | Notion integration token |
-| `JERVIS_DATA_DIR` | No | `~/.jervis` | Local data directory |
-| `JERVIS_PORT` | No | `8080` | REST API port |
+Jervis reads configuration from environment variables.
 
-Configuration is read from environment variables. See [docs/architecture/04_CODING_STANDARD.md](docs/architecture/04_CODING_STANDARD.md) for details.
+| Variable | Used by | Description |
+|----------|---------|-------------|
+| `NOTION_TOKEN` | Notion sync | Notion integration token |
+| `MASTER_CONTEXT_ID` | Notion sync | Notion page ID for context sync |
+| `TASKS_DB` | Notion sync | Notion database ID for task sync |
+| `PACKAGES_DB` | Notion sync | Notion database ID for project sync |
+| `MILESTONES_DB` | Notion sync | Notion database ID for milestone sync |
+| `ADRS_DB` | Notion sync | Notion database ID for ADR sync |
+| `SPECIFICATIONS_DB` | Notion sync | Notion database ID for spec sync |
+| `OPENAI_API_KEY` | OpenAI provider | Enables OpenAI chat |
+| `ANTHROPIC_API_KEY` | Anthropic provider | Enables Anthropic Claude chat |
+| `GOOGLE_API_KEY` | Gemini provider | Enables Google Gemini chat |
+| `OLLAMA_BASE_URL` | Ollama provider | Base URL for local Ollama instance |
+
+No AI provider key is required to run the daemon or use core services.
 
 ---
 
@@ -118,58 +116,78 @@ Configuration is read from environment variables. See [docs/architecture/04_CODI
 
 | Command | Description |
 |---------|-------------|
-| `jervis version` | Show build information |
-| `jervis daemon` | Start runtime background daemon |
-| `jervis chat` | Chat with AI providers |
-| `jervis mcp` | Start MCP server |
-| `jervis api` | Start REST API server |
-| `jervis planner` | Manage planned tasks |
+| `jervis daemon` | Start the runtime background daemon |
+| `jervis version` | Print build info |
+| `jervis planner` | Manage tasks (`--create`, `--list`) |
 | `jervis sync` | Sync local state to Notion |
-| `jervis calendar` | Manage calendar integrations |
+| `jervis calendar` | Calendar import/export |
+| `jervis chat` | Chat with AI providers |
+| `jervis mcp` | Start MCP server (stdio transport) |
+| `jervis api` | Start REST API server |
 | `jervis automation` | Manage automation workflows |
+
+Run `jervis [command] --help` for full flag documentation.
 
 ---
 
 ## Documentation
 
-| Topic | Location |
-|-------|----------|
-| Architecture | [docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) |
-| Invariants | [docs/architecture/ARCHITECTURE_INVARIANTS.md](docs/architecture/ARCHITECTURE_INVARIANTS.md) |
-| Security Model | [docs/architecture/06_SECURITY_MODEL.md](docs/architecture/06_SECURITY_MODEL.md) |
-| Release Strategy | [docs/architecture/07_RELEASE_STRATEGY.md](docs/architecture/07_RELEASE_STRATEGY.md) |
+| Start here | |
+|------------|--|
+| Architecture overview | [docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) |
+| Documentation index | [docs/README.md](docs/README.md) |
 | Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Roadmap | [docs/adr/ROADMAP.md](docs/adr/ROADMAP.md) |
+
+<details>
+<summary>Additional documentation</summary>
+
+| Topic | Location |
+|--------|----------|
+| Architecture invariants | [docs/architecture/ARCHITECTURE_INVARIANTS.md](docs/architecture/ARCHITECTURE_INVARIANTS.md) |
+| Engineering principles | [docs/principles/engineering.md](docs/principles/engineering.md) |
+| Testing strategy | [docs/architecture/05_TESTING_STRATEGY.md](docs/architecture/05_TESTING_STRATEGY.md) |
+| Security model | [docs/architecture/06_SECURITY_MODEL.md](docs/architecture/06_SECURITY_MODEL.md) |
+| Release strategy | [docs/architecture/07_RELEASE_STRATEGY.md](docs/architecture/07_RELEASE_STRATEGY.md) |
+| CI/CD specification | [docs/architecture/CI_CD_SPECIFICATION.md](docs/architecture/CI_CD_SPECIFICATION.md) |
+| ADR process | [docs/architecture/ADR_GUIDE.md](docs/architecture/ADR_GUIDE.md) |
+| ADR decisions | [docs/adr/DECISIONS.md](docs/adr/DECISIONS.md) |
+| Governance & constitution | [docs/adr/CONSTITUTION.md](docs/adr/CONSTITUTION.md) |
+| Quality gates | [docs/adr/QUALITY_GATES.md](docs/adr/QUALITY_GATES.md) |
+| Runtime specs | [docs/specs/runtime/](docs/specs/runtime/) |
+| Security specs | [docs/specs/security/](docs/specs/security/) |
+| Repository governance | [docs/architecture/GITHUB_SETUP.md](docs/architecture/GITHUB_SETUP.md) |
+
+</details>
 
 ---
 
 ## Development
 
 ```bash
-make test        # Run all tests with race detector
-make lint       # Run golangci-lint
-make build      # Build binaries
-make clean      # Clean build artifacts
+make build        # Build binary to bin/jervis
+make test         # Run tests with race detector
+make lint         # Run golangci-lint
 ```
+
+See [docs/README.md](docs/README.md) for architecture, specifications, ADRs, and engineering principles.
+
+All pull requests must pass CI, lint, and test gates before merge. See [CONTRIBUTING.md](CONTRIBUTING.md) for branch conventions and commit format.
 
 ---
 
 ## Contributing
 
-Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for commit conventions, branch hygiene, and PR templates. All changes require review via pull request.
+Jervis follows [Conventional Commits](https://www.conventionalcommits.org/) and a strict architectural review process for changes to layer boundaries or invariants. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 ---
 
 ## Roadmap
 
-- [x] v1.0.0 — Runtime foundation, memory engine, services, AI providers
-- [ ] v1.1.0 — Enhanced MCP toolset
-- [ ] v1.2.0 — Plugin system
-- [ ] v2.0.0 — Distributed context sharing
-
-See [docs/releases/](docs/releases/) for detailed release notes.
+See [docs/adr/ROADMAP.md](docs/adr/ROADMAP.md) for the full roadmap.
 
 ---
 
 ## License
 
-[Apache License 2.0](LICENSE)
+Jervis is licensed under the [Apache License 2.0](LICENSE).
