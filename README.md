@@ -6,9 +6,11 @@
 [![Codecov](https://codecov.io/gh/saaedimam/jervis/branch/main/graph/badge.svg)](https://codecov.io/gh/saaedimam/jervis)
 [![License](https://img.shields.io/github/license/saaedimam/jervis)](LICENSE)
 
-Jervis is a local-first runtime for deterministic personal automation, memory, and AI-agent context orchestration.
+> **Status**
+>
+> Active development. APIs and CLI may evolve before v1.0. Stable architectural invariants are documented in `docs/architecture/ARCHITECTURE_INVARIANTS.md`.
 
-Jervis runs on your machine as a daemon or CLI tool. It manages structured memory, syncs context to Notion, integrates with calendar and task systems, and exposes a pluggable AI provider layer.
+Jervis is a local-first runtime and context operating system for deterministic automation, persistent memory, and AI-assisted workflows. The runtime remains fully functional without an AI provider; AI augments services rather than owning execution.
 
 ---
 
@@ -19,6 +21,24 @@ Jervis runs on your machine as a daemon or CLI tool. It manages structured memor
 - **AI-optional by design.** Core runtime functionality does not require an AI provider.
 - **Single-direction architecture.** Dependencies flow strictly downward. No upward calls. No cycles.
 - **Extensible interfaces.** CLI, REST API, MCP server, and daemon mode over the same runtime core.
+
+> **Design Principle**
+>
+> Runtime owns execution. AI consumes context. AI never owns state.
+
+---
+
+## Who is Jervis for?
+
+Jervis is intended for developers building:
+
+- AI agents
+- Local automation
+- MCP tooling
+- Personal knowledge systems
+- Deterministic workflows
+
+It is not intended to be a cloud orchestration platform or a hosted AI service.
 
 ---
 
