@@ -8,9 +8,9 @@
 
 > **Status**
 >
-> Active development. APIs and CLI may evolve before v1.0. Stable architectural invariants are documented in `docs/architecture/ARCHITECTURE_INVARIANTS.md`.
+> Active development. Interfaces may evolve before v1.0. Architectural invariants are documented under `docs/architecture/`.
 
-Jervis is a local-first runtime and context operating system for deterministic automation, persistent memory, and AI-assisted workflows. The runtime remains fully functional without an AI provider; AI augments services rather than owning execution.
+Jervis is a local-first runtime and context operating system for deterministic automation, persistent memory, and AI-assisted workflows. The runtime does not require an AI provider; AI integrations are enabled only when the corresponding provider is configured.
 
 ---
 
@@ -18,7 +18,6 @@ Jervis is a local-first runtime and context operating system for deterministic a
 
 - **Determinism over probability.** The runtime executes deterministically. AI is isolated downstream and never controls system state.
 - **Local sovereignty.** All data stays on your machine by default. Cloud access is opt-in and explicitly authorized per service.
-- **AI-optional by design.** Core runtime functionality does not require an AI provider.
 - **Single-direction architecture.** Dependencies flow strictly downward. No upward calls. No cycles.
 - **Extensible interfaces.** CLI, REST API, MCP server, and daemon mode over the same runtime core.
 
@@ -32,10 +31,10 @@ Jervis is a local-first runtime and context operating system for deterministic a
 
 Jervis is intended for developers building:
 
-- AI agents
-- Local automation
-- MCP tooling
-- Personal knowledge systems
+- Local AI agents
+- MCP tools
+- Personal automation
+- Knowledge systems
 - Deterministic workflows
 
 It is not intended to be a cloud orchestration platform or a hosted AI service.
@@ -44,15 +43,14 @@ It is not intended to be a cloud orchestration platform or a hosted AI service.
 
 ## Features
 
-- **Local runtime** — daemon mode with lifecycle management
-- **Persistent memory** — working memory, timeline, and semantic store
-- **Task planner** — create, list, and manage tasks
-- **Notion synchronization** — sync context, tasks, projects, milestones, ADRs, and specifications
-- **Calendar integration** — iCal import and export
-- **AI provider integration** — adapters for OpenAI, Anthropic, Google Gemini, and Ollama
-- **MCP server** — Model Context Protocol for external AI tool integration
-- **REST API** — local and remote client access
-- **Automation** — pluggable workflow registry
+- Local-first runtime for long-lived agent workflows
+- Persistent task, project, and memory management
+- Notion synchronization
+- Calendar integration
+- AI provider integration (OpenAI, Anthropic, Gemini, Ollama)
+- MCP server
+- REST API
+- Automation services
 
 ---
 
@@ -60,7 +58,7 @@ It is not intended to be a cloud orchestration platform or a hosted AI service.
 
 **Prerequisites**
 
-- Go 1.22+
+- Go (see `go.mod`)
 - macOS (Linux and Windows support planned)
 
 **Build from source**
@@ -134,26 +132,28 @@ No AI provider key is required to run the daemon or use core services.
 
 ## CLI Reference
 
-| Command | Description |
-|---------|-------------|
-| `jervis daemon` | Start the runtime background daemon |
-| `jervis version` | Print build info |
-| `jervis planner` | Manage tasks (`--create`, `--list`) |
-| `jervis sync` | Sync local state to Notion |
-| `jervis calendar` | Calendar import/export |
-| `jervis chat` | Chat with AI providers |
-| `jervis mcp` | Start MCP server (stdio transport) |
-| `jervis api` | Start REST API server |
-| `jervis automation` | Manage automation workflows |
+| Command | Purpose |
+|---------|---------|
+| daemon | Start runtime |
+| version | Version info |
+| planner | Planner operations |
+| sync | Synchronization |
+| calendar | Calendar integration |
+| chat | AI interaction |
+| mcp | MCP server |
+| api | REST API |
+| automation | Automation |
 
-Run `jervis [command] --help` for full flag documentation.
+Run `jervis <command> --help` for full flag documentation.
 
 ---
 
 ## Documentation
 
-| Start here | |
-|------------|--|
+### Start Here
+
+| Topic | Location |
+|-------|----------|
 | Architecture overview | [docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md) |
 | Documentation index | [docs/README.md](docs/README.md) |
 | Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
