@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -402,6 +403,16 @@ func runAPI(args []string) {
 	port := apiCmd.Int("port", 8080, "API server port")
 	_ = apiCmd.Parse(args)
 
+	// -----------------------------------------------------------
+	// Configuration validation – the REST API *must* have an auth key.
+	// The server package itself never reads the environment.
+	// -----------------------------------------------------------
+	authKey := strings.TrimSpace(os.Getenv("JERVIS_API_AUTH_KEY"))
+	if authKey == "" {
+		fmt.Fprintln(os.Stderr, "Error: JERVIS_API_AUTH_KEY environment variable is required for the REST API")
+		os.Exit(1)
+	}
+
 	ctx := context.Background()
 	cfg := app.DefaultConfig()
 	cfg.DatabasePath = "jervis.db"
@@ -413,14 +424,15 @@ func runAPI(args []string) {
 
 	a, err := app.New(ctx, cfg)
 	if err != nil {
-		fmt.Printf("Error: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
 	defer func() { _ = a.Close() }()
 
-	s := rest.NewServer(a, *port)
+	// Explicitly pass the validated key to the server constructor.
+	s := rest.NewServerWithAuth(a, *port, authKey)
 	if err := s.Start(); err != nil {
-		fmt.Printf("API server failed: %v\n", err)
+		fmt.Fprintf(os.Stderr, "API server failed: %v\n", err)
 		os.Exit(1)
 	}
 }

@@ -2,10 +2,14 @@ package automation
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sync"
+	"time"
 
 	events "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
+	eventspb "github.com/saaedimam/jervis/internal/runtime/eventbus/events"
+	"github.com/saaedimam/jervis/internal/runtime/types"
 )
 
 // Service represents the automation service.
@@ -72,10 +76,35 @@ func (s *service) HandleEvent(ctx context.Context, event events.Event) error {
 				"event_type": event.Type(),
 			}
 
-			if err := s.engine.Execute(ctx, w, payload); err != nil {
-				// Record failure, perhaps publish an automation.failed event
-				_ = s.publisher.Publish(nil) // Placeholder for failure event
-				return fmt.Errorf("workflow execution failed: %w", err)
+			if execErr := s.engine.Execute(ctx, w, payload); execErr != nil {
+				// Build a deterministic failure event.
+				evtID, idErr := types.NewEventID(fmt.Sprintf("automation-failed-%d", time.Now().UnixNano()))
+				if idErr != nil {
+					return fmt.Errorf("workflow execution failed: %w", execErr)
+				}
+
+				failEvt, buildErr := eventspb.NewBuilder().
+					SetID(evtID).
+					SetType(eventspb.EventType("automation.failed")).
+					SetSource("automation.service").
+					SetTimestamp(types.Now()).
+					SetPayload(map[string]any{
+						"workflow_id":      w.ID,
+						"original_error":   execErr.Error(),
+						"trigger_event_id": event.ID(),
+					}).
+					Build()
+				if buildErr != nil {
+					return fmt.Errorf("workflow execution failed: %w", execErr)
+				}
+
+				if pubErr := s.publisher.Publish(failEvt); pubErr != nil {
+					// Preserve both the workflow error and the publish error.
+					return errors.Join(execErr, pubErr)
+				}
+
+				// Return the original workflow error after a successful publish.
+				return fmt.Errorf("workflow execution failed: %w", execErr)
 			}
 		}
 	}
