@@ -139,5 +139,9 @@ func (e *Engine) Query(ctx context.Context, filter contracts.Filter) ([]runtimec
 		results = append(results, event)
 	}
 
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating event rows: %w", err)
+	}
+
 	return results, nil
 }

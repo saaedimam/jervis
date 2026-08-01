@@ -62,7 +62,7 @@ func TestServerRequestBodyLimits(t *testing.T) {
 	srv := NewServerWithAuth(a, 0, "")
 
 	// Create a request body larger than 1MB
-	largeBody := make([]byte, 1<<20+10) // 1MB + 10 bytes
+	largeBody := make([]byte, maxRequestBodySize+10) // 1 MB + 10 bytes
 
 	// Create an http.Request containing this body, imitating JSON for the request
 	// It should fail in json.Decode due to MaxBytesReader capping

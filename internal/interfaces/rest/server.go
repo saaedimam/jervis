@@ -49,6 +49,13 @@ func NewServerWithAuth(a *app.App, port int, authKey string) *Server {
 	return s
 }
 
+// maxRequestBodySize defines the maximum number of bytes accepted for any
+// request body that is decoded by the REST API. The current value mirrors the
+// historic 1 MiB limit introduced in Phase 1. It is expressed as a constant so
+// the invariant is shared across the package and can be adjusted centrally if
+// a different policy is adopted.
+const maxRequestBodySize = 1 << 20 // 1 MiB
+
 // withAuth wraps a handler with optional authentication.
 func (s *Server) withAuth(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -86,7 +93,7 @@ func (s *Server) handleTasks(w http.ResponseWriter, r *http.Request) {
 			Description string `json:"description"`
 		}
 
-		r.Body = http.MaxBytesReader(w, r.Body, 1<<20) // 1 MB limit
+		r.Body = http.MaxBytesReader(w, r.Body, maxRequestBodySize) // 1 MB limit
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -116,7 +123,7 @@ func (s *Server) handleNotionSync(w http.ResponseWriter, r *http.Request) {
 		ID   string `json:"id"`
 	}
 
-	r.Body = http.MaxBytesReader(w, r.Body, 1<<20) // 1 MB limit
+	r.Body = http.MaxBytesReader(w, r.Body, maxRequestBodySize) // 1 MB limit
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
