@@ -147,6 +147,10 @@ func (s *service) ListProjects(ctx context.Context) ([]*Project, error) {
 		results = append(results, &p)
 	}
 
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating project rows: %w", err)
+	}
+
 	return results, nil
 }
 

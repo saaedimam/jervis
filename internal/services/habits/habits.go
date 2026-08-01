@@ -163,6 +163,10 @@ func (s *service) ListHabits(ctx context.Context) ([]*Habit, error) {
 		results = append(results, &h)
 	}
 
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating habit rows: %w", err)
+	}
+
 	return results, nil
 }
 
@@ -209,6 +213,10 @@ func (s *service) GetHabitLogs(ctx context.Context, habitID string, from, to tim
 		}
 		log.Date, _ = time.Parse("2006-01-02", dateStr)
 		results = append(results, &log)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating habit log rows: %w", err)
 	}
 
 	return results, nil

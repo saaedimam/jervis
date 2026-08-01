@@ -156,6 +156,10 @@ func (s *service) ListMeetings(ctx context.Context, from, to time.Time) ([]*Meet
 		results = append(results, &m)
 	}
 
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating meeting rows: %w", err)
+	}
+
 	return results, nil
 }
 

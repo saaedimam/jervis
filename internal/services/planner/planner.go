@@ -154,6 +154,10 @@ func (s *service) ListTasks(ctx context.Context) ([]*Task, error) {
 		results = append(results, &t)
 	}
 
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating task rows: %w", err)
+	}
+
 	return results, nil
 }
 

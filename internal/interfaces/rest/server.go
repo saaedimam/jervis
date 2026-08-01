@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/saaedimam/jervis/internal/app"
 )
@@ -32,8 +33,12 @@ func NewServerWithAuth(a *app.App, port int, authKey string) *Server {
 		app:     a,
 		authKey: authKey,
 		server: &http.Server{
-			Addr:    fmt.Sprintf("127.0.0.1:%d", port),
-			Handler: mux,
+			Addr:              fmt.Sprintf("127.0.0.1:%d", port),
+			Handler:           mux,
+			ReadTimeout:       5 * time.Second,
+			ReadHeaderTimeout: 3 * time.Second,
+			WriteTimeout:      10 * time.Second,
+			IdleTimeout:       120 * time.Second,
 		},
 	}
 
@@ -80,6 +85,8 @@ func (s *Server) handleTasks(w http.ResponseWriter, r *http.Request) {
 			Title       string `json:"title"`
 			Description string `json:"description"`
 		}
+
+		r.Body = http.MaxBytesReader(w, r.Body, 1<<20) // 1 MB limit
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -108,6 +115,8 @@ func (s *Server) handleNotionSync(w http.ResponseWriter, r *http.Request) {
 		File string `json:"file"`
 		ID   string `json:"id"`
 	}
+
+	r.Body = http.MaxBytesReader(w, r.Body, 1<<20) // 1 MB limit
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

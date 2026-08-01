@@ -28,6 +28,12 @@ func New(path string) (*Driver, error) {
 		return nil, fmt.Errorf("failed to ping sqlite database: %w", err)
 	}
 
+	db.SetMaxOpenConns(1)
+
+	if _, err := db.Exec("PRAGMA journal_mode = WAL; PRAGMA busy_timeout = 5000; PRAGMA foreign_keys = ON;"); err != nil {
+		return nil, fmt.Errorf("failed to configure sqlite pragmas: %w", err)
+	}
+
 	return &Driver{db: db}, nil
 }
 
