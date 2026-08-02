@@ -5,6 +5,13 @@ load_config() {
     echo "Error: Configuration file $config_file not found."
     return 1
   fi
+
+  # Centralized credential normalization
+  : "${NOTION_TOKEN:=${NOTION_API_KEY:-}}"
+  : "${NOTION_TOKEN:?NOTION_TOKEN is required}"
+  export NOTION_TOKEN
+
+  # Export all database IDs from config
   export JERVIS_PAGE=$(jq -r '.parent_page' "$config_file")
   export ARCH_DB=$(jq -r '.architecture' "$config_file")
   export PKG_DB=$(jq -r '.packages' "$config_file")
