@@ -6,7 +6,7 @@ require (
 	github.com/arran4/golang-ical v0.3.5
 	github.com/joho/godotenv v1.5.1
 	github.com/mark3labs/mcp-go v0.57.0
-	modernc.org/sqlite v1.54.0
+	modernc.org/sqlite v1.55.0
 )
 
 require (
