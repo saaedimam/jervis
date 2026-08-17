@@ -18,10 +18,13 @@ get_notion_files() {
       -H "Content-Type: application/json" \
       -d $([ -z "$next_cursor" ] && echo '{"page_size": 100}' || echo "{\"page_size\": 100, \"start_cursor\": \"$next_cursor\"}"))
 
-    echo "$response" | jq -r '.results[].properties.Path.rich_text[0].text.content'
+    # Handle empty results or null response safely
+    if [ -n "$response" ] && [ "$response" != "null" ]; then
+      echo "$response" | jq -r 'if .results then .results[].properties.Path.rich_text[0].text.content else empty end' 2>/dev/null || true
+    fi
 
-    next_cursor=$(echo "$response" | jq -r '.next_cursor')
-    [ "$next_cursor" == "null" ] && break
+    next_cursor=$(echo "$response" | jq -r '.next_cursor // empty' 2>/dev/null)
+    [ -z "$next_cursor" ] && break
   done
 }
 
