@@ -1,0 +1,184 @@
+{
+"parent_page":{"title":"","data_source_id":"","error":"Cannot access database"},"architecture":{"title":"🏛️ Architecture Registry","data_source_id":"3ac1b27f-dcba-81d5-a6a9-000bd429f01c","properties":{
+  "Coverage": {
+    "type": "number"
+  },
+  "Purpose": {
+    "type": "rich_text"
+  },
+  "Repository Path": {
+    "type": "rich_text"
+  },
+  "Status": {
+    "type": "select"
+  },
+  "Subsystem": {
+    "type": "title"
+  }
+}},"packages":{"title":"📦 Package Registry","data_source_id":"3ac1b27f-dcba-81d5-bc6b-000b73bf2a4a","error":"Could not get sample page ID"},"files":{"title":"📄 File Registry","data_source_id":"3ac1b27f-dcba-81ae-b36b-000bf2ea0175","properties":{
+  "Architecture": {
+    "type": "relation"
+  },
+  "File ID": {
+    "type": "title"
+  },
+  "Language": {
+    "type": "select"
+  },
+  "Line Count": {
+    "type": "number"
+  },
+  "Package": {
+    "type": "relation"
+  },
+  "Path": {
+    "type": "rich_text"
+  },
+  "Status": {
+    "type": "select"
+  }
+}},"specifications":{"title":"Specifications","data_source_id":"3ac1b27f-dcba-8182-a0bc-000b1806e364","properties":{
+  "Frozen": {
+    "type": "checkbox"
+  },
+  "Progress": {
+    "type": "number"
+  },
+  "Repository Path": {
+    "type": "rich_text"
+  },
+  "Specification": {
+    "type": "title"
+  },
+  "Status": {
+    "type": "select"
+  },
+  "Version": {
+    "type": "rich_text"
+  }
+}},"adrs":{"title":"ADRs","data_source_id":"3ac1b27f-dcba-816e-ac33-000be04706b0","error":"Could not get sample page ID"},"apis":{"title":"🔌 API Registry","data_source_id":"3ac1b27f-dcba-8160-92cc-000b447977e6","error":"Could not get sample page ID"},"timeline":{"title":"📅 Engineering Timeline","data_source_id":"495e7c9c-27e4-4084-b923-f35ea80f5901","error":"Could not get sample page ID"},"gates":{"title":"✅ Quality Gates","data_source_id":"c3409e8a-953c-4f61-93a4-18925430147c","error":"Could not get sample page ID"},"handoffs":{"title":"🤖 AI Handoffs","data_source_id":"3ac1b27f-dcba-8131-8b04-000b3c9a9121","error":"Could not get sample page ID"},"commits":{"title":"🧵 Commit Registry","data_source_id":"3ac1b27f-dcba-810a-97e1-000b782591b3","properties":{
+  "Author": {
+    "type": "rich_text"
+  },
+  "Commit ID": {
+    "type": "title"
+  },
+  "Date": {
+    "type": "date"
+  },
+  "Message": {
+    "type": "rich_text"
+  }
+}},"memory":{"title":"🧠 Engineering Memory","data_source_id":"3ac1b27f-dcba-8140-9bb7-000b7529d04d","properties":{
+  "Context Name": {
+    "type": "title"
+  },
+  "Repository Path": {
+    "type": "rich_text"
+  }
+}},"milestones":{"title":"Milestones","data_source_id":"3ac1b27f-dcba-813c-b32f-000be679316b","properties":{
+  "Completed": {
+    "type": "date"
+  },
+  "Coverage": {
+    "type": "number"
+  },
+  "Milestone": {
+    "type": "title"
+  },
+  "Phase": {
+    "type": "rich_text"
+  },
+  "Started": {
+    "type": "date"
+  },
+  "Status": {
+    "type": "select"
+  }
+}},"dashboard":{"title":"📊 Dashboard","data_source_id":"d64a47bf-cb22-44d4-af2b-357a2c469230","error":"Could not get sample page ID"},"dependencies":{"title":"🔗 Dependency Graph","data_source_id":"8de13446-3ae2-42e2-a3c2-019b6c8f901e","error":"Could not get sample page ID"},"tasks":{"title":"Tasks","data_source_id":"3ac1b27f-dcba-8133-bc66-000bb991343f","properties":{
+  "Component": {
+    "type": "rich_text"
+  },
+  "Internal ID": {
+    "type": "rich_text"
+  },
+  "Owner": {
+    "type": "people"
+  },
+  "Priority": {
+    "type": "select"
+  },
+  "Repository Path": {
+    "type": "rich_text"
+  },
+  "Status": {
+    "type": "select"
+  },
+  "Task": {
+    "type": "title"
+  }
+}},"releases":{"title":"Releases","data_source_id":"3ac1b27f-dcba-81f3-8b0f-000b1ca60478","properties":{
+  "Breaking Changes": {
+    "type": "rich_text"
+  },
+  "Date": {
+    "type": "date"
+  },
+  "Version": {
+    "type": "title"
+  }
+}},"bugs":{"title":"Bugs","data_source_id":"3ac1b27f-dcba-81d7-8b4a-000b655385f3","properties":{
+  "Bug ID": {
+    "type": "title"
+  },
+  "Cause": {
+    "type": "rich_text"
+  },
+  "Commit": {
+    "type": "rich_text"
+  },
+  "Component": {
+    "type": "rich_text"
+  },
+  "Fix": {
+    "type": "rich_text"
+  },
+  "Severity": {
+    "type": "select"
+  },
+  "Status": {
+    "type": "select"
+  }
+}},"risks":{"title":"Risks","data_source_id":"3ab1b27f-dcba-814f-93d5-000b98ddf49c","error":"Could not get sample page ID"},"tech_debt":{"title":"Technical Debt","data_source_id":"3ab1b27f-dcba-8128-b6c0-000b54827576","error":"Could not get sample page ID"},"research":{"title":"Research","data_source_id":"3ab1b27f-dcba-8194-a481-000bf829e393","error":"Could not get sample page ID"},"prompt_library":{"title":"Prompt Library","data_source_id":"3ac1b27f-dcba-81de-b852-000b56175670","error":"Could not get sample page ID"},"lessons_learned":{"title":"Lessons Learned","data_source_id":"3ab1b27f-dcba-81c9-bf07-000b52272945","error":"Could not get sample page ID"},"patterns":{"title":"Patterns","data_source_id":"3ab1b27f-dcba-8155-9b4a-000b0ed0d9bd","error":"Could not get sample page ID"},"performance_benchmarks":{"title":"Performance Benchmarks","data_source_id":"3ab1b27f-dcba-8150-85a6-000b9c970c33","error":"Could not get sample page ID"},"coding_standards":{"title":"Coding Standards","data_source_id":"3ac1b27f-dcba-81ba-ac79-000ba7d6e668","error":"Could not get sample page ID"},"glossary":{"title":"Glossary","data_source_id":"3ab1b27f-dcba-8153-8bd1-000b7a8651a7","error":"Could not get sample page ID"},"assets":{"title":"Assets","data_source_id":"3ab1b27f-dcba-8132-a5a4-000bd34814ee","error":"Could not get sample page ID"},"external_dependencies":{"title":"External Dependencies","data_source_id":"3ab1b27f-dcba-8159-acf7-000b8f8952c8","error":"Could not get sample page ID"},"roadmap":{"title":"Roadmap","data_source_id":"3ab1b27f-dcba-814a-9714-000b5aaae31e","error":"Could not get sample page ID"},"engineering_decisions":{"title":"Decisions","data_source_id":"3ac1b27f-dcba-8114-b1f0-000b77b5c15f","error":"Could not get sample page ID"},"sessions":{"title":"Session Logs","data_source_id":"3ac1b27f-dcba-8141-a0de-000bcf25454e","properties":{
+  "AI Notes": {
+    "type": "rich_text"
+  },
+  "Commit": {
+    "type": "rich_text"
+  },
+  "Coverage": {
+    "type": "number"
+  },
+  "Date": {
+    "type": "date"
+  },
+  "Duration": {
+    "type": "number"
+  },
+  "Files Modified": {
+    "type": "rich_text"
+  },
+  "Repository Path": {
+    "type": "rich_text"
+  },
+  "Session ID": {
+    "type": "title"
+  },
+  "Summary": {
+    "type": "rich_text"
+  },
+  "Tests": {
+    "type": "select"
+  }
+}}
+}
