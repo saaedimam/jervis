@@ -58,7 +58,15 @@ test_payload.json
 data/
 
 # Generated outputs
-jervis
+/jervis
 *.db
+*.db-shm
+*.db-wal
+.claude/
+.codex/
+.hermes/
+.rtk/
+.verification_*
+context/*.log.gz
 *.out
 

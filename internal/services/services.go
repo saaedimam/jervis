@@ -8,6 +8,7 @@ import (
 	eventcontracts "github.com/saaedimam/jervis/internal/runtime/eventbus/contracts"
 	"github.com/saaedimam/jervis/internal/services/automation"
 	"github.com/saaedimam/jervis/internal/services/calendar"
+	"github.com/saaedimam/jervis/internal/services/device"
 	"github.com/saaedimam/jervis/internal/services/habits"
 	"github.com/saaedimam/jervis/internal/services/meetings"
 	"github.com/saaedimam/jervis/internal/services/notion"
@@ -24,6 +25,7 @@ type Container struct {
 	Notion     notion.Service
 	Calendar   calendar.Service
 	Automation automation.Service
+	Device     device.Service
 }
 
 // NewContainer initializes all domain services with the provided store and publisher.
@@ -41,6 +43,9 @@ func NewContainer(ctx context.Context, store storecontracts.Store, publisher eve
 	if err := meetings.Initialize(ctx, store); err != nil {
 		return nil, fmt.Errorf("failed to init meetings: %w", err)
 	}
+	if err := device.Initialize(ctx, store); err != nil {
+		return nil, fmt.Errorf("failed to init device: %w", err)
+	}
 
 	meetingsService := meetings.New(store, publisher)
 
@@ -52,5 +57,6 @@ func NewContainer(ctx context.Context, store storecontracts.Store, publisher eve
 		Notion:     notion.New(notionToken, publisher),
 		Calendar:   calendar.New(publisher, meetingsService),
 		Automation: automation.NewService(publisher),
+		Device:     device.New(store, publisher),
 	}, nil
 }

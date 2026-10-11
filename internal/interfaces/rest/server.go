@@ -11,9 +11,18 @@ import (
 
 // Server wraps the REST API server implementation.
 type Server struct {
-	app     *app.App
-	server  *http.Server
-	authKey string
+	app           *app.App
+	server        *http.Server
+	authKey       string
+	deviceAuthKey string
+}
+
+// ServerConfig defines parameters for configuring the REST API server.
+type ServerConfig struct {
+	Host          string
+	Port          int
+	APIAuthKey    string
+	DeviceAuthKey string
 }
 
 // NewServer creates a new Jervis REST API server.
@@ -27,17 +36,32 @@ func NewServer(a *app.App, port int) *Server {
 // If authKey is empty, no authentication is required.
 // If authKey is set, requests must include "Authorization: Bearer <authKey>".
 func NewServerWithAuth(a *app.App, port int, authKey string) *Server {
+	return NewServerWithConfig(a, ServerConfig{
+		Host:       "127.0.0.1",
+		Port:       port,
+		APIAuthKey: authKey,
+	})
+}
+
+// NewServerWithConfig creates a new Jervis REST API server with explicit configuration.
+func NewServerWithConfig(a *app.App, cfg ServerConfig) *Server {
 	mux := http.NewServeMux()
 
+	host := cfg.Host
+	if host == "" {
+		host = "127.0.0.1"
+	}
+
 	s := &Server{
-		app:     a,
-		authKey: authKey,
+		app:           a,
+		authKey:       cfg.APIAuthKey,
+		deviceAuthKey: cfg.DeviceAuthKey,
 		server: &http.Server{
-			Addr:              fmt.Sprintf("127.0.0.1:%d", port),
+			Addr:              fmt.Sprintf("%s:%d", host, cfg.Port),
 			Handler:           mux,
-			ReadTimeout:       5 * time.Second,
-			ReadHeaderTimeout: 3 * time.Second,
-			WriteTimeout:      10 * time.Second,
+			ReadTimeout:       45 * time.Second,
+			ReadHeaderTimeout: 5 * time.Second,
+			WriteTimeout:      45 * time.Second,
 			IdleTimeout:       120 * time.Second,
 		},
 	}
@@ -45,6 +69,12 @@ func NewServerWithAuth(a *app.App, port int, authKey string) *Server {
 	// Register routes with optional auth middleware
 	mux.HandleFunc("/api/v1/planner/tasks", s.withAuth(s.handleTasks))
 	mux.HandleFunc("/api/v1/notion/sync", s.withAuth(s.handleNotionSync))
+
+	// Register device control plane routes
+	mux.HandleFunc("/v1/device/events", s.withDeviceAuth(s.handleDeviceEvents))
+	mux.HandleFunc("/v1/device/commands", s.withDeviceOrAPIAuth(s.handleDeviceCommands))
+	mux.HandleFunc("/v1/device/results", s.withDeviceAuth(s.handleDeviceResults))
+	mux.HandleFunc("/v1/device/status", s.withDeviceOrAPIAuth(s.handleDeviceStatus))
 
 	return s
 }
@@ -74,6 +104,11 @@ func (s *Server) withAuth(next http.HandlerFunc) http.HandlerFunc {
 func (s *Server) Start() error {
 	fmt.Printf("REST API server starting on %s...\n", s.server.Addr)
 	return s.server.ListenAndServe()
+}
+
+// Handler returns the underlying http.Handler (useful for testing).
+func (s *Server) Handler() http.Handler {
+	return s.server.Handler
 }
 
 func (s *Server) handleTasks(w http.ResponseWriter, r *http.Request) {

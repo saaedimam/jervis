@@ -400,8 +400,18 @@ func runMCP() {
 
 func runAPI(args []string) {
 	apiCmd := flag.NewFlagSet("api", flag.ExitOnError)
+	host := apiCmd.String("host", "", "API server host (default 127.0.0.1 or JERVIS_API_HOST)")
 	port := apiCmd.Int("port", 8080, "API server port")
 	_ = apiCmd.Parse(args)
+
+	// Host resolution: command flag > JERVIS_API_HOST > "127.0.0.1"
+	bindHost := *host
+	if bindHost == "" {
+		bindHost = strings.TrimSpace(os.Getenv("JERVIS_API_HOST"))
+	}
+	if bindHost == "" {
+		bindHost = "127.0.0.1"
+	}
 
 	// -----------------------------------------------------------
 	// Configuration validation – the REST API *must* have an auth key.
@@ -412,6 +422,8 @@ func runAPI(args []string) {
 		fmt.Fprintln(os.Stderr, "Error: JERVIS_API_AUTH_KEY environment variable is required for the REST API")
 		os.Exit(1)
 	}
+
+	deviceAuthKey := strings.TrimSpace(os.Getenv("JERVIS_DEVICE_AUTH_KEY"))
 
 	ctx := context.Background()
 	cfg := app.DefaultConfig()
@@ -429,8 +441,13 @@ func runAPI(args []string) {
 	}
 	defer func() { _ = a.Close() }()
 
-	// Explicitly pass the validated key to the server constructor.
-	s := rest.NewServerWithAuth(a, *port, authKey)
+	// Explicitly pass the validated configuration to the server constructor.
+	s := rest.NewServerWithConfig(a, rest.ServerConfig{
+		Host:          bindHost,
+		Port:          *port,
+		APIAuthKey:    authKey,
+		DeviceAuthKey: deviceAuthKey,
+	})
 	if err := s.Start(); err != nil {
 		fmt.Fprintf(os.Stderr, "API server failed: %v\n", err)
 		os.Exit(1)
